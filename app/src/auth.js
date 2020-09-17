@@ -1,3 +1,7 @@
 import { writable } from "svelte/store";
 
-export const loggedInUser = writable(null);
+const storedUser = JSON.parse(localStorage.getItem("pickem:user"));
+export const loggedInUser = writable(storedUser);
+loggedInUser.subscribe((value) => {
+  localStorage.setItem("pickem:user", JSON.stringify(value));
+});

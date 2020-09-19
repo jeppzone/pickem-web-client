@@ -1,6 +1,7 @@
 <script>
   import { login, register } from "./api";
   import { loggedInUser } from "./auth.js";
+  import { onMount } from "svelte";
   import { navigateTo } from "svelte-router-spa";
   let username;
   let password;
@@ -22,6 +23,10 @@
     $loggedInUser = user;
     navigateTo("/");
   }
+
+  onMount(() => {
+    if ($loggedInUser !== null) navigateTo("/");
+  });
 </script>
 
 <style>

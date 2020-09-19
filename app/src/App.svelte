@@ -14,7 +14,11 @@
       component: Home,
       onlyIf: { guard: isLoggedIn, redirect: "/login" }
     },
-    { name: "login", component: Login }
+    {
+      name: "login",
+      component: Login,
+      onlyIf: { guard: !isLoggedIn, redirect: "/" }
+    }
   ];
 </script>
 

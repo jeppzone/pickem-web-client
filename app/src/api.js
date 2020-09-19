@@ -35,8 +35,6 @@ const fetchGames = async (week) => {
 };
 
 const fetchBets = async (week, user) => {
-  console.log(week);
-  console.log(user);
   const response = await fetch(
     `${url}/bets?game.week=${week}&user.id=${user.id}`,
     {
@@ -51,7 +49,6 @@ const fetchBets = async (week, user) => {
 };
 
 const makeBets = async (bets, user, league) => {
-  console.log(user);
   const leagueId = league ? league.id : null;
   var body = [];
   Object.keys(bets).forEach((k) => {

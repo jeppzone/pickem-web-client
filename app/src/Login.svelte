@@ -53,7 +53,6 @@
 
 <main class="container">
   <div class="login">
-
     {#if registerToggled}
       <h1>Register to Pick'em</h1>
       <form on:submit|preventDefault={registerUser}>

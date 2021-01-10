@@ -1,122 +1,244 @@
 <script>
-  import { onMount } from "svelte";
   import { loggedInUser } from "./auth.js";
-  import { fetchGames, fetchGamesForCurrentWeek, fetchBets, makeBets } from "./api";
-  export let league = {}
+  import { fetchBets, makeBets } from "./api";
+  import SelectSeason from "./SelectSeason.svelte";
+  import LoadingIndicator from "./LoadingIndicator.svelte";
+  let loading = false;
   let games = [];
   let existingBets = [];
   let choices = {};
-  let season = 2020;
-  let seasonType="Post";
-  let week = 3;
-  const weeks = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17];
-  const seasonTypes = ["Pre", "Reg", "Post"]
-  const seasons = [2020];
 
-  onMount(async () => {
-    games = await fetchGamesForCurrentWeek();
-    week = games[0].week
+  function handleSeasonSelectFinished(evt) {
+    games = evt.detail.games;
+    console.log(games);
     setUpBets(games);
-  });
+    loading = false;
+  }
+
+  function handleSeasonSelectStarted() {
+    loading = true;
+  }
 
   async function submitBets() {
     const madeChoices = {};
     for (const key of Object.keys(choices)) {
-      if (choices[key] !== -1 && !games.find(g => g.id === key).isFinished) {
+      if (choices[key] !== -1 && !games.find((g) => g.id === key).isFinished) {
         madeChoices[key] = choices[key];
       }
     }
-    await makeBets(madeChoices, $loggedInUser, league);
-  }
-
-  async function fetchGamesForWeek() {
-    games = await fetchGames(week); //TODO: Parallel
-    setUpBets(games);
+    await makeBets(madeChoices, $loggedInUser);
   }
 
   async function setUpBets(games) {
-    choices = {};
-    existingBets = await fetchBets(week, $loggedInUser);
-    games.forEach(g => {
-      console.log(g.id);
-      var matchingBet = existingBets.find(b => b.game.id === g.id);
-      choices[g.id] = matchingBet ? matchingBet.winningTeam.id : -1;
-    });
-  } 
+    if (games && games.length > 0) {
+      choices = {};
+      existingBets = await fetchBets(
+        games[0].season,
+        games[0].seasonType,
+        games[0].week,
+        $loggedInUser
+      );
+      games.forEach((g) => {
+        var matchingBet = existingBets.find((b) => b.game.id === g.id);
+        choices[g.id] = matchingBet ? matchingBet.winningTeam.id : -1;
+      });
+    }
+  }
 
   function nbrOfSuccessfulBets(bets) {
-    return bets.filter(b => b.successful).length;
+    return bets.filter((b) => b.successful).length;
+  }
+
+  function nbrOfFinishedBets(bets) {
+    return bets.filter((b) => b.finished).length;
   }
 
   function points(bets) {
     return bets.reduce((x, y) => x + y.points, 0);
   }
 
-  function inProgress(bets) {
-    return bets.filter(b => !b.finished).length;
-  }
-
   function pointsForGame(bets, game) {
-    var existingBet = bets.find(b => b.game.id === game.id);
+    var existingBet = bets.find((b) => b.game.id === game.id);
     return existingBet ? existingBet.points : 0;
   }
+
+  function isBetOnTeam(bets, game, team) {
+    var existingBet = bets.find((b) => b.game.id === game.id);
+    return existingBet ? existingBet.winningTeam.id === team.id : false;
+  }
+
+  function isBetSuccessful(bets, game) {
+    var existingBet = bets.find((b) => b.game.id === game.id);
+    return existingBet ? existingBet.successful : false;
+  }
+
+  function hasUserBetOnGame(game) {
+    var existingBet = existingBets.find((b) => b.game.id === game.id);
+    return existingBet ? true : false;
+  }
+
 </script>
 
-<h1>Games for week {week}</h1>
-<!-- svelte-ignore a11y-no-onchange -->
-<select bind:value={season} on:change={fetchGamesForWeek}>
-  {#each seasons as s}
-    <option value={s}>{s}</option>
-  {/each}
-</select>
-<!-- svelte-ignore a11y-no-onchange -->
-<select bind:value={seasonType} on:change={fetchGamesForWeek}>
-  {#each seasonTypes as s}
-    <option value={s}>{s.toUpperCase()}</option>
-  {/each}
-</select>
-<!-- svelte-ignore a11y-no-onchange -->
-<select bind:value={week} on:change={fetchGamesForWeek}>
-  {#each weeks as w}
-    <option value={w}>{w}</option>
-  {/each}
-</select>
-<h4>
-  {nbrOfSuccessfulBets(existingBets)} of {existingBets.length} for {points(existingBets)}
-  points
-</h4>
-<h4>{inProgress(existingBets)} bets in progress</h4>
-<ul>
-  {#each games as game}
-    <li style="display:block;padding: 15px;">
-      <img src={game.awayTeam.logo} alt={game.awayTeam.name} width="50px" />
-      ({game.awayTeamOdds}) @
-      <img src={game.homeTeam.logo} alt={game.homeTeam.name} width="50px" />
-      ({game.homeTeamOdds})
-      {#if !game.isFinished}
-        <label style="display:inline">
-          <input
-            type="radio"
-            bind:group={choices[game.id]}
-            value={game.awayTeam.id}
-            disabled={game.isFinished} />
-          {game.awayTeam.abbreviation}
-        </label>
-        <label label style="display:inline">
-          <input
-            type="radio"
-            bind:group={choices[game.id]}
-            value={game.homeTeam.id}
-            disabled={game.isFinished} />
-          {game.homeTeam.abbreviation}
-        </label>
-      {:else}
-        <b>
-          FINISHED: {game.awayTeamScore} - {game.homeTeamScore} {pointsForGame(existingBets, game)}
-          points scored
-        </b>
-      {/if}
-    </li>
-  {/each}
-</ul>
-<button type="submit" on:click|preventDefault={submitBets}>Place bets</button>
+<style>
+  .game-card {
+    background-color: #f0f3f3;
+    margin-bottom: 1em;
+    width: 90%;
+  }
+
+  .success {
+    background-color:rgb(208 255 208);
+  }
+
+  .failure {
+    background-color: rgb(241, 208, 212);
+  }
+
+  .game-card img {
+    width: 30px;
+  }
+
+  .team {
+    display: flex;
+    align-items: center;
+  }
+  .team-name-and-logo b {
+    padding: 1em;
+  }
+  .team-name-and-logo {
+    display: flex;
+    align-items: center;
+    width: 250px;
+  }
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+
+    -webkit-animation: fadein 0.5s; /* Safari, Chrome and Opera > 12.1 */
+    -moz-animation: fadein 0.5s; /* Firefox < 16 */
+    -ms-animation: fadein 0.5s; /* Internet Explorer */
+    -o-animation: fadein 0.5s; /* Opera < 12.1 */
+    animation: fadein 0.5s;
+  }
+  .odds {
+    display: flex;
+    align-items: center;
+    width: 4em;
+  }
+
+  .input {
+    margin-top: 5px;
+    width: 4em;
+  }
+
+  button {
+    background-color: rgb(231, 117, 52);
+    color: white;
+    padding: 10px;
+    cursor: pointer;
+  }
+
+  .winner {
+    font-weight: bold;
+    width: 4em;
+  }
+
+  .loser {
+    opacity: 0.8;
+    width: 4em;
+  }
+
+  input[type="radio"]:disabled {
+    position: relative;
+    height: 15px;
+    width: 15px;
+    box-sizing: border-box;
+    margin: 0;
+  }
+
+  input[type="radio"]:disabled:checked:after {
+    position: relative;
+    content: "";
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: rgb(231, 117, 52);
+  }
+</style>
+
+<div class="container">
+  <h2>Make bets</h2>
+  <SelectSeason
+    on:season-select-started={handleSeasonSelectStarted}
+    on:season-select-finished={handleSeasonSelectFinished} />
+  {#if loading}
+    <LoadingIndicator />
+  {:else}
+    <b>{nbrOfSuccessfulBets(existingBets)}
+      /
+      {nbrOfFinishedBets(existingBets)}
+      for
+      {points(existingBets).toFixed(2)}
+      points</b>
+    {#each games as game}
+      <div class={game.isFinished && hasUserBetOnGame(game) ? (isBetSuccessful(existingBets, game) ? "game-card success" : "game-card failure") : "game-card"}>
+        <div class="team">
+          <div class="team-name-and-logo">
+            <span>
+              <img src={game.awayTeam.logo} alt={game.awayTeam.name} />
+            </span>
+            <span> <b>{game.awayTeam.name}</b> </span>
+          </div>
+          <div class="odds">{game.awayTeamOdds}</div>
+          <div class="input">
+            <input
+              type="radio"
+              bind:group={choices[game.id]}
+              value={game.awayTeam.id}
+              disabled={game.isFinished || game.isOngoing} />
+          </div>
+          {#if game.isFinished}
+            <div
+              class={game?.awayTeam?.id === game?.winner?.id ? 'winner' : 'loser'}>
+              {game.awayTeamScore}
+            </div>
+            {#if isBetOnTeam(existingBets, game, game.awayTeam)}
+              <b>{pointsForGame(existingBets, game)}&nbsp;</b>
+              points
+            {/if}
+          {/if}
+        </div>
+        <div class="team">
+          <div class="team-name-and-logo">
+            <span>
+              <img src={game.homeTeam.logo} alt={game.homeTeam.name} />
+            </span>
+            <span> <b>{game.homeTeam.name}</b> </span>
+          </div>
+          <div class="odds">{game.homeTeamOdds}</div>
+          <div class="input">
+            <input
+              type="radio"
+              bind:group={choices[game.id]}
+              value={game.homeTeam.id}
+              disabled={game.isFinished} />
+          </div>
+          {#if game.isFinished}
+            <div
+              class={game?.homeTeam?.id === game?.winner?.id ? 'winner' : 'loser'}>
+              {game.homeTeamScore}
+            </div>
+            {#if isBetOnTeam(existingBets, game, game.homeTeam)}
+              <b>{pointsForGame(existingBets, game)}&nbsp;</b>
+              points
+            {/if}
+          {/if}
+        </div>
+      </div>
+    {/each}
+    <button type="submit" on:click|preventDefault={submitBets}>Place bets</button>
+  {/if}
+</div>

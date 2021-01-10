@@ -1,17 +1,17 @@
 <script>
-  import { onMount } from "svelte";
-  import { fetchGames } from "./api";
+  import LoadingIndicator from "./LoadingIndicator.svelte";
+  import SelectSeason from "./SelectSeason.svelte";
   let games = [];
+  let loading = false;
 
-  onMount(async () => {
-    games = await fetchGames(17);
-    games = games.sort((a, b) => {
-      if (a.startTime > b.startTime) return 1;
-      if (a.startTime < b.startTime) return -1;
-      if (a.startTime == b.startTime) return 0;
-    });
-    console.log(games);
-  });
+  function handleSeasonSelectFinished(evt) {
+    games = evt.detail.games;
+    loading = false;
+  }
+
+  function handleSeasonSelectStarted(evt) {
+    loading = true;
+  }
 </script>
 
 <style>
@@ -42,31 +42,46 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
+
+    -webkit-animation: fadein 0.5s; /* Safari, Chrome and Opera > 12.1 */
+    -moz-animation: fadein 0.5s; /* Firefox < 16 */
+    -ms-animation: fadein 0.5s; /* Internet Explorer */
+    -o-animation: fadein 0.5s; /* Opera < 12.1 */
+    animation: fadein 0.5s;
   }
 </style>
 
 <div class="container">
   <h2>Games</h2>
-  {#each games as game}
-    <div class="game-card">
-      <div class="team">
-        <div class="team-name-and-logo">
-          <span>
-            <img src={game.awayTeam.logo} alt={game.awayTeam.name} />
-          </span>
-          <span> <b>{game.awayTeam.name}</b> </span>
+  <SelectSeason
+    on:season-select-started={handleSeasonSelectStarted}
+    on:season-select-finished={handleSeasonSelectFinished}
+    />
+
+  {#if loading}
+    <LoadingIndicator />
+  {:else}
+    {#each games as game}
+      <div class="game-card">
+        <div class="team">
+          <div class="team-name-and-logo">
+            <span>
+              <img src={game.awayTeam.logo} alt={game.awayTeam.name} />
+            </span>
+            <span> <b>{game.awayTeam.name}</b> </span>
+          </div>
+          <div class="score"><i>{game.awayTeamScore}</i></div>
         </div>
-        <div class="score"><i>{game.awayTeamScore}</i></div>
-      </div>
-      <div class="team">
-        <div class="team-name-and-logo">
-          <span>
-            <img src={game.homeTeam.logo} alt={game.homeTeam.name} />
-          </span>
-          <span> <b>{game.homeTeam.name}</b> </span>
+        <div class="team">
+          <div class="team-name-and-logo">
+            <span>
+              <img src={game.homeTeam.logo} alt={game.homeTeam.name} />
+            </span>
+            <span> <b>{game.homeTeam.name}</b> </span>
+          </div>
+          <div class="score"><i>{game.homeTeamScore}</i></div>
         </div>
-        <div class="score"><i>{game.homeTeamScore}</i></div>
       </div>
-    </div>
-  {/each}
+    {/each}
+  {/if}
 </div>

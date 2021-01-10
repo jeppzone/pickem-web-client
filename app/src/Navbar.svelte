@@ -2,15 +2,19 @@
   import { loggedInUser } from "./auth.js";
   import { navigateTo } from "svelte-router-spa";
 
+  export let currentRoute;
+
+  let path;
+  $: path = currentRoute.name;
+
   function logOut() {
     $loggedInUser = null;
     navigateTo("/login");
   }
 
   function goTo(path) {
-    if($loggedInUser !== null){
+    if ($loggedInUser !== null) {
       navigateTo(path);
-      console.log("Navigating");  
     }
   }
 </script>
@@ -23,9 +27,11 @@
     background-color: rgb(12, 35, 49);
     color: white;
     position: fixed;
-    top:0;
+    top: 0;
     width: 99%;
+    z-index: 1000;
   }
+
   .user-info {
     width: 60%;
     display: flex;
@@ -39,7 +45,7 @@
     cursor: pointer;
   }
 
-  .navbar h2{
+  .navbar h2 {
     margin-left: 0.5em;
     cursor: pointer;
   }
@@ -58,17 +64,42 @@
   .title {
     width: 15%;
   }
+
+  .selected {
+    color: rgb(233, 147, 97);
+    border-bottom: 3px solid rgb(233, 147, 97);
+    font-weight: bold;
+
+    -webkit-animation: fadein 0.5s; /* Safari, Chrome and Opera > 12.1 */
+    -moz-animation: fadein 0.5s; /* Firefox < 16 */
+    -ms-animation: fadein 0.5s; /* Internet Explorer */
+    -o-animation: fadein 0.5s; /* Opera < 12.1 */
+    animation: fadein 0.5s;
+  }
+
 </style>
 
 {#if $loggedInUser !== null}
   <div class="navbar">
     <div class="title">
-      <h2 on:click={() => goTo("/")}>NFL Pick'em</h2>
+      <h2 on:click={() => goTo('/')}>NFL Pick'em</h2>
     </div>
     <div class="navbar-pages">
-      <p on:click={() => goTo("/games")}>Games</p>
-      <p on:click={() => goTo("/bets")}>Bets</p>
-      <p on:click={() => goTo("/leagues")}>Leagues</p>
+      <p
+        on:click={() => goTo('/games')}
+        class={path.includes('/games') ? 'selected' : ''}>
+        Games
+      </p>
+      <p
+        on:click={() => goTo('/bets')}
+        class={path.includes('/bets') ? 'selected' : ''}>
+        Bets
+      </p>
+      <p
+        on:click={() => goTo('/leagues')}
+        class={path.includes('/leagues') ? 'selected' : ''}>
+        Leagues
+      </p>
     </div>
     <div class="user-info">
       <h3>{$loggedInUser?.username}</h3>

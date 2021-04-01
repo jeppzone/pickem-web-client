@@ -14,11 +14,45 @@
   }
 </script>
 
+<div class="container">
+  <h2>Games</h2>
+  <SelectSeason on:season-select-started={handleSeasonSelectStarted} on:season-select-finished={handleSeasonSelectFinished} />
+
+  {#if loading}
+    <LoadingIndicator />
+  {:else}
+    {#each games as game}
+      <div class="game-card">
+        <div class="team">
+          <div class="team-name-and-logo">
+            <span>
+              <img src={game.awayTeam.logo} alt={game.awayTeam.name} />
+            </span>
+            <span> <b>{game.awayTeam.name}</b> </span>
+          </div>
+          <div class="score"><i>{game.awayTeamScore}</i></div>
+        </div>
+        <div class="team">
+          <div class="team-name-and-logo">
+            <span>
+              <img src={game.homeTeam.logo} alt={game.homeTeam.name} />
+            </span>
+            <span> <b>{game.homeTeam.name}</b> </span>
+          </div>
+          <div class="score"><i>{game.homeTeamScore}</i></div>
+        </div>
+      </div>
+    {/each}
+  {/if}
+</div>
+
 <style>
   .game-card {
-    background-color: #e9f4f5;
+    background-color: rgb(0, 18, 29);
     margin-bottom: 1em;
     width: 90%;
+    padding: 0.5em;
+    border-radius: 5px;
   }
 
   .game-card img {
@@ -50,38 +84,3 @@
     animation: fadein 0.5s;
   }
 </style>
-
-<div class="container">
-  <h2>Games</h2>
-  <SelectSeason
-    on:season-select-started={handleSeasonSelectStarted}
-    on:season-select-finished={handleSeasonSelectFinished}
-    />
-
-  {#if loading}
-    <LoadingIndicator />
-  {:else}
-    {#each games as game}
-      <div class="game-card">
-        <div class="team">
-          <div class="team-name-and-logo">
-            <span>
-              <img src={game.awayTeam.logo} alt={game.awayTeam.name} />
-            </span>
-            <span> <b>{game.awayTeam.name}</b> </span>
-          </div>
-          <div class="score"><i>{game.awayTeamScore}</i></div>
-        </div>
-        <div class="team">
-          <div class="team-name-and-logo">
-            <span>
-              <img src={game.homeTeam.logo} alt={game.homeTeam.name} />
-            </span>
-            <span> <b>{game.homeTeam.name}</b> </span>
-          </div>
-          <div class="score"><i>{game.homeTeamScore}</i></div>
-        </div>
-      </div>
-    {/each}
-  {/if}
-</div>

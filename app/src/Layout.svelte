@@ -1,31 +1,15 @@
 <script>
   import { Route } from "svelte-router-spa";
   import Navbar from "./Navbar.svelte";
+  import { SvelteToast } from "@zerodevx/svelte-toast";
 
   export let currentRoute;
 
   const params = {};
-
-  let loading = false;
-
-  function setLoading() {
-    loading = true;
-  }
-
-  function setNotLoading() {
-    loading = false;
-  }
+  const options = {
+    reversed: true,
+  };
 </script>
-
-<style>
-  .navigation {
-    height: 10%;
-  }
-
-  .routes {
-    margin-top: 5%;
-  }
-</style>
 
 <div class="navigation">
   <Navbar {currentRoute} />
@@ -33,3 +17,16 @@
 <div class="routes">
   <Route {currentRoute} {params} />
 </div>
+<SvelteToast {options} />
+
+<style>
+  .routes {
+    margin-left: 200px;
+  }
+  :root {
+    --toastContainerBottom: 2rem;
+    --toastContainerTop: auto;
+    --toastBackground: rgb(12, 35, 49);
+    --toastColor: white;
+  }
+</style>

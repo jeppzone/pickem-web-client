@@ -1,16 +1,25 @@
 <script>
   import { Router } from "svelte-router-spa";
+  import jwtDecode from "jwt-decode";
   import Home from "./Home.svelte";
   import Login from "./Login.svelte";
   import Leagues from "./Leagues/Leagues.svelte";
   import League from "./Leagues/League.svelte";
   import MakeBets from "./MakeBets.svelte";
-  import Games from "./Games.svelte";
   import { loggedInUser } from "./auth.js";
   import Layout from "./Layout.svelte";
 
   function isLoggedIn() {
-    return $loggedInUser !== null;
+    if ($loggedInUser !== null) {
+      var decoded = jwtDecode($loggedInUser.token);
+      var nowSeconds = Math.floor(Date.now() / 1000);
+      return decoded.exp > nowSeconds;
+    }
+    return false;
+  }
+
+  function isNotLoggedIn() {
+    return !isLoggedIn();
   }
 
   let routes = [
@@ -23,7 +32,7 @@
     {
       name: "login",
       component: Login,
-      onlyIf: { guard: !isLoggedIn, redirect: "/" },
+      onlyIf: { guard: isNotLoggedIn, redirect: "/" },
     },
     {
       name: "leagues",
@@ -42,11 +51,6 @@
       component: MakeBets,
       layout: Layout,
       onlyIf: { guard: isLoggedIn, redirect: "/login" },
-    },
-    {
-      name: "games",
-      layout: Layout,
-      component: Games,
     },
   ];
 </script>

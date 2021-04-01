@@ -1,5 +1,6 @@
 <script>
   import { createEventDispatcher } from "svelte";
+  import { toast } from "@zerodevx/svelte-toast";
   import { loggedInUser } from "../auth";
   import { createLeague } from "../api";
   const dispatch = createEventDispatcher();
@@ -7,6 +8,8 @@
 
   async function create() {
     const createdLeague = await createLeague(name, $loggedInUser);
+    dispatch("create-league-succeeded", { createdLeague });
+    toast.push("League created");
   }
 
   function cancel() {

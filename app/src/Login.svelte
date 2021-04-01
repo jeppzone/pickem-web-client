@@ -15,6 +15,7 @@
   async function loginUser() {
     const user = await login({ username, password });
     $loggedInUser = user;
+    console.log("Hello");
     navigateTo("/");
   }
 
@@ -23,33 +24,7 @@
     $loggedInUser = user;
     navigateTo("/");
   }
-
-  onMount(() => {
-    if ($loggedInUser !== null) navigateTo("/");
-  });
 </script>
-
-<style>
-  .container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-  }
-  .login {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 360px;
-    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-    padding: 2vw;
-  }
-  @media (max-width: 600px) {
-    .login {
-      align-items: flex-start;
-    }
-  }
-</style>
 
 <main class="container">
   <div class="login">
@@ -78,3 +53,25 @@
     {/if}
   </div>
 </main>
+
+<style>
+  .container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+  .login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 360px;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    padding: 2vw;
+  }
+  @media (max-width: 600px) {
+    .login {
+      align-items: flex-start;
+    }
+  }
+</style>

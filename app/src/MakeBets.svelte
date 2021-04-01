@@ -1,4 +1,5 @@
 <script>
+  import { toast } from "@zerodevx/svelte-toast";
   import { loggedInUser } from "./auth.js";
   import { fetchBets, makeBets } from "./api";
   import SelectSeason from "./SelectSeason.svelte";
@@ -20,6 +21,7 @@
   }
 
   async function submitBets() {
+    loading = true;
     const madeChoices = {};
     for (const key of Object.keys(choices)) {
       if (choices[key] !== -1 && !games.find((g) => g.id === key).isFinished) {
@@ -27,21 +29,24 @@
       }
     }
     await makeBets(madeChoices, $loggedInUser);
+    loading = false;
+    toast.push("Bets made");
   }
 
   async function setUpBets(games) {
-    if (games && games.length > 0) {
-      choices = {};
-      existingBets = await fetchBets(
-        games[0].season,
-        games[0].seasonType,
-        games[0].week,
-        $loggedInUser
-      );
-      games.forEach((g) => {
-        var matchingBet = existingBets.find((b) => b.game.id === g.id);
-        choices[g.id] = matchingBet ? matchingBet.winningTeam.id : -1;
-      });
+    console.log("Setup bets");
+    try {
+      if (games && games.length > 0) {
+        choices = {};
+        existingBets = await fetchBets(games[0].season, games[0].seasonType, games[0].week, $loggedInUser);
+        games.forEach((g) => {
+          var matchingBet = existingBets.find((b) => b.game.id === g.id);
+          choices[g.id] = matchingBet ? matchingBet.winningTeam.id : -1;
+        });
+      }
+      console.log(existingBets);
+    } catch (err) {
+      toast.push("Could not fetch bets");
     }
   }
 
@@ -76,22 +81,106 @@
     var existingBet = existingBets.find((b) => b.game.id === game.id);
     return existingBet ? true : false;
   }
-
 </script>
 
+<div class="container">
+  <h2>Make bets</h2>
+  <SelectSeason on:season-select-started={handleSeasonSelectStarted} on:season-select-finished={handleSeasonSelectFinished} />
+  {#if loading}
+    <LoadingIndicator />
+  {:else}
+    <b
+      >{nbrOfSuccessfulBets(existingBets)}
+      /
+      {nbrOfFinishedBets(existingBets)}
+      for
+      {points(existingBets).toFixed(2)}
+      points</b
+    >
+    {#each games as game}
+      <div
+        class={game.isFinished && hasUserBetOnGame(game)
+          ? isBetSuccessful(existingBets, game)
+            ? "game-card success"
+            : "game-card failure"
+          : "game-card"}
+      >
+        <div class="team">
+          <div class="team-name-and-logo">
+            <span>
+              <img src={game.awayTeam.logo} alt={game.awayTeam.name} />
+            </span>
+            <span> <b>{game.awayTeam.name}</b> </span>
+          </div>
+          <div class="odds">{game.awayTeamOdds || "N/A"}</div>
+          <div class="input">
+            <input
+              type="radio"
+              bind:group={choices[game.id]}
+              value={game.awayTeam.id}
+              disabled={game.isFinished || game.isOngoing || !game.awayTeamOdds}
+            />
+          </div>
+          {#if game.isFinished}
+            <div class={game?.awayTeam?.id === game?.winner?.id ? "winner" : "loser"}>
+              {game.awayTeamScore}
+            </div>
+            {#if isBetOnTeam(existingBets, game, game.awayTeam)}
+              <b>{pointsForGame(existingBets, game)}&nbsp;</b>
+              points
+            {/if}
+          {/if}
+        </div>
+        <div class="team">
+          <div class="team-name-and-logo">
+            <span>
+              <img src={game.homeTeam.logo} alt={game.homeTeam.name} />
+            </span>
+            <span> <b>{game.homeTeam.name}</b> </span>
+          </div>
+          <div class="odds">{game.homeTeamOdds || "N/A"}</div>
+          <div class="input">
+            <input
+              type="radio"
+              bind:group={choices[game.id]}
+              value={game.homeTeam.id}
+              disabled={game.isFinished || game.isOngoing || !game.homeTeamOdds}
+            />
+          </div>
+          {#if game.isFinished}
+            <div class={game?.homeTeam?.id === game?.winner?.id ? "winner" : "loser"}>
+              {game.homeTeamScore}
+            </div>
+            {#if isBetOnTeam(existingBets, game, game.homeTeam)}
+              <b>{pointsForGame(existingBets, game)}&nbsp;</b>
+              points
+            {/if}
+          {/if}
+        </div>
+      </div>
+    {/each}
+    <button type="submit" on:click|preventDefault={submitBets}>Place bets</button>
+  {/if}
+</div>
+
 <style>
+  .container {
+    color: white;
+  }
   .game-card {
-    background-color: #f0f3f3;
+    background-color: rgb(1, 16, 26);
     margin-bottom: 1em;
     width: 90%;
+    padding: 8px;
+    border-radius: 10px;
   }
 
   .success {
-    background-color:rgb(208 255 208);
+    background-color: rgb(11, 66, 34);
   }
 
   .failure {
-    background-color: rgb(241, 208, 212);
+    background-color: rgb(78, 7, 15);
   }
 
   .game-card img {
@@ -115,12 +204,6 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
-
-    -webkit-animation: fadein 0.5s; /* Safari, Chrome and Opera > 12.1 */
-    -moz-animation: fadein 0.5s; /* Firefox < 16 */
-    -ms-animation: fadein 0.5s; /* Internet Explorer */
-    -o-animation: fadein 0.5s; /* Opera < 12.1 */
-    animation: fadein 0.5s;
   }
   .odds {
     display: flex;
@@ -168,77 +251,3 @@
     background-color: rgb(231, 117, 52);
   }
 </style>
-
-<div class="container">
-  <h2>Make bets</h2>
-  <SelectSeason
-    on:season-select-started={handleSeasonSelectStarted}
-    on:season-select-finished={handleSeasonSelectFinished} />
-  {#if loading}
-    <LoadingIndicator />
-  {:else}
-    <b>{nbrOfSuccessfulBets(existingBets)}
-      /
-      {nbrOfFinishedBets(existingBets)}
-      for
-      {points(existingBets).toFixed(2)}
-      points</b>
-    {#each games as game}
-      <div class={game.isFinished && hasUserBetOnGame(game) ? (isBetSuccessful(existingBets, game) ? "game-card success" : "game-card failure") : "game-card"}>
-        <div class="team">
-          <div class="team-name-and-logo">
-            <span>
-              <img src={game.awayTeam.logo} alt={game.awayTeam.name} />
-            </span>
-            <span> <b>{game.awayTeam.name}</b> </span>
-          </div>
-          <div class="odds">{game.awayTeamOdds}</div>
-          <div class="input">
-            <input
-              type="radio"
-              bind:group={choices[game.id]}
-              value={game.awayTeam.id}
-              disabled={game.isFinished || game.isOngoing} />
-          </div>
-          {#if game.isFinished}
-            <div
-              class={game?.awayTeam?.id === game?.winner?.id ? 'winner' : 'loser'}>
-              {game.awayTeamScore}
-            </div>
-            {#if isBetOnTeam(existingBets, game, game.awayTeam)}
-              <b>{pointsForGame(existingBets, game)}&nbsp;</b>
-              points
-            {/if}
-          {/if}
-        </div>
-        <div class="team">
-          <div class="team-name-and-logo">
-            <span>
-              <img src={game.homeTeam.logo} alt={game.homeTeam.name} />
-            </span>
-            <span> <b>{game.homeTeam.name}</b> </span>
-          </div>
-          <div class="odds">{game.homeTeamOdds}</div>
-          <div class="input">
-            <input
-              type="radio"
-              bind:group={choices[game.id]}
-              value={game.homeTeam.id}
-              disabled={game.isFinished} />
-          </div>
-          {#if game.isFinished}
-            <div
-              class={game?.homeTeam?.id === game?.winner?.id ? 'winner' : 'loser'}>
-              {game.homeTeamScore}
-            </div>
-            {#if isBetOnTeam(existingBets, game, game.homeTeam)}
-              <b>{pointsForGame(existingBets, game)}&nbsp;</b>
-              points
-            {/if}
-          {/if}
-        </div>
-      </div>
-    {/each}
-    <button type="submit" on:click|preventDefault={submitBets}>Place bets</button>
-  {/if}
-</div>

@@ -8,7 +8,6 @@
     }
   }
   .spinner {
-    height: 100vh;
     opacity: 1;
     position: relative;
     transition: opacity linear 0.1s;

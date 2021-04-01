@@ -8,22 +8,17 @@ html, body {
 body {
 	color: #333;
 	margin: 0;
-	padding: 8px;
 	box-sizing: border-box;
 	font-family: 'Ubuntu', sans-serif;
 }
 
 a {
-	color: rgb(0,100,200);
-	text-decoration: none;
+	color: white;
+	text-decoration: underline;
 }
 
 a:hover {
 	text-decoration: underline;
-}
-
-a:visited {
-	color: rgb(0,80,160);
 }
 
 label {
@@ -53,6 +48,8 @@ button {
 	background-color: #f4f4f4;
 	outline: none;
 	font-weight: bold;
+	border-radius: 5px;
+	padding: 1em;
 }
 
 button:disabled {
@@ -67,6 +64,19 @@ button:focus {
 	border-color: #666;
 }
 
+.container {
+	-webkit-animation: fadein 0.5s; /* Safari, Chrome and Opera > 12.1 */
+	-moz-animation: fadein 0.5s; /* Firefox < 16 */
+	-ms-animation: fadein 0.5s; /* Internet Explorer */
+	-o-animation: fadein 0.5s; /* Opera < 12.1 */
+	animation: fadein 0.5s;
+
+	background: #141e30; /* fallback for old browsers */
+	background: -webkit-linear-gradient(to right, #243b55, #141e30); /* Chrome 10-25, Safari 5.1-6 */
+	background: linear-gradient(to right, #243b55, #141e30); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+	min-height: 100vh;
+	color: white;
+}
 
 @keyframes fadein {
 	from {

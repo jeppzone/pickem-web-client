@@ -89,27 +89,41 @@ const joinLeague = async (user, leagueId) => {
 
 const deleteLeague = async (user, leagueId) => {
   const response = await makeAuthenticatedRequest(`${url}/leagues/${leagueId}`, "DELETE", null, user);
-  return response.json();
+  if (!response.ok) {
+    throw new Error("Something went wrong");
+  }
 };
 
-const makeUnauthenticatedRequest = (url, method, body) => {
+const makeUnauthenticatedRequest = async (url, method, body) => {
   const headers = {
     "Content-Type": "application/json",
   };
-  return fetch(url, {
+  const response = await fetch(url, {
     method,
     headers,
     body,
   });
+
+  if (!response.ok) {
+    throw new Error("Something went wrong");
+  }
+
+  return response;
 };
-const makeAuthenticatedRequest = (url, method, body, user) => {
+const makeAuthenticatedRequest = async (url, method, body, user) => {
   const headers = {
     "Content-Type": "application/json",
     "Authorization": `Bearer ${user.token}`, //TODO: I don't want to have to to this.
   };
-  return fetch(url, {
+  const response = await fetch(url, {
     method,
     headers,
     body,
   });
+
+  if (!response.ok) {
+    throw new Error("Something went wrong");
+  }
+
+  return response;
 };

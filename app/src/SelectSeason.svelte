@@ -20,9 +20,12 @@
       week = games[0].week;
     }
     setWeeks();
-    
+
     dispatch("season-select-finished", {
-      games, season, seasonType, week
+      games,
+      season,
+      seasonType,
+      week,
     });
   });
 
@@ -32,17 +35,29 @@
     games = await fetchGames(season, seasonType, week);
     games = sortGames(games);
     dispatch("season-select-finished", {
-      games, season, seasonType, week
+      games,
+      season,
+      seasonType,
+      week,
     });
   }
 
+  //TODO: Refactor this
   function setWeeks() {
-    if(seasonType === 'Pre'){
-      weeks = [1,2,3,4,5];
-    }else if(seasonType === 'Reg'){
+    if (seasonType === "Pre") {
+      weeks = [1, 2, 3, 4, 5];
+      week = week <= 5 ? week : 1;
+    } else if (seasonType === "Reg") {
       weeks = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17];
-    }else if(seasonType === 'Post'){
-      weeks = [1,2,3,4];
+    } else if (seasonType === "Post") {
+      weeks = [
+        { value: 1, displayName: "Wild Card" },
+        { value: 2, displayName: "Divisional Round" },
+        { value: 3, displayName: "Conference Championships" },
+        { value: 4, displayName: "Pro Bowl" },
+        { value: 5, displayName: "Super Bowl" },
+      ];
+      week = week <= 5 ? week : 1;
     }
   }
 
@@ -71,7 +86,7 @@
   <!-- svelte-ignore a11y-no-onchange -->
   <select bind:value={week} on:change={dispatchEvent}>
     {#each weeks as w}
-      <option value={w}>{w}</option>
+      <option value={w.value || w}>{w.displayName || w}</option> <!--TODO: This is not that nice-->
     {/each}
   </select>
 </main>

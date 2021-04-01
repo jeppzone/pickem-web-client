@@ -30,47 +30,64 @@
   });
 </script>
 
-<style>
-  .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-  }
-
-  th{
-    padding-right: 2em;
-    padding-left: 0.5em;
-  }
-  td {
-    padding-top: 0.5em;
-    padding-bottom: 0.5em;
-    padding-left: 0.5em;
-    margin: auto;
-  }
-  tr:nth-child(2n+2) {
-    background-color: #f0f3f3;
-  }
-</style>
-
 <div class="container">
-{#if users}
+  {#if users}
     <h2>{league.name}</h2>
+    <h3>League ends {new Date(league.endsAt).toLocaleDateString("sv-SE")}</h3>
     <table>
       <tr>
+        <th>Position</th>
         <th>Username</th>
         <th>Points</th>
         <th>Correct bets</th>
         <th>% correct</th>
       </tr>
-      {#each Object.entries(leaderBoard) as [k, v]}
-        <tr>
+      {#each Object.entries(leaderBoard) as [k, v], index}
+        <tr class={users[k].id === $loggedInUser?.id ? "my-row" : ""}>
+          <td>{index + 1}</td>
           <td>{users[k].username}</td>
           <td>{v.points.toFixed(2)}</td>
           <td>{v.nbrCorrect}</td>
-          <td>{(((v.nbrCorrect / v.nbrFinished) * 100) || 0).toFixed(2)}</td>
+          <td>{((v.nbrCorrect / v.nbrFinished) * 100 || 0).toFixed(2)}</td>
         </tr>
       {/each}
     </table>
-{/if}
+  {/if}
 </div>
+
+<style>
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 100%;
+  }
+
+  table {
+    width: 60%;
+  }
+
+  .my-row td {
+    border: 2px solid rgb(233, 147, 97);
+  }
+
+  table,
+  th,
+  td {
+    border-radius: 5px;
+  }
+  th {
+    padding: 1.5em;
+    text-align: center;
+  }
+  td {
+    padding: 1.5em;
+    text-align: center;
+  }
+  tr:nth-child(odd) {
+    background-color: rgb(12, 35, 49);
+  }
+  tr:nth-child(even) {
+    background-color: rgb(12, 35, 49);
+  }
+</style>

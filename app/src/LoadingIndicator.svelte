@@ -1,3 +1,5 @@
+<div class="spinner" />
+
 <style>
   @keyframes spinner {
     0% {
@@ -15,7 +17,7 @@
   .spinner::before {
     animation: 1s linear infinite spinner;
     border: solid 3px #eee;
-    border-bottom-color: #ef6565;
+    border-bottom-color: rgb(231, 117, 52);
     border-radius: 50%;
     content: "";
     height: 40px;
@@ -29,4 +31,3 @@
     will-change: transform;
   }
 </style>
-<div class="spinner" />

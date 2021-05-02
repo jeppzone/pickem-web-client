@@ -5,6 +5,8 @@
 
   export let currentRoute;
 
+  console.log(currentRoute);
+
   const params = {};
   const options = {
     reversed: true,

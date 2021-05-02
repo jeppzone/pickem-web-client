@@ -1,28 +1,46 @@
 <script>
   import { login, register } from "./api";
   import { loggedInUser } from "./auth.js";
-  import { onMount } from "svelte";
   import { navigateTo } from "svelte-router-spa";
+  import { SvelteToast } from "@zerodevx/svelte-toast";
+  import { toast } from "@zerodevx/svelte-toast";
+  import LoadingIndicator from "./LoadingIndicator.svelte";
   let username;
   let password;
   let email;
   let registerToggled = false;
+  let loading = false;
 
   function toggleMode() {
     registerToggled = !registerToggled;
   }
 
   async function loginUser() {
-    const user = await login({ username, password });
-    $loggedInUser = user;
-    console.log("Hello");
-    navigateTo("/");
+    try {
+      loading = true;
+      const user = await login({ username, password });
+      $loggedInUser = user;
+      navigateTo("/");
+    } catch (err) {
+      showError("There was a problem logging in. Please try again");
+    } finally {
+      loading = false;
+    }
   }
 
   async function registerUser() {
     const user = await register({ username, password });
     $loggedInUser = user;
     navigateTo("/");
+  }
+
+  function showError(errorMessage) {
+    toast.push(errorMessage, {
+      theme: {
+        "--toastBackground": "#f54260",
+        "--toastProgressBackground": "white",
+      },
+    });
   }
 </script>
 
@@ -31,27 +49,41 @@
     {#if registerToggled}
       <h1>Register to Pick'em</h1>
       <form on:submit|preventDefault={registerUser}>
-        <label for="username">Username</label>
-        <input id="username" bind:value={username} type="text" />
-        <label for="email">Email</label>
-        <input id="email" bind:value={email} type="email" />
-        <label for="password">Password</label>
-        <input id="password" bind:value={password} type="password" />
-        <input type="submit" value="Register" />
+        <div>
+          <label for="username">Username</label>
+          <input id="username" bind:value={username} type="text" />
+          <label for="email">Email</label>
+          <input id="email" bind:value={email} type="email" />
+          <label for="password">Password</label>
+          <input id="password" bind:value={password} type="password" />
+        </div>
+        <button>Register</button>
       </form>
-      <span on:click={toggleMode}>or Login</span>
+      <span class="span-button" on:click={toggleMode}>or <b>Login</b></span>
     {:else}
       <h1>Login to Pick'em</h1>
       <form on:submit|preventDefault={loginUser}>
-        <label for="username">Username</label>
-        <input id="username" bind:value={username} type="text" />
-        <label for="password">Password</label>
-        <input id="password" bind:value={password} type="password" />
-        <input type="submit" value="Login" />
+        <div>
+          <label for="username">Username</label>
+          <input id="username" bind:value={username} type="text" />
+          <label for="password">Password</label>
+          <input id="password" bind:value={password} type="password" />
+        </div>
+        <div class="action-button">
+          <button>
+            <div class="loading">
+              {#if loading}
+                <LoadingIndicator />
+              {/if}
+            </div>
+            Login
+          </button>
+        </div>
       </form>
-      <span on:click={toggleMode}>or Register</span>
+      <span class="span-button" on:click={toggleMode}>or <b>Register</b></span>
     {/if}
   </div>
+  <SvelteToast />
 </main>
 
 <style>
@@ -66,12 +98,35 @@
     flex-direction: column;
     align-items: center;
     width: 360px;
-    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 1);
+    border-radius: 5px;
     padding: 2vw;
   }
-  @media (max-width: 600px) {
-    .login {
-      align-items: flex-start;
-    }
+  .span-button {
+    cursor: pointer;
+    margin-top: 1em;
+  }
+
+  button {
+    width: 100%;
+    margin-top: 1em;
+    cursor: pointer;
+  }
+
+  input {
+    padding: 1em;
+    border-radius: 5px;
+    margin-bottom: 1em;
+  }
+
+  .action-button {
+    display: flex;
+  }
+
+  .loading {
+    margin: auto;
+    float: right;
+    margin-right: 20px;
+    margin-top: 10px;
   }
 </style>

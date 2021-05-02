@@ -164,15 +164,17 @@
 </div>
 
 <style>
-  .container {
-    color: white;
-  }
   .game-card {
     background-color: rgb(1, 16, 26);
     margin-bottom: 1em;
     width: 90%;
     padding: 8px;
     border-radius: 10px;
+  }
+
+  b {
+    margin-bottom: 1vh;
+    margin-top: 1vh;
   }
 
   .success {
@@ -238,16 +240,19 @@
     height: 15px;
     width: 15px;
     box-sizing: border-box;
-    margin: 0;
   }
 
-  input[type="radio"]:disabled:checked:after {
+  input[type="radio"]:disabled:after {
     position: relative;
     content: "";
     display: block;
     width: 100%;
     height: 100%;
     border-radius: 50%;
+    background-color: #fff;
+  }
+
+  input[type="radio"]:disabled:checked:after {
     background-color: rgb(231, 117, 52);
   }
 </style>

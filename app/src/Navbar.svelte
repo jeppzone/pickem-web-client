@@ -22,7 +22,7 @@
 {#if $loggedInUser !== null}
   <div class="navbar">
     <div class="title">
-      <h2 on:click={() => goTo("/")}>NFL Pick'em</h2>
+      <img on:click={() => goTo("/")} src="./assets/logo.png" alt="NFL Pick'em" />
     </div>
     <div class="navbar-pages">
       <p on:click={() => goTo("/bets")} class={path.includes("/bets") ? "selected" : ""}>Bets</p>
@@ -51,23 +51,26 @@
     overflow-x: hidden;
   }
 
+  .title img {
+    width: 150px;
+    cursor: pointer;
+  }
+
   .user-info {
     display: flex;
     flex-direction: column;
     bottom: 10px;
     position: fixed;
+    margin-left: 20px;
   }
   .user-info p {
-    cursor: pointer;
-  }
-
-  .navbar h2 {
     cursor: pointer;
   }
 
   .navbar-pages {
     display: flex;
     flex-direction: column;
+    margin-left: 20px;
   }
 
   .navbar-pages p {

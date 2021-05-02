@@ -5,13 +5,10 @@
 
 <main class="container">
   <section class="title">
-    <h1>Welcome to Pick'em!</h1>
+    <img src="./assets/logo-text.png" alt="Pickem" />
   </section>
   <section class="description">
-    <p>
-      This is a site made for betting on NFL games with odds from real sites but with no real money involved. The only thing that is up for grabs is
-      honor! Create a league and have your friends join and compete against each other too see who is the best better.
-    </p>
+    <p>Make bets. Compete against others. No money involved!</p>
   </section>
   <section class="navigation">
     <Navigate to="/leagues"><button class="button">Join a league</button></Navigate>
@@ -25,14 +22,22 @@
   .title {
     display: flex;
     justify-content: center;
+    padding: 20px;
+  }
+  .title img {
+    width: 200px;
   }
   .description {
-    width: 80%;
-    margin: auto;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    font-size: 1.5em;
+    background-color: rgb(0, 18, 29);
   }
   .navigation {
     display: flex;
     justify-content: center;
+    background-color: rgb(0, 18, 29);
   }
   .navigation p {
     padding-left: 1vw;
@@ -43,7 +48,7 @@
     cursor: pointer;
   }
   .button {
-    background-color: rgb(231, 117, 52);
+    background-color: #f2a065;
   }
   .container {
     height: 100vh;

@@ -1,23 +1,17 @@
 <script>
+  import { onMount } from "svelte";
   import LoadingIndicator from "./LoadingIndicator.svelte";
-  import SelectSeason from "./SelectSeason.svelte";
+  import { fetchGamesForCurrentWeek } from "./api";
   let games = [];
   let loading = false;
 
-  function handleSeasonSelectFinished(evt) {
-    games = evt.detail.games;
-    loading = false;
-  }
-
-  function handleSeasonSelectStarted(evt) {
-    loading = true;
-  }
+  onMount(async () => {
+    games = await fetchGamesForCurrentWeek();
+  });
 </script>
 
 <div class="container">
-  <h2>Games</h2>
-  <SelectSeason on:season-select-started={handleSeasonSelectStarted} on:season-select-finished={handleSeasonSelectFinished} />
-
+  <h1>Recent games</h1>
   {#if loading}
     <LoadingIndicator />
   {:else}
@@ -76,11 +70,5 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
-
-    -webkit-animation: fadein 0.5s; /* Safari, Chrome and Opera > 12.1 */
-    -moz-animation: fadein 0.5s; /* Firefox < 16 */
-    -ms-animation: fadein 0.5s; /* Internet Explorer */
-    -o-animation: fadein 0.5s; /* Opera < 12.1 */
-    animation: fadein 0.5s;
   }
 </style>

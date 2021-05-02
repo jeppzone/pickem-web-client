@@ -11,7 +11,7 @@
 </script>
 
 <div class="container">
-  <h1>Recent games</h1>
+  <h2>Recent games</h2>
   {#if loading}
     <LoadingIndicator />
   {:else}
@@ -42,10 +42,10 @@
 
 <style>
   .game-card {
-    background-color: rgb(0, 18, 29);
+    background-color: rgb(5, 47, 75);
     margin-bottom: 1em;
     width: 90%;
-    padding: 0.5em;
+    padding: 8px;
     border-radius: 5px;
   }
 
@@ -70,5 +70,6 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
+    font-size: 18px;
   }
 </style>

@@ -48,7 +48,7 @@
       weeks = [1, 2, 3, 4, 5];
       week = week <= 5 ? week : 1;
     } else if (seasonType === "Reg") {
-      weeks = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17];
+      weeks = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
     } else if (seasonType === "Post") {
       weeks = [
         { value: 1, displayName: "Wild Card" },

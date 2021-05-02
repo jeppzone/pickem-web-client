@@ -8,7 +8,7 @@
     <img src="./assets/logo-text.png" alt="Pickem" />
   </section>
   <section class="description">
-    <p>Make bets. Compete against others. No money involved!</p>
+    <h3>Make bets. Compete against others. No money involved!</h3>
   </section>
   <section class="navigation">
     <Navigate to="/leagues"><button class="button">Join a league</button></Navigate>
@@ -32,12 +32,10 @@
     display: flex;
     justify-content: center;
     font-size: 1.5em;
-    background-color: rgb(0, 18, 29);
   }
   .navigation {
     display: flex;
     justify-content: center;
-    background-color: rgb(0, 18, 29);
   }
   .navigation p {
     padding-left: 1vw;
@@ -48,14 +46,6 @@
     cursor: pointer;
   }
   .button {
-    background-color: #f2a065;
-  }
-  .container {
-    height: 100vh;
-    margin: 0;
-    color: white;
-    background: #141e30; /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #243b55, #141e30); /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #243b55, #141e30); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background-color: rgb(231, 117, 52);
   }
 </style>

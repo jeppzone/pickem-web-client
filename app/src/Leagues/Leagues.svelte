@@ -40,7 +40,7 @@
 
 <div class="container">
   {#if joinedLeagues && joinedLeagues.length > 0}
-    <h2>Leagues</h2>
+    <h1>Leagues</h1>
     <LeagueTable {leagues} on:delete-league-succeeded={handleLeagueDeleted} on:join-league-succeeded={handleLeagueJoined} />
   {/if}
   {#if createToggled}

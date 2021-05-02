@@ -84,19 +84,19 @@
 </script>
 
 <div class="container">
-  <h2>Make bets</h2>
+  <h1>Make bets</h1>
   <SelectSeason on:season-select-started={handleSeasonSelectStarted} on:season-select-finished={handleSeasonSelectFinished} />
   {#if loading}
     <LoadingIndicator />
   {:else}
-    <b
-      >{nbrOfSuccessfulBets(existingBets)}
+    <h2>
+      {nbrOfSuccessfulBets(existingBets)}
       /
       {nbrOfFinishedBets(existingBets)}
-      for
+      &nbsp|&nbsp
       {points(existingBets).toFixed(2)}
-      points</b
-    >
+      points
+    </h2>
     {#each games as game}
       <div
         class={game.isFinished && hasUserBetOnGame(game)
@@ -165,8 +165,8 @@
 
 <style>
   .game-card {
-    background-color: rgb(1, 16, 26);
-    margin-bottom: 1em;
+    background-color: rgb(5, 47, 75);
+    margin-bottom: 0.5em;
     width: 90%;
     padding: 8px;
     border-radius: 10px;
@@ -178,11 +178,11 @@
   }
 
   .success {
-    background-color: rgb(11, 66, 34);
+    background-color: rgb(22, 98, 54);
   }
 
   .failure {
-    background-color: rgb(78, 7, 15);
+    background-color: rgb(88, 28, 35);
   }
 
   .game-card img {
@@ -194,35 +194,34 @@
     align-items: center;
   }
   .team-name-and-logo b {
-    padding: 1em;
+    padding: 0.5em;
   }
   .team-name-and-logo {
     display: flex;
     align-items: center;
-    width: 250px;
+    width: 300px;
   }
   .container {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
+    font-size: 18px;
   }
   .odds {
     display: flex;
     align-items: center;
-    width: 4em;
+    width: 80px;
   }
 
   .input {
-    margin-top: 5px;
-    width: 4em;
+    margin-top: 18px;
+    width: 80px;
   }
 
   button {
     background-color: rgb(231, 117, 52);
     color: white;
-    padding: 10px;
-    cursor: pointer;
   }
 
   .winner {

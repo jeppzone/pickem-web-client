@@ -47,7 +47,9 @@
 <main class="container">
   <div class="login">
     {#if registerToggled}
-      <h1>Register to Pick'em</h1>
+      <div class="title">
+        <h1>Register to Pick'em</h1>
+      </div>
       <form on:submit|preventDefault={registerUser}>
         <div>
           <label for="username">Username</label>
@@ -61,7 +63,9 @@
       </form>
       <span class="span-button" on:click={toggleMode}>or <b>Login</b></span>
     {:else}
-      <h1>Login to Pick'em</h1>
+      <div class="title">
+        <h1>Login to Pick'em</h1>
+      </div>
       <form on:submit|preventDefault={loginUser}>
         <div>
           <label for="username">Username</label>
@@ -93,30 +97,26 @@
     justify-content: center;
     height: 100%;
   }
-  .login {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 360px;
-    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 1);
-    border-radius: 5px;
-    padding: 2vw;
-  }
   .span-button {
     cursor: pointer;
     margin-top: 1em;
   }
-
+  .title {
+    text-align: center;
+  }
   button {
     width: 100%;
     margin-top: 1em;
     cursor: pointer;
+    background-color: rgb(231, 117, 52);
+    color: white;
   }
 
   input {
     padding: 1em;
     border-radius: 5px;
     margin-bottom: 1em;
+    width: 360px;
   }
 
   .action-button {

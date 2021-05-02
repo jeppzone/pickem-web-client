@@ -55,7 +55,7 @@
   table {
     width: 60%;
   }
-  .user-in-league td {
+  .user-in-league td:nth-child(1) {
     border: 1px solid rgb(233, 147, 97);
   }
   table,

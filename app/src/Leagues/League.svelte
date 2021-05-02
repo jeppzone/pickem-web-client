@@ -68,7 +68,7 @@
   }
 
   .my-row td {
-    border: 2px solid rgb(233, 147, 97);
+    /* border: 2px solid rgb(233, 147, 97); */
   }
 
   table,
@@ -83,6 +83,9 @@
   td {
     padding: 1.5em;
     text-align: center;
+  }
+  .my-row td:nth-child(2) {
+    border: 2px solid rgb(233, 147, 97);
   }
   tr:nth-child(odd) {
     background-color: rgb(12, 35, 49);

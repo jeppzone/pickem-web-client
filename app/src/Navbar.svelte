@@ -22,7 +22,7 @@
 {#if $loggedInUser !== null}
   <div class="navbar">
     <div class="title">
-      <img on:click={() => goTo("/")} src="./assets/logo.png" alt="NFL Pick'em" />
+      <img on:click={() => goTo("/")} src="assets/logo.png" alt="NFL Pick'em" />
     </div>
     <div class="navbar-pages">
       <p on:click={() => goTo("/bets")} class={path.includes("/bets") ? "selected" : ""}>Bets</p>
@@ -49,6 +49,7 @@
     left: 0;
     z-index: 3;
     overflow-x: hidden;
+    font-size: 18px;
   }
 
   .title img {

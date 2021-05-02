@@ -42,12 +42,24 @@ input[type="range"] {
 	height: 0;
 }
 
+input, select {
+    padding: 1em;
+    border-radius: 5px;
+    margin-bottom: 1em;
+}
+
+label{
+	margin-bottom: 10px;
+}
+
 button {
 	color: #333;
 	background-color: #f4f4f4;
 	outline: none;
 	border-radius: 5px;
 	padding: 1em;
+	cursor: pointer;
+	font-size: 20px;
 }
 
 button:disabled {
@@ -69,9 +81,7 @@ button:focus {
 	-o-animation: fadein 0.5s; /* Opera < 12.1 */
 	animation: fadein 0.5s;
 
-	background: #141e30; /* fallback for old browsers */
-	background: -webkit-linear-gradient(to right, #243b55, #141e30); /* Chrome 10-25, Safari 5.1-6 */
-	background: linear-gradient(to right, #243b55, #141e30); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+	background: rgb(26, 74, 104);
 	min-height: 100vh;
 	color: white;
 }

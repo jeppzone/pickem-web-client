@@ -46,9 +46,12 @@
 
 <main class="container">
   <div class="login">
+    <div>
+      <img src="assets/logo-text.png" alt="NFL Pick'em" />
+    </div>
     {#if registerToggled}
       <div class="title">
-        <h1>Register to Pick'em</h1>
+        <h1>Register</h1>
       </div>
       <form on:submit|preventDefault={registerUser}>
         <div>
@@ -64,7 +67,7 @@
       <span class="span-button" on:click={toggleMode}>or <b>Login</b></span>
     {:else}
       <div class="title">
-        <h1>Login to Pick'em</h1>
+        <h1>Login</h1>
       </div>
       <form on:submit|preventDefault={loginUser}>
         <div>
@@ -97,9 +100,15 @@
     justify-content: center;
     height: 100%;
   }
+  .login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
   .span-button {
     cursor: pointer;
     margin-top: 1em;
+    font-size: 20px;
   }
   .title {
     text-align: center;
@@ -117,6 +126,10 @@
     border-radius: 5px;
     margin-bottom: 1em;
     width: 360px;
+  }
+
+  label {
+    font-size: 18px;
   }
 
   .action-button {

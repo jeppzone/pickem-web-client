@@ -2,13 +2,13 @@
   import { createEventDispatcher, onMount } from "svelte";
   import { fetchGames, fetchGamesForCurrentWeek } from "./api";
   const dispatch = createEventDispatcher();
-  let season = 2020;
+  let season = 2021;
   let seasonType = "Pre";
   let week = 1;
   let games = [];
-  const seasons = [2020];
+  const seasons = [2021];
   let weeks = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17];
-  const seasonTypes = ["Pre", "Reg", "Post"];
+  const seasonTypes = ["Reg", "Post"];
 
   onMount(async () => {
     dispatch("season-select-started");

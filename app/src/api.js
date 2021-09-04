@@ -1,4 +1,4 @@
-const url = "https://localhost:5003/api";
+const url = "https://pickem-api-dev.herokuapp.com/api";
 
 export {
   login,

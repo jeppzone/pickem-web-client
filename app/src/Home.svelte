@@ -8,10 +8,12 @@
     <img src="./assets/logo-text.png" alt="Pickem" />
   </section>
   <section class="description">
-    <h3>Make bets. Compete against others. No money involved!</h3>
+    <h3>Join a league. Make bets. Compete against others!</h3>
   </section>
   <section class="navigation">
-    <Navigate to="/leagues"><button class="button">Join a league</button></Navigate>
+    <Navigate to="/leagues"
+      ><button class="button">Join a league</button></Navigate
+    >
     <p />
     <Navigate to="/bets"><button class="button">Make bets</button></Navigate>
   </section>

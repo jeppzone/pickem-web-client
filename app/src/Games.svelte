@@ -7,16 +7,26 @@
 
   onMount(async () => {
     games = await fetchGamesForCurrentWeek();
+    games = games.sort((a, b) => {
+      return new Date(a.startTime) - new Date(b.startTime);
+    });
   });
 </script>
 
 <div class="container">
-  <h2>Recent games</h2>
+  <h2>Recent / upcoming games</h2>
   {#if loading}
     <LoadingIndicator />
   {:else}
     {#each games as game}
       <div class="game-card">
+        <div class="start-time">
+          <i>
+            {`${new Date(game.startTime).toLocaleDateString(
+              "sv-SE"
+            )} ${new Date(game.startTime).toLocaleTimeString("sv-SE")}`}
+          </i>
+        </div>
         <div class="team">
           <div class="team-name-and-logo">
             <span>
@@ -71,5 +81,10 @@
     align-items: center;
     width: 100%;
     font-size: 18px;
+  }
+
+  .start-time {
+    padding-bottom: 1vh;
+    padding-left: 0.5vh;
   }
 </style>

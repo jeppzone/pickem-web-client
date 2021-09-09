@@ -7,7 +7,6 @@
   import LoadingIndicator from "./LoadingIndicator.svelte";
   let username;
   let password;
-  let email;
   let registerToggled = false;
   let loading = false;
 
@@ -57,8 +56,6 @@
         <div>
           <label for="username">Username</label>
           <input id="username" bind:value={username} type="text" />
-          <label for="email">Email</label>
-          <input id="email" bind:value={email} type="email" />
           <label for="password">Password</label>
           <input id="password" bind:value={password} type="password" />
         </div>

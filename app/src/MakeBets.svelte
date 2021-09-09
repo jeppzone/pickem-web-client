@@ -93,7 +93,7 @@
   />
   {#if loading}
     <LoadingIndicator />
-  {:else}
+  {:else if games.length > 0}
     <h2>
       {nbrOfSuccessfulBets(existingBets)}
       /
@@ -182,6 +182,8 @@
     <button type="submit" on:click|preventDefault={submitBets}
       >Place bets</button
     >
+  {:else}
+    <h2>No games yet</h2>
   {/if}
 </div>
 

@@ -20,31 +20,45 @@
   }
 
   function handleLeagueJoined(evt) {
-    otherLeagues = otherLeagues.filter((l) => l.id !== evt.detail.joinedLeague.id);
+    otherLeagues = otherLeagues.filter(
+      (l) => l.id !== evt.detail.joinedLeague.id
+    );
     joinedLeagues = [...joinedLeagues, evt.detail.joinedLeague];
     leagues = [...joinedLeagues, ...otherLeagues];
   }
 
   function handleLeagueDeleted(evt) {
-    joinedLeagues = joinedLeagues.filter((l) => l.id !== evt.detail.deletedLeague.id);
+    joinedLeagues = joinedLeagues.filter(
+      (l) => l.id !== evt.detail.deletedLeague.id
+    );
     leagues = [...joinedLeagues, ...otherLeagues];
   }
 
   onMount(async () => {
     leagues = await fetchLeagues($loggedInUser);
-    joinedLeagues = leagues.filter((l) => Object.keys(l.users).includes($loggedInUser.id));
+    console.log(leagues);
+    joinedLeagues = leagues.filter((l) =>
+      Object.keys(l.users).includes($loggedInUser.id)
+    );
     otherLeagues = leagues.filter((l) => !joinedLeagues.includes(l));
     leagues = [...joinedLeagues, ...otherLeagues];
   });
 </script>
 
 <div class="container">
-  {#if joinedLeagues && joinedLeagues.length > 0}
+  {#if leagues && leagues.length > 0}
     <h1>Leagues</h1>
-    <LeagueTable {leagues} on:delete-league-succeeded={handleLeagueDeleted} on:join-league-succeeded={handleLeagueJoined} />
+    <LeagueTable
+      {leagues}
+      on:delete-league-succeeded={handleLeagueDeleted}
+      on:join-league-succeeded={handleLeagueJoined}
+    />
   {/if}
   {#if createToggled}
-    <CreateLeagues on:create-league-cancelled={toggleCreate} on:create-league-succeeded={handleLeagueCreated} />
+    <CreateLeagues
+      on:create-league-cancelled={toggleCreate}
+      on:create-league-succeeded={handleLeagueCreated}
+    />
   {:else}<button on:click={toggleCreate}>Create League</button>{/if}
 </div>
 

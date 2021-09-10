@@ -6,10 +6,16 @@
   let loading = false;
 
   onMount(async () => {
-    games = await fetchGamesForCurrentWeek();
-    games = games.sort((a, b) => {
-      return new Date(a.startTime) - new Date(b.startTime);
-    });
+    loading = true;
+    try {
+      games = await fetchGamesForCurrentWeek();
+      games = games.sort((a, b) => {
+        return new Date(a.startTime) - new Date(b.startTime);
+      });
+    } catch (err) {
+      loading = false;
+    }
+    loading = false;
   });
 </script>
 

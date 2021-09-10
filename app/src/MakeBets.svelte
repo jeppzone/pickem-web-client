@@ -27,9 +27,19 @@
         madeChoices[key] = choices[key];
       }
     }
-    await makeBets(madeChoices, $loggedInUser);
-    loading = false;
-    toast.push("Bets made");
+    try {
+      await makeBets(madeChoices, $loggedInUser);
+      loading = false;
+      toast.push("Bets made");
+    } catch (err) {
+      loading = false;
+      toast.push("Something went wrong while placing bets", {
+        theme: {
+          "--toastBackground": "#f54260",
+          "--toastProgressBackground": "white",
+        },
+      });
+    }
   }
 
   async function setUpBets(games) {

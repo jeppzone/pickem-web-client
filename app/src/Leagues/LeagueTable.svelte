@@ -81,4 +81,14 @@
   tr td:nth-child(6) {
     background-color: rgb(231, 117, 52);
   }
+  @media only screen and (max-width: 600px) {
+    th {
+      padding: 2vw;
+      text-align: center;
+    }
+    td {
+      padding: 2vw;
+      text-align: center;
+    }
+  }
 </style>

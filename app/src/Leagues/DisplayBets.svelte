@@ -166,4 +166,15 @@
     cursor: pointer;
     margin-top: 1em;
   }
+
+  @media only screen and (max-width: 600px) {
+    th {
+      padding: 2vw;
+      text-align: center;
+    }
+    td {
+      padding: 2vw;
+      text-align: center;
+    }
+  }
 </style>

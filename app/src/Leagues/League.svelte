@@ -67,11 +67,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    max-width: 100%;
   }
 
   table {
-    width: 60%;
+    width: 100%;
   }
 
   table,
@@ -95,5 +94,16 @@
   }
   tr:nth-child(even) {
     background-color: rgb(12, 35, 49);
+  }
+
+  @media only screen and (max-width: 600px) {
+    th {
+      padding: 2vw;
+      text-align: center;
+    }
+    td {
+      padding: 2vw;
+      text-align: center;
+    }
   }
 </style>

@@ -98,11 +98,11 @@
 
   @media only screen and (max-width: 600px) {
     th {
-      padding: 2vw;
+      padding: 1vw;
       text-align: center;
     }
     td {
-      padding: 2vw;
+      padding: 1vw;
       text-align: center;
     }
   }

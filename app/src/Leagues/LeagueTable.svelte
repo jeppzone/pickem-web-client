@@ -53,7 +53,7 @@
 
 <style>
   table {
-    width: 60%;
+    width: 100%;
   }
   .user-in-league td:nth-child(1) {
     border: 1px solid rgb(233, 147, 97);
@@ -83,11 +83,11 @@
   }
   @media only screen and (max-width: 600px) {
     th {
-      padding: 2vw;
+      padding: 1vw;
       text-align: center;
     }
     td {
-      padding: 2vw;
+      padding: 1vw;
       text-align: center;
     }
   }

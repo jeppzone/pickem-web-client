@@ -40,11 +40,11 @@
     <h2>Standings</h2>
     <table>
       <tr>
-        <th>Position</th>
-        <th>Username</th>
+        <th>#</th>
+        <th>User</th>
         <th>Points</th>
-        <th>Correct bets</th>
-        <th>% correct</th>
+        <th># Correct</th>
+        <th>% Correct</th>
       </tr>
       {#each Object.entries(leaderBoard) as [k, v], index}
         <tr class={users[k].id === $loggedInUser?.id ? "my-row" : ""}>
@@ -70,7 +70,7 @@
   }
 
   table {
-    width: 100%;
+    width: 60%;
   }
 
   table,
@@ -97,6 +97,9 @@
   }
 
   @media only screen and (max-width: 600px) {
+    table {
+      width: 100%;
+    }
     th {
       padding: 1vw;
       text-align: center;

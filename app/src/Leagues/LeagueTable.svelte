@@ -20,7 +20,6 @@
     <th>Players</th>
     <th>Admin</th>
     <th>Season</th>
-    <th>League ends</th>
   </tr>
   {#each leagues as league}
     <tr class={isLoggedInUserInLeague(league) ? "user-in-league" : ""}>
@@ -32,7 +31,6 @@
       <td>{getNbrOfPlayers(league)}</td>
       <td>{league.admin.username}</td>
       <td>{league.season}</td>
-      <td>{new Date(league.endsAt).toLocaleDateString("sv-SE")}</td>
       {#if !isLoggedInUserInLeague(league)}
         <td>
           <div class="button">
@@ -53,7 +51,7 @@
 
 <style>
   table {
-    width: 100%;
+    width: 60%;
   }
   .user-in-league td:nth-child(1) {
     border: 1px solid rgb(233, 147, 97);
@@ -78,10 +76,13 @@
   tr:nth-child(even) {
     background-color: rgb(12, 35, 49);
   }
-  tr td:nth-child(6) {
+  tr td:nth-child(5) {
     background-color: rgb(231, 117, 52);
   }
   @media only screen and (max-width: 600px) {
+    table {
+      width: 100%;
+    }
     th {
       padding: 1vw;
       text-align: center;

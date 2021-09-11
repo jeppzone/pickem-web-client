@@ -150,7 +150,7 @@
 
   @media only screen and (max-width: 600px) {
     .navbar {
-      width: 90vw;
+      width: 100vw;
       height: 100vh;
     }
     .hamburger {

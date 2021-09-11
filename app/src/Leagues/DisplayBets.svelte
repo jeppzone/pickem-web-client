@@ -168,13 +168,20 @@
   }
 
   @media only screen and (max-width: 600px) {
+    table {
+      width: 100%;
+    }
     th {
-      padding: 2vw;
+      padding: 1vw;
       text-align: center;
     }
     td {
-      padding: 2vw;
+      padding: 1vw;
       text-align: center;
+    }
+    .game-heading {
+      padding-left: 0;
+      padding-right: 0;
     }
   }
 </style>

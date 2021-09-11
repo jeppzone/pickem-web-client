@@ -7,32 +7,46 @@
   let path;
   $: path = currentRoute.name;
 
+  let open = false;
+  let innerWidth;
+
   function logOut() {
     $loggedInUser = null;
     navigateTo("/login");
   }
 
   function goTo(path) {
+    open = false;
     if ($loggedInUser !== null) {
       navigateTo(path);
     }
   }
 </script>
 
+<svelte:window bind:innerWidth />
 {#if $loggedInUser !== null}
-  <div class="navbar">
-    <div class="title">
-      <img on:click={() => goTo("/")} src="assets/logo.png" alt="NFL Pick'em" />
+  <button class="hamburger" class:open on:click={() => (open = !open)}>
+    <svg width="32" height="24">
+      <line id="top" x1="0" y1="2" x2="32" y2="2" />
+      <line id="middle" x1="0" y1="12" x2="24" y2="12" />
+      <line id="bottom" x1="0" y1="22" x2="32" y2="22" />
+    </svg>
+  </button>
+  {#if open || innerWidth > 600}
+    <div class="navbar">
+      <div class="title">
+        <img on:click={() => goTo("/")} src="assets/logo.png" alt="NFL Pick'em" />
+      </div>
+      <div class="navbar-pages">
+        <p on:click={() => goTo("/bets")} class={path.includes("/bets") ? "selected" : ""}>Bets</p>
+        <p on:click={() => goTo("/leagues")} class={path.includes("/leagues") ? "selected" : ""}>Leagues</p>
+      </div>
+      <div class="user-info">
+        <h3>{$loggedInUser?.username}</h3>
+        <p on:click={logOut}>Logout</p>
+      </div>
     </div>
-    <div class="navbar-pages">
-      <p on:click={() => goTo("/bets")} class={path.includes("/bets") ? "selected" : ""}>Bets</p>
-      <p on:click={() => goTo("/leagues")} class={path.includes("/leagues") ? "selected" : ""}>Leagues</p>
-    </div>
-    <div class="user-info">
-      <h3>{$loggedInUser?.username}</h3>
-      <p on:click={logOut}>Logout</p>
-    </div>
-  </div>
+  {/if}
 {/if}
 
 <style>
@@ -89,5 +103,65 @@
     -ms-animation: fadein 0.5s; /* Internet Explorer */
     -o-animation: fadein 0.5s; /* Opera < 12.1 */
     animation: fadein 0.5s;
+  }
+
+  .hamburger {
+    display: none;
+    z-index: 1000;
+    margin-left: 0px;
+    position: fixed;
+    top: 0;
+  }
+
+  button {
+    background-color: rgb(12, 35, 49);
+    outline: none;
+    border: none;
+  }
+
+  .open svg {
+    transform: scale(0.7);
+  }
+
+  .open #top {
+    transform: translate(6px, 0px) rotate(45deg);
+  }
+
+  .open #middle {
+    opacity: 0;
+  }
+
+  .open #bottom {
+    transform: translate(-12px, 9px) rotate(-45deg);
+  }
+
+  svg {
+    color: white;
+    background-color: rgb(12, 35, 49);
+    min-height: 24px;
+    transition: transform 0.3s ease-in-out;
+  }
+
+  svg line {
+    stroke: currentColor;
+    stroke-width: 3;
+    transition: transform 0.3s ease-in-out;
+  }
+
+  @media only screen and (max-width: 600px) {
+    .navbar {
+      width: 90vw;
+      height: 100vh;
+    }
+    .hamburger {
+      display: block;
+      background-color: rgb(12, 35, 49);
+    }
+    .user-info {
+      position: relative;
+    }
+    .title {
+      margin-top: 60px;
+    }
   }
 </style>

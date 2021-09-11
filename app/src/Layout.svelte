@@ -31,4 +31,11 @@
     --toastBackground: rgb(12, 35, 49);
     --toastColor: white;
   }
+
+  @media only screen and (max-width: 600px) {
+    .routes {
+      margin-left: 0px;
+      width: 100vw;
+    }
+  }
 </style>

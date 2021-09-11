@@ -2,6 +2,7 @@
   import { fetchLeague } from "../api";
   import { onMount } from "svelte";
   import { loggedInUser } from "../auth";
+  import DisplayBets from "./DisplayBets.svelte";
   export let currentRoute;
   let league = {};
   let users = {};
@@ -9,7 +10,6 @@
   onMount(async () => {
     const leagueId = currentRoute.namedParams.id;
     league = await fetchLeague($loggedInUser, leagueId);
-    console.log(league);
     users = league.users;
     for (const [userId, _] of Object.entries(league.users)) {
       let userLeaderboard = {};
@@ -17,7 +17,7 @@
       userLeaderboard.points = 0;
       userLeaderboard.nbrFinished = 0;
       userLeaderboard.nbrCorrect = 0;
-      var userBets = league.bets[userId];
+      let userBets = league.bets[userId];
       if (userBets) {
         for (const bet of userBets) {
           userLeaderboard.points += bet.points;
@@ -28,12 +28,16 @@
       leaderBoard[userId] = userLeaderboard;
     }
   });
+
+  function isLoggedInUserInLeague() {
+    return Object.keys(users).includes($loggedInUser.id);
+  }
 </script>
 
 <div class="container">
   {#if users}
-    <h2>{league.name}</h2>
-    <h3>League ends {new Date(league.endsAt).toLocaleDateString("sv-SE")}</h3>
+    <h1>{league.name}</h1>
+    <h2>Standings</h2>
     <table>
       <tr>
         <th>Position</th>
@@ -53,6 +57,9 @@
       {/each}
     </table>
   {/if}
+  {#if league.bets && isLoggedInUserInLeague()}
+    <DisplayBets {league} />
+  {/if}
 </div>
 
 <style>
@@ -65,10 +72,6 @@
 
   table {
     width: 60%;
-  }
-
-  .my-row td {
-    /* border: 2px solid rgb(233, 147, 97); */
   }
 
   table,

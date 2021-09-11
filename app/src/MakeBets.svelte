@@ -46,12 +46,7 @@
     try {
       if (games && games.length > 0) {
         choices = {};
-        existingBets = await fetchBets(
-          games[0].season,
-          games[0].seasonType,
-          games[0].week,
-          $loggedInUser
-        );
+        existingBets = await fetchBets(games[0].season, games[0].seasonType, games[0].week, $loggedInUser);
         games.forEach((g) => {
           var matchingBet = existingBets.find((b) => b.game.id === g.id);
           choices[g.id] = matchingBet ? matchingBet.winningTeam.id : -1;
@@ -97,10 +92,7 @@
 
 <div class="container">
   <h1>Make bets</h1>
-  <SelectSeason
-    on:season-select-started={handleSeasonSelectStarted}
-    on:season-select-finished={handleSeasonSelectFinished}
-  />
+  <SelectSeason on:season-select-started={handleSeasonSelectStarted} on:season-select-finished={handleSeasonSelectFinished} />
   {#if loading}
     <LoadingIndicator />
   {:else if games.length > 0}
@@ -122,9 +114,7 @@
       >
         <div class="start-time">
           <i>
-            {`${new Date(game.startTime).toLocaleDateString(
-              "sv-SE"
-            )} ${new Date(game.startTime).toLocaleTimeString("sv-SE")}`}
+            {`${new Date(game.startTime).toLocaleDateString("sv-SE")} ${new Date(game.startTime).toLocaleTimeString("sv-SE")}`}
           </i>
         </div>
         <div class="team">
@@ -144,17 +134,9 @@
             />
           </div>
           {#if game.isFinished}
-            <div
-              class={game?.awayTeam?.id === game?.winner?.id
-                ? "winner"
-                : "loser"}
-            >
+            <div class={game?.awayTeam?.id === game?.winner?.id ? "winner" : "loser"}>
               {game.awayTeamScore}
             </div>
-            {#if isBetOnTeam(existingBets, game, game.awayTeam)}
-              <b>{pointsForGame(existingBets, game)}&nbsp;</b>
-              points
-            {/if}
           {/if}
         </div>
         <div class="team">
@@ -174,24 +156,14 @@
             />
           </div>
           {#if game.isFinished}
-            <div
-              class={game?.homeTeam?.id === game?.winner?.id
-                ? "winner"
-                : "loser"}
-            >
+            <div class={game?.homeTeam?.id === game?.winner?.id ? "winner" : "loser"}>
               {game.homeTeamScore}
             </div>
-            {#if isBetOnTeam(existingBets, game, game.homeTeam)}
-              <b>{pointsForGame(existingBets, game)}&nbsp;</b>
-              points
-            {/if}
           {/if}
         </div>
       </div>
     {/each}
-    <button type="submit" on:click|preventDefault={submitBets}
-      >Place bets</button
-    >
+    <button type="submit" on:click|preventDefault={submitBets}>Place bets</button>
   {:else}
     <h2>No games yet</h2>
   {/if}

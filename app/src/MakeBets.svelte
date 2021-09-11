@@ -69,16 +69,6 @@
     return bets.reduce((x, y) => x + y.points, 0);
   }
 
-  function pointsForGame(bets, game) {
-    var existingBet = bets.find((b) => b.game.id === game.id);
-    return existingBet ? existingBet.points : 0;
-  }
-
-  function isBetOnTeam(bets, game, team) {
-    var existingBet = bets.find((b) => b.game.id === game.id);
-    return existingBet ? existingBet.winningTeam.id === team.id : false;
-  }
-
   function isBetSuccessful(bets, game) {
     var existingBet = bets.find((b) => b.game.id === game.id);
     return existingBet ? existingBet.successful : false;

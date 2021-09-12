@@ -3,29 +3,37 @@
   import { onMount } from "svelte";
   import { loggedInUser } from "../auth";
   import DisplayBets from "./DisplayBets.svelte";
+  import LoadingIndicator from "../LoadingIndicator.svelte";
   export let currentRoute;
   let league = {};
   let users = {};
   let leaderBoard = {};
+  let loading = false;
   onMount(async () => {
-    const leagueId = currentRoute.namedParams.id;
-    league = await fetchLeague($loggedInUser, leagueId);
-    users = league.users;
-    for (const [userId, _] of Object.entries(league.users)) {
-      let userLeaderboard = {};
-      userLeaderboard = {};
-      userLeaderboard.points = 0;
-      userLeaderboard.nbrFinished = 0;
-      userLeaderboard.nbrCorrect = 0;
-      let userBets = league.bets[userId];
-      if (userBets) {
-        for (const bet of userBets) {
-          userLeaderboard.points += bet.points;
-          userLeaderboard.nbrFinished += bet.finished ? 1 : 0;
-          userLeaderboard.nbrCorrect += bet.successful ? 1 : 0;
+    loading = true;
+    try {
+      const leagueId = currentRoute.namedParams.id;
+      league = await fetchLeague($loggedInUser, leagueId);
+      users = league.users;
+      for (const [userId, _] of Object.entries(league.users)) {
+        let userLeaderboard = {};
+        userLeaderboard = {};
+        userLeaderboard.points = 0;
+        userLeaderboard.nbrFinished = 0;
+        userLeaderboard.nbrCorrect = 0;
+        let userBets = league.bets[userId];
+        if (userBets) {
+          for (const bet of userBets) {
+            userLeaderboard.points += bet.points;
+            userLeaderboard.nbrFinished += bet.finished ? 1 : 0;
+            userLeaderboard.nbrCorrect += bet.successful ? 1 : 0;
+          }
         }
+        leaderBoard[userId] = userLeaderboard;
+        loading = false;
       }
-      leaderBoard[userId] = userLeaderboard;
+    } catch (err) {
+      loading = false;
     }
   });
 
@@ -35,30 +43,34 @@
 </script>
 
 <div class="container">
-  {#if users}
-    <h1>{league.name}</h1>
-    <h2>Standings</h2>
-    <table>
-      <tr>
-        <th>#</th>
-        <th>User</th>
-        <th>Points</th>
-        <th># Correct</th>
-        <th>% Correct</th>
-      </tr>
-      {#each Object.entries(leaderBoard) as [k, v], index}
-        <tr class={users[k].id === $loggedInUser?.id ? "my-row" : ""}>
-          <td>{index + 1}</td>
-          <td>{users[k].username}</td>
-          <td>{v.points.toFixed(2)}</td>
-          <td>{v.nbrCorrect}</td>
-          <td>{((v.nbrCorrect / v.nbrFinished) * 100 || 0).toFixed(2)}</td>
+  {#if loading}
+    <LoadingIndicator />
+  {:else}
+    {#if users}
+      <h1>{league.name}</h1>
+      <h2>Standings</h2>
+      <table>
+        <tr>
+          <th>#</th>
+          <th>User</th>
+          <th>Points</th>
+          <th># Correct</th>
+          <th>% Correct</th>
         </tr>
-      {/each}
-    </table>
-  {/if}
-  {#if league.bets && isLoggedInUserInLeague()}
-    <DisplayBets {league} />
+        {#each Object.entries(leaderBoard) as [k, v], index}
+          <tr class={users[k].id === $loggedInUser?.id ? "my-row" : ""}>
+            <td>{index + 1}</td>
+            <td>{users[k].username}</td>
+            <td>{v.points.toFixed(2)}</td>
+            <td>{v.nbrCorrect}</td>
+            <td>{((v.nbrCorrect / v.nbrFinished) * 100 || 0).toFixed(2)}</td>
+          </tr>
+        {/each}
+      </table>
+    {/if}
+    {#if league.bets && isLoggedInUserInLeague()}
+      <DisplayBets {league} />
+    {/if}
   {/if}
 </div>
 

@@ -13,6 +13,8 @@
     opacity: 1;
     position: relative;
     transition: opacity linear 0.1s;
+    margin-top: 10px;
+    margin-bottom: 10px;
   }
   .spinner::before {
     animation: 1s linear infinite spinner;

@@ -20,25 +20,24 @@
   }
 
   async function submitBets() {
-    loading = true;
     const madeChoices = {};
     for (const key of Object.keys(choices)) {
       if (choices[key] !== -1 && !games.find((g) => g.id === key).isFinished) {
         madeChoices[key] = choices[key];
       }
     }
+    if (games.filter((g) => g.isBetable).length !== Object.keys(madeChoices).length) {
+      pushErrorToast("You need to bet on all betable games");
+      return;
+    }
+    loading = true;
     try {
       await makeBets(madeChoices, $loggedInUser);
       loading = false;
       toast.push("Bets made");
     } catch (err) {
       loading = false;
-      toast.push("Something went wrong while placing bets", {
-        theme: {
-          "--toastBackground": "#f54260",
-          "--toastProgressBackground": "white",
-        },
-      });
+      pushErrorToast("Something went wrong while placing bets");
     }
   }
 
@@ -47,10 +46,12 @@
       if (games && games.length > 0) {
         choices = {};
         existingBets = await fetchBets(games[0].season, games[0].seasonType, games[0].week, $loggedInUser);
-        games.forEach((g) => {
-          var matchingBet = existingBets.find((b) => b.game.id === g.id);
-          choices[g.id] = matchingBet ? matchingBet.winningTeam.id : -1;
-        });
+        games
+          .filter((g) => g.isBetable)
+          .forEach((g) => {
+            var matchingBet = existingBets.find((b) => b.game.id === g.id);
+            choices[g.id] = matchingBet ? matchingBet.winningTeam.id : -1;
+          });
       }
     } catch (err) {
       toast.push("Could not fetch bets");
@@ -108,6 +109,15 @@
   function allBetsMade(games, existingBets) {
     return existingBets.length === games.length;
   }
+
+  function pushErrorToast(message) {
+    toast.push(message, {
+      theme: {
+        "--toastBackground": "#f54260",
+        "--toastProgressBackground": "white",
+      },
+    });
+  }
 </script>
 
 <div class="container">
@@ -141,7 +151,7 @@
               {game.awayTeamScore}
             </div>
           {/if}
-          {#if !hasUserBetOnGame(game, existingBets) && !game.isFinished}
+          {#if !hasUserBetOnGame(game, existingBets) && game.isBetable}
             <div class="odds">{game.awayTeamOdds || "N/A"}</div>
             <div class="input">
               <input
@@ -174,7 +184,7 @@
               {game.homeTeamScore}
             </div>
           {/if}
-          {#if !hasUserBetOnGame(game, existingBets)}
+          {#if !hasUserBetOnGame(game, existingBets) && game.isBetable}
             <div class="odds">{game.homeTeamOdds || "N/A"}</div>
             <div class="input">
               <input
@@ -300,5 +310,16 @@
   .start-time {
     padding-bottom: 1vh;
     padding-left: 0.5vh;
+  }
+
+  @media only screen and (max-width: 600px) {
+    .team-name-and-logo {
+      width: 200px;
+    }
+    .not-finished-score,
+    .winner,
+    .loser {
+      width: 1.5em;
+    }
   }
 </style>

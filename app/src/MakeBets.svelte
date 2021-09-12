@@ -74,9 +74,39 @@
     return existingBet ? existingBet.successful : false;
   }
 
-  function hasUserBetOnGame(game) {
-    var existingBet = existingBets.find((b) => b.game.id === game.id);
+  function getBetByGame(game, existingBets) {
+    return existingBets.find((b) => b.game.id === game.id);
+  }
+
+  function hasUserBetOnGame(game, existingBets) {
+    const existingBet = getBetByGame(game, existingBets);
     return existingBet ? true : false;
+  }
+
+  function isBetOnTeam(game, team, existingBets) {
+    const bet = getBetByGame(game, existingBets);
+    return bet?.winningTeam?.id === team.id;
+  }
+
+  function getGameCardClass(existingBets, game) {
+    return game.isFinished && hasUserBetOnGame(game, existingBets)
+      ? isBetSuccessful(existingBets, game)
+        ? "game-card success"
+        : "game-card failure"
+      : "game-card";
+  }
+
+  function getPointsText(existingBets) {
+    return `${nbrOfSuccessfulBets(existingBets)}/${nbrOfFinishedBets(existingBets)} | 
+    ${points(existingBets).toFixed(2)} points`;
+  }
+
+  function displayDate(date) {
+    return `${new Date(date).toLocaleDateString("sv-SE")} ${new Date(date).toLocaleTimeString("sv-SE")}`;
+  }
+
+  function allBetsMade(games, existingBets) {
+    return existingBets.length === games.length;
   }
 </script>
 
@@ -86,26 +116,14 @@
   {#if loading}
     <LoadingIndicator />
   {:else if games.length > 0}
-    <h2>
-      {nbrOfSuccessfulBets(existingBets)}
-      /
-      {nbrOfFinishedBets(existingBets)}
-      &nbsp|&nbsp
-      {points(existingBets).toFixed(2)}
-      points
-    </h2>
+    <h2>{getPointsText(existingBets)}</h2>
+    {#if allBetsMade(games, existingBets)}
+      <p>All bets made for this week</p>
+    {/if}
     {#each games as game}
-      <div
-        class={game.isFinished && hasUserBetOnGame(game)
-          ? isBetSuccessful(existingBets, game)
-            ? "game-card success"
-            : "game-card failure"
-          : "game-card"}
-      >
+      <div class={getGameCardClass(existingBets, game)}>
         <div class="start-time">
-          <i>
-            {`${new Date(game.startTime).toLocaleDateString("sv-SE")} ${new Date(game.startTime).toLocaleTimeString("sv-SE")}`}
-          </i>
+          <i>{displayDate(game.startTime)}</i>
         </div>
         <div class="team">
           <div class="team-name-and-logo">
@@ -114,18 +132,29 @@
             </span>
             <span> <b>{game.awayTeam.name}</b> </span>
           </div>
-          <div class="odds">{game.awayTeamOdds || "N/A"}</div>
-          <div class="input">
-            <input
-              type="radio"
-              bind:group={choices[game.id]}
-              value={game.awayTeam.id}
-              disabled={game.isFinished || game.isOngoing || !game.awayTeamOdds}
-            />
-          </div>
           {#if game.isFinished}
             <div class={game?.awayTeam?.id === game?.winner?.id ? "winner" : "loser"}>
               {game.awayTeamScore}
+            </div>
+          {:else}
+            <div class="not-finished-score">
+              {game.awayTeamScore}
+            </div>
+          {/if}
+          {#if !hasUserBetOnGame(game, existingBets) && !game.isFinished}
+            <div class="odds">{game.awayTeamOdds || "N/A"}</div>
+            <div class="input">
+              <input
+                type="radio"
+                bind:group={choices[game.id]}
+                value={game.awayTeam.id}
+                disabled={game.isFinished || game.isOngoing || !game.awayTeamOdds}
+              />
+            </div>
+          {:else if isBetOnTeam(game, game.awayTeam, existingBets)}
+            <div>
+              {game.awayTeam.abbreviation} <b>@</b>
+              {getBetByGame(game, existingBets).game.awayTeamOdds}
             </div>
           {/if}
         </div>
@@ -136,24 +165,37 @@
             </span>
             <span> <b>{game.homeTeam.name}</b> </span>
           </div>
-          <div class="odds">{game.homeTeamOdds || "N/A"}</div>
-          <div class="input">
-            <input
-              type="radio"
-              bind:group={choices[game.id]}
-              value={game.homeTeam.id}
-              disabled={game.isFinished || game.isOngoing || !game.homeTeamOdds}
-            />
-          </div>
           {#if game.isFinished}
             <div class={game?.homeTeam?.id === game?.winner?.id ? "winner" : "loser"}>
               {game.homeTeamScore}
+            </div>
+          {:else}
+            <div class="not-finished-score">
+              {game.homeTeamScore}
+            </div>
+          {/if}
+          {#if !hasUserBetOnGame(game, existingBets)}
+            <div class="odds">{game.homeTeamOdds || "N/A"}</div>
+            <div class="input">
+              <input
+                type="radio"
+                bind:group={choices[game.id]}
+                value={game.homeTeam.id}
+                disabled={game.isFinished || game.isOngoing || !game.homeTeamOdds}
+              />
+            </div>
+          {:else if isBetOnTeam(game, game.homeTeam, existingBets)}
+            <div>
+              {game.homeTeam.abbreviation} <b>@</b>
+              {getBetByGame(game, existingBets).game.homeTeamOdds}
             </div>
           {/if}
         </div>
       </div>
     {/each}
-    <button type="submit" on:click|preventDefault={submitBets}>Place bets</button>
+    {#if !allBetsMade(games, existingBets)}
+      <button type="submit" on:click|preventDefault={submitBets}>Place bets</button>
+    {/if}
   {:else}
     <h2>No games yet</h2>
   {/if}
@@ -207,7 +249,7 @@
   .odds {
     display: flex;
     align-items: center;
-    width: 80px;
+    width: 100px;
   }
 
   .input {
@@ -227,6 +269,10 @@
 
   .loser {
     opacity: 0.8;
+    width: 4em;
+  }
+
+  .not-finished-score {
     width: 4em;
   }
 

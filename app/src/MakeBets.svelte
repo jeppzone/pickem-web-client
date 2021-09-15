@@ -26,7 +26,10 @@
         madeChoices[key] = choices[key];
       }
     }
-    if (games.filter((g) => g.isBetable).length !== Object.keys(madeChoices).length) {
+    if (
+      games.filter((g) => g.isBetable).length !==
+      Object.keys(madeChoices).length
+    ) {
       pushErrorToast("You need to bet on all betable games");
       return;
     }
@@ -45,13 +48,12 @@
     try {
       if (games && games.length > 0) {
         choices = {};
-        existingBets = await fetchBets(games[0].season, games[0].seasonType, games[0].week, $loggedInUser);
-        games
-          .filter((g) => g.isBetable)
-          .forEach((g) => {
-            var matchingBet = existingBets.find((b) => b.game.id === g.id);
-            choices[g.id] = matchingBet ? matchingBet.winningTeam.id : -1;
-          });
+        existingBets = await fetchBets(
+          games[0].season,
+          games[0].seasonType,
+          games[0].week,
+          $loggedInUser
+        );
       }
     } catch (err) {
       toast.push("Could not fetch bets");
@@ -98,12 +100,16 @@
   }
 
   function getPointsText(existingBets) {
-    return `${nbrOfSuccessfulBets(existingBets)}/${nbrOfFinishedBets(existingBets)} | 
+    return `${nbrOfSuccessfulBets(existingBets)}/${nbrOfFinishedBets(
+      existingBets
+    )} | 
     ${points(existingBets).toFixed(2)} points`;
   }
 
   function displayDate(date) {
-    return `${new Date(date).toLocaleDateString("sv-SE")} ${new Date(date).toLocaleTimeString("sv-SE")}`;
+    return `${new Date(date).toLocaleDateString("sv-SE")} ${new Date(
+      date
+    ).toLocaleTimeString("sv-SE")}`;
   }
 
   function allBetsMade(games, existingBets) {
@@ -122,7 +128,10 @@
 
 <div class="container">
   <h1>Make bets</h1>
-  <SelectSeason on:season-select-started={handleSeasonSelectStarted} on:season-select-finished={handleSeasonSelectFinished} />
+  <SelectSeason
+    on:season-select-started={handleSeasonSelectStarted}
+    on:season-select-finished={handleSeasonSelectFinished}
+  />
   {#if loading}
     <LoadingIndicator />
   {:else if games.length > 0}
@@ -143,7 +152,11 @@
             <span> <b>{game.awayTeam.name}</b> </span>
           </div>
           {#if game.isFinished}
-            <div class={game?.awayTeam?.id === game?.winner?.id ? "winner" : "loser"}>
+            <div
+              class={game?.awayTeam?.id === game?.winner?.id
+                ? "winner"
+                : "loser"}
+            >
               {game.awayTeamScore}
             </div>
           {:else}
@@ -158,7 +171,6 @@
                 type="radio"
                 bind:group={choices[game.id]}
                 value={game.awayTeam.id}
-                disabled={game.isFinished || game.isOngoing || !game.awayTeamOdds}
               />
             </div>
           {:else if isBetOnTeam(game, game.awayTeam, existingBets)}
@@ -176,7 +188,11 @@
             <span> <b>{game.homeTeam.name}</b> </span>
           </div>
           {#if game.isFinished}
-            <div class={game?.homeTeam?.id === game?.winner?.id ? "winner" : "loser"}>
+            <div
+              class={game?.homeTeam?.id === game?.winner?.id
+                ? "winner"
+                : "loser"}
+            >
               {game.homeTeamScore}
             </div>
           {:else}
@@ -191,7 +207,6 @@
                 type="radio"
                 bind:group={choices[game.id]}
                 value={game.homeTeam.id}
-                disabled={game.isFinished || game.isOngoing || !game.homeTeamOdds}
               />
             </div>
           {:else if isBetOnTeam(game, game.homeTeam, existingBets)}
@@ -204,7 +219,9 @@
       </div>
     {/each}
     {#if !allBetsMade(games, existingBets)}
-      <button type="submit" on:click|preventDefault={submitBets}>Place bets</button>
+      <button type="submit" on:click|preventDefault={submitBets}
+        >Place bets</button
+      >
     {/if}
   {:else}
     <h2>No games yet</h2>
@@ -284,27 +301,6 @@
 
   .not-finished-score {
     width: 4em;
-  }
-
-  input[type="radio"]:disabled {
-    position: relative;
-    height: 15px;
-    width: 15px;
-    box-sizing: border-box;
-  }
-
-  input[type="radio"]:disabled:after {
-    position: relative;
-    content: "";
-    display: block;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    background-color: #fff;
-  }
-
-  input[type="radio"]:disabled:checked:after {
-    background-color: rgb(231, 117, 52);
   }
 
   .start-time {

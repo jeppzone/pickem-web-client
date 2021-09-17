@@ -14,36 +14,10 @@
     try {
       const leagueId = currentRoute.namedParams.id;
       league = await fetchLeague($loggedInUser, leagueId);
+      leaderBoard = league.leaderBoard.leaderBoardEntries;
       users = league.users;
-      for (const [userId, user] of Object.entries(league.users)) {
-        let userLeaderboard = {};
-        userLeaderboard = {};
-        userLeaderboard.userId = userId;
-        userLeaderboard.username = user.username;
-        userLeaderboard.points = 0;
-        userLeaderboard.nbrFinished = 0;
-        userLeaderboard.nbrCorrect = 0;
-        let userBets = league.bets[userId];
-        if (userBets) {
-          for (const bet of userBets) {
-            userLeaderboard.points += bet.points;
-            userLeaderboard.nbrFinished += bet.finished ? 1 : 0;
-            userLeaderboard.nbrCorrect += bet.successful ? 1 : 0;
-          }
-        }
-        leaderBoard.push(userLeaderboard);
-        loading = false;
-      }
-      leaderBoard = leaderBoard.sort((a, b) => {
-        if (a.points >= b.points) {
-          return -1;
-        } else if (a.points < b.points) {
-          return 1;
-        }
-      });
-    } catch (err) {
-      loading = false;
-    }
+    } catch (err) {}
+    loading = false;
   });
 
   function isLoggedInUserInLeague() {
@@ -66,13 +40,13 @@
           <th># Correct</th>
           <th>% Correct</th>
         </tr>
-        {#each leaderBoard as user, index}
-          <tr class={user.userId === $loggedInUser?.id ? "my-row" : ""}>
+        {#each leaderBoard as leaderBoardEntry, index}
+          <tr class={leaderBoardEntry.user.id === $loggedInUser?.id ? "my-row" : ""}>
             <td>{index + 1}</td>
-            <td>{user.username}</td>
-            <td>{user.points.toFixed(2)}</td>
-            <td>{user.nbrCorrect}</td>
-            <td>{((user.nbrCorrect / user.nbrFinished) * 100 || 0).toFixed(2)}</td>
+            <td>{leaderBoardEntry.user.username}</td>
+            <td>{leaderBoardEntry.points.toFixed(2)}</td>
+            <td>{leaderBoardEntry.numberOfCorrectBets}</td>
+            <td>{leaderBoardEntry.percentCorrect.toFixed(3)}</td>
           </tr>
         {/each}
       </table>

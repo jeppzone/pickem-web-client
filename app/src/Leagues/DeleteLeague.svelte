@@ -16,7 +16,6 @@
       dispatch("delete-league-succeeded", { deletedLeague: league });
       toast.push("League deleted");
     } catch (error) {
-      console.log(error);
       toast.push("An error occured", {
         theme: {
           "--toastBackground": "#f54260",

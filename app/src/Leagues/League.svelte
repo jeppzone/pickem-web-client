@@ -7,7 +7,7 @@
   export let currentRoute;
   let league = {};
   let users = {};
-  let leaderBoard = {};
+  let leaderBoard = [];
   let loading = false;
   onMount(async () => {
     loading = true;
@@ -15,9 +15,11 @@
       const leagueId = currentRoute.namedParams.id;
       league = await fetchLeague($loggedInUser, leagueId);
       users = league.users;
-      for (const [userId, _] of Object.entries(league.users)) {
+      for (const [userId, user] of Object.entries(league.users)) {
         let userLeaderboard = {};
         userLeaderboard = {};
+        userLeaderboard.userId = userId;
+        userLeaderboard.username = user.username;
         userLeaderboard.points = 0;
         userLeaderboard.nbrFinished = 0;
         userLeaderboard.nbrCorrect = 0;
@@ -29,9 +31,16 @@
             userLeaderboard.nbrCorrect += bet.successful ? 1 : 0;
           }
         }
-        leaderBoard[userId] = userLeaderboard;
+        leaderBoard.push(userLeaderboard);
         loading = false;
       }
+      leaderBoard = leaderBoard.sort((a, b) => {
+        if (a.points >= b.points) {
+          return -1;
+        } else if (a.points < b.points) {
+          return 1;
+        }
+      });
     } catch (err) {
       loading = false;
     }
@@ -57,13 +66,13 @@
           <th># Correct</th>
           <th>% Correct</th>
         </tr>
-        {#each Object.entries(leaderBoard) as [k, v], index}
-          <tr class={users[k].id === $loggedInUser?.id ? "my-row" : ""}>
+        {#each leaderBoard as user, index}
+          <tr class={user.userId === $loggedInUser?.id ? "my-row" : ""}>
             <td>{index + 1}</td>
-            <td>{users[k].username}</td>
-            <td>{v.points.toFixed(2)}</td>
-            <td>{v.nbrCorrect}</td>
-            <td>{((v.nbrCorrect / v.nbrFinished) * 100 || 0).toFixed(2)}</td>
+            <td>{user.username}</td>
+            <td>{user.points.toFixed(2)}</td>
+            <td>{user.nbrCorrect}</td>
+            <td>{((user.nbrCorrect / user.nbrFinished) * 100 || 0).toFixed(2)}</td>
           </tr>
         {/each}
       </table>

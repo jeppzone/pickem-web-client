@@ -22,7 +22,6 @@
 
   function handleSeasonSelectFinished(evt) {
     games = evt.detail.games;
-    console.log(games);
     loading = false;
   }
 

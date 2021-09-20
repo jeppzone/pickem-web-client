@@ -296,6 +296,9 @@
     .team-name-and-logo {
       width: 200px;
     }
+    .team-name {
+      width: 125px;
+    }
     .not-finished-score,
     .winner,
     .loser {

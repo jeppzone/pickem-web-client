@@ -40,6 +40,7 @@
       <div class="navbar-pages">
         <p on:click={() => goTo("/bets")} class={path.includes("/bets") ? "selected" : ""}>Bets</p>
         <p on:click={() => goTo("/leagues")} class={path.includes("/leagues") ? "selected" : ""}>Leagues</p>
+        <p on:click={() => goTo("/statistics")} class={path.includes("/statistics") ? "selected" : ""}>Statistics</p>
       </div>
       <div class="user-info">
         <h3>{$loggedInUser?.username}</h3>

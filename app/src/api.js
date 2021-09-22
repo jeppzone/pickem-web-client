@@ -14,6 +14,7 @@ export {
   fetchLeague,
   joinLeague,
   deleteLeague,
+  getStatistics
 };
 
 const login = async (user) => {
@@ -94,6 +95,11 @@ const deleteLeague = async (user, leagueId) => {
     throw new Error("Something went wrong");
   }
 };
+
+const getStatistics = async (user) => {
+  const response = await makeAuthenticatedRequest(`${url}/statistics`, "GET", null, user);
+  return response.json();
+}
 
 const makeUnauthenticatedRequest = async (url, method, body) => {
   const headers = {

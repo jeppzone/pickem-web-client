@@ -139,7 +139,7 @@
             </span>
             {#if !game.isFinished && !game.isOngoing}
               <span>
-                ({game.homeTeam.record})
+                ({game.awayTeam.record})
               </span>
             {/if}
           </div>

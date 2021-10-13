@@ -81,7 +81,7 @@
     const week = games[0].week;
     const seasonType = games[0].seasonType;
     return `${nbrOfSuccessfulBets(existingBets, week, seasonType)}-${
-      nbrOfSuccessfulBets(existingBets, week, seasonType) - nbrOfFinishedBets(existingBets, week, seasonType)
+      nbrOfFinishedBets(existingBets, week, seasonType) - nbrOfSuccessfulBets(existingBets, week, seasonType)
     }`;
   }
 </script>

@@ -58,6 +58,32 @@
   function nbrOfUsers(users) {
     return Object.keys(users).length;
   }
+
+  function pointsForUser(userBets, week, seasonType) {
+    return userBets.filter((b) => b.game.week === week && b.game.seasonType === seasonType).reduce((x, y) => x + y.points, 0);
+  }
+
+  function nbrOfSuccessfulBets(bets, week, seasonType) {
+    return bets.filter((b) => b.game.week === week && b.game.seasonType === seasonType && b.successful).length;
+  }
+
+  function nbrOfFinishedBets(bets, week, seasonType) {
+    return bets.filter((b) => b.game.week === week && b.game.seasonType === seasonType && b.finished).length;
+  }
+
+  function getPointsText(existingBets) {
+    const week = games[0].week;
+    const seasonType = games[0].seasonType;
+    return `${pointsForUser(existingBets, week, seasonType).toFixed(2)}`;
+  }
+
+  function getRecord(existingBets) {
+    const week = games[0].week;
+    const seasonType = games[0].seasonType;
+    return `${nbrOfSuccessfulBets(existingBets, week, seasonType)}-${
+      nbrOfSuccessfulBets(existingBets, week, seasonType) - nbrOfFinishedBets(existingBets, week, seasonType)
+    }`;
+  }
 </script>
 
 <div class="container">
@@ -75,6 +101,13 @@
         <th class="my-cell">{$loggedInUser?.username}</th>
         {#each Object.values(selectedUsers) as user}
           <th>{user.username}</th>
+        {/each}
+      </tr>
+      <tr>
+        <td>Points</td>
+        <td>{getPointsText(league.bets[$loggedInUser?.id])}<br />({getRecord(league.bets[$loggedInUser?.id])})</td>
+        {#each Object.values(selectedUsers) as user}
+          <td>{getPointsText(league.bets[user.id])}<br />({getRecord(league.bets[user.id])})</td>
         {/each}
       </tr>
       {#each games as game}

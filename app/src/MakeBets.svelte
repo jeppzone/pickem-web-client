@@ -92,8 +92,10 @@
   }
 
   function getPointsText(existingBets) {
-    return `${nbrOfSuccessfulBets(existingBets)}/${nbrOfFinishedBets(existingBets)} | 
-    ${points(existingBets).toFixed(2)} points`;
+    return `${points(existingBets).toFixed(2)} points (${nbrOfSuccessfulBets(existingBets)}-${
+      nbrOfFinishedBets(existingBets) - nbrOfSuccessfulBets(existingBets)
+    }) 
+    `;
   }
 
   function displayDate(date) {

@@ -19,7 +19,6 @@
     <th>Name</th>
     <th>Players</th>
     <th>Admin</th>
-    <th>Season</th>
   </tr>
   {#each leagues as league}
     <tr class={isLoggedInUserInLeague(league) ? "user-in-league" : ""}>
@@ -30,7 +29,6 @@
       </td>
       <td>{getNbrOfPlayers(league)}</td>
       <td>{league.admin.username}</td>
-      <td>{league.season}</td>
       {#if !isLoggedInUserInLeague(league)}
         <td>
           <div class="button">
@@ -76,7 +74,7 @@
   tr:nth-child(even) {
     background-color: rgb(12, 35, 49);
   }
-  tr td:nth-child(5) {
+  tr td:nth-child(4) {
     background-color: rgb(231, 117, 52);
   }
   @media only screen and (max-width: 600px) {

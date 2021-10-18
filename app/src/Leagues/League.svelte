@@ -36,17 +36,15 @@
         <tr>
           <th>#</th>
           <th>User</th>
+          <th>Record</th>
           <th>Points</th>
-          <th># Correct</th>
-          <th>% Correct</th>
         </tr>
         {#each leaderBoard as leaderBoardEntry, index}
           <tr class={leaderBoardEntry.user.id === $loggedInUser?.id ? "my-row" : ""}>
             <td>{index + 1}</td>
             <td>{leaderBoardEntry.user.username}</td>
+            <td>{leaderBoardEntry.numberOfCorrectBets}-{leaderBoardEntry.numberOfIncorrectBets}</td>
             <td>{leaderBoardEntry.points.toFixed(2)}</td>
-            <td>{leaderBoardEntry.numberOfCorrectBets}</td>
-            <td>{leaderBoardEntry.percentCorrect.toFixed(3)}</td>
           </tr>
         {/each}
       </table>

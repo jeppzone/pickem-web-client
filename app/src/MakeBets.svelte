@@ -26,10 +26,13 @@
         madeChoices[key] = choices[key];
       }
     }
-    // if (games.filter((g) => g.isBetable).length !== Object.keys(madeChoices).length) {
-    // //   pushErrorToast("You need to bet on all betable games");
-    // //   return;
-    // // }
+    if (
+      games.filter((g) => g.isBetable).length !==
+      Object.keys(madeChoices).length
+    ) {
+      pushErrorToast("You need to bet on all betable games");
+      return;
+    }
     loading = true;
     try {
       await makeBets(madeChoices, $loggedInUser);

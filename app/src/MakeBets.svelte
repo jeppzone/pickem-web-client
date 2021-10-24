@@ -22,7 +22,7 @@
   async function submitBets() {
     const madeChoices = {};
     for (const key of Object.keys(choices)) {
-      if (choices[key] !== -1 && !games.find((g) => g.id === key).isFinished) {
+      if (choices[key] !== -1) {
         madeChoices[key] = choices[key];
       }
     }

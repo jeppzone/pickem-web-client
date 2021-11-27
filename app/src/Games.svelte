@@ -9,6 +9,7 @@
     loading = true;
     try {
       games = await fetchGamesForCurrentWeek();
+      console.log(games);
       games = games.sort((a, b) => {
         return new Date(a.startTime) - new Date(b.startTime);
       });
@@ -17,6 +18,14 @@
     }
     loading = false;
   });
+
+  function displayScore(game, score) {
+    if (game.isFinished || game.isOngoing) {
+      return score;
+    }
+
+    return "-";
+  }
 </script>
 
 <div class="container">
@@ -28,9 +37,7 @@
       <div class="game-card">
         <div class="start-time">
           <i>
-            {`${new Date(game.startTime).toLocaleDateString(
-              "sv-SE"
-            )} ${new Date(game.startTime).toLocaleTimeString("sv-SE")}`}
+            {`${new Date(game.startTime).toLocaleDateString("sv-SE")} ${new Date(game.startTime).toLocaleTimeString("sv-SE")}`}
           </i>
         </div>
         <div class="team">
@@ -40,7 +47,9 @@
             </span>
             <span> <b>{game.awayTeam.name}</b> </span>
           </div>
-          <div class="score"><i>{game.awayTeamScore}</i></div>
+          <div class="score">
+            <i>{displayScore(game, game.awayTeamScore)}</i>
+          </div>
         </div>
         <div class="team">
           <div class="team-name-and-logo">
@@ -49,7 +58,9 @@
             </span>
             <span> <b>{game.homeTeam.name}</b> </span>
           </div>
-          <div class="score"><i>{game.homeTeamScore}</i></div>
+          <div class="score">
+            <i>{displayScore(game, game.homeTeamScore)}</i>
+          </div>
         </div>
       </div>
     {/each}

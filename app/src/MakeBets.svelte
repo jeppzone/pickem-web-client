@@ -8,6 +8,7 @@
   let games = [];
   let existingBets = [];
   let choices = {};
+  $: innerWidth = 0;
 
   function handleSeasonSelectFinished(evt) {
     games = evt.detail.games;
@@ -122,7 +123,13 @@
 
     return "-";
   }
+
+  function displayTeamName(width, team) {
+    return width > 800 ? team.name : team.abbreviation;
+  }
 </script>
+
+<svelte:window bind:innerWidth />
 
 <div class="container">
   <h1>Make bets</h1>
@@ -145,7 +152,7 @@
               <img src={game.awayTeam.logo} alt={game.awayTeam.name} />
             </span>
             <span class="team-name">
-              <b>{game.awayTeam.name}</b>
+              <b>{displayTeamName(innerWidth, game.awayTeam)}</b>
             </span>
             {#if !game.isFinished && !game.isOngoing}
               <span>
@@ -180,7 +187,7 @@
               <img src={game.homeTeam.logo} alt={game.homeTeam.name} />
             </span>
             <span class="team-name">
-              <b>{game.homeTeam.name}</b>
+              <b>{displayTeamName(innerWidth, game.homeTeam)}</b>
             </span>
             {#if !game.isFinished && !game.isOngoing}
               <span>
@@ -302,12 +309,12 @@
     padding-left: 0.5vh;
   }
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 800px) {
     .team-name-and-logo {
-      width: 200px;
+      width: 150px;
     }
     .team-name {
-      width: 125px;
+      width: 50px;
     }
     .not-finished-score,
     .winner,

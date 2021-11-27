@@ -1,7 +1,6 @@
 <script>
   import { Router } from "svelte-router-spa";
   import jwtDecode from "jwt-decode";
-  import Home from "./Home.svelte";
   import Login from "./Login.svelte";
   import Leagues from "./Leagues/Leagues.svelte";
   import League from "./Leagues/League.svelte";
@@ -26,8 +25,9 @@
   let routes = [
     {
       name: "/",
-      component: Home,
+      component: MakeBets,
       layout: Layout,
+      redirectTo: "/bets",
       onlyIf: { guard: isLoggedIn, redirect: "/login" },
     },
     {

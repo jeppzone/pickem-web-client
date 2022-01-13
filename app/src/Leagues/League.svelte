@@ -29,7 +29,7 @@
   {#if loading}
     <LoadingIndicator />
   {:else}
-    {#if users}
+    {#if users && league}
       <h1>{league.name}</h1>
       <h2>Standings</h2>
       <table>

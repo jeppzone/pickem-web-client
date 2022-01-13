@@ -72,6 +72,9 @@
   }
 
   function getPointsText(existingBets) {
+    if (!existingBets) {
+      return "";
+    }
     const week = games[0].week;
     const seasonType = games[0].seasonType;
     return `${pointsForUser(existingBets, week, seasonType).toFixed(2)}`;

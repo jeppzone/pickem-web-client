@@ -31,6 +31,9 @@
 
   function getBetByUser(gameId, userId, league) {
     const userBets = league.bets[userId];
+    if (!userBets) {
+      return {};
+    }
     return userBets?.find((b) => b.game.id === gameId);
   }
 
@@ -123,7 +126,7 @@
             <b>@</b>
             {game.homeTeam.abbreviation}
           </td>
-          <td class={getCellClass(game.id, $loggedInUser.id, league)}>
+          <td class={getCellClass(game.id, $loggedInUser?.id, league)}>
             <img
               src={getBetByUser(game.id, $loggedInUser?.id, league)?.winningTeam?.logo ?? "/assets/logo.png"}
               alt={getBetByUser(game.id, $loggedInUser?.id, league)?.winningTeam?.name ?? "No bet"}

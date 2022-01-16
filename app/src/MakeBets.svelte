@@ -136,7 +136,7 @@
   <SelectSeason on:season-select-started={handleSeasonSelectStarted} on:season-select-finished={handleSeasonSelectFinished} />
   {#if loading}
     <LoadingIndicator />
-  {:else if games.length > 0}
+  {:else if games.length > 0 && !games.some((g) => g.awayTeam.name === "TBD" || g.homeTeam.name === "TBD")}
     <h2>{getPointsText(existingBets)}</h2>
     {#if allBetsMade(games, existingBets)}
       <p>All bets made for this week</p>

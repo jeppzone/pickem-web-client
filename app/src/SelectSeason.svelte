@@ -3,62 +3,44 @@
   import { fetchGames, fetchGamesForCurrentWeek } from "./api";
   const dispatch = createEventDispatcher();
   let season = 2021;
-  let seasonType = "Pre";
-  let week = 1;
   let games = [];
   const seasons = [2021];
-  let weeks = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17];
-  const seasonTypes = ["Reg", "Post"];
-
+  let weeks = populateWeeks();
+  let week = {};
   onMount(async () => {
     dispatch("season-select-started");
     games = await fetchGamesForCurrentWeek();
     games = sortGames(games);
     if (games && games.length > 0) {
       season = games[0].season;
-      seasonType = games[0].seasonType;
-      week = games[0].week;
+      week = weeks.find((w) => w.week === games[0].week && w.seasonType === games[0].seasonType);
     }
-    setWeeks();
 
-    dispatch("season-select-finished", {
-      games,
-      season,
-      seasonType,
-      week,
-    });
+    dispatch("season-select-finished", { games });
   });
+
+  function populateWeeks() {
+    let weeksArray = [];
+    for (let i = 1; i <= 5; i++) {
+      weeksArray.push({ week: i, seasonType: "Pre", displayName: `Preseason Week ${i}` });
+    }
+    for (let i = 1; i <= 18; i++) {
+      weeksArray.push({ week: i, seasonType: "Reg", displayName: `Week ${i}` });
+    }
+    weeksArray.push({ week: 1, seasonType: "Post", displayName: "Wild Card" });
+    weeksArray.push({ week: 2, seasonType: "Post", displayName: "Divisional Round" });
+    weeksArray.push({ week: 3, seasonType: "Post", displayName: "Conference Championships" });
+    weeksArray.push({ week: 4, seasonType: "Post", displayName: "Pro Bowl" });
+    weeksArray.push({ week: 5, seasonType: "Post", displayName: "Super Bowl" });
+
+    return weeksArray;
+  }
 
   async function dispatchEvent() {
     dispatch("season-select-started");
-    setWeeks();
-    games = await fetchGames(season, seasonType, week);
+    games = await fetchGames(season, week.seasonType, week.week);
     games = sortGames(games);
-    dispatch("season-select-finished", {
-      games,
-      season,
-      seasonType,
-      week,
-    });
-  }
-
-  //TODO: Refactor this
-  function setWeeks() {
-    if (seasonType === "Pre") {
-      weeks = [1, 2, 3, 4, 5];
-      week = week <= 5 ? week : 1;
-    } else if (seasonType === "Reg") {
-      weeks = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
-    } else if (seasonType === "Post") {
-      weeks = [
-        { value: 1, displayName: "Wild Card" },
-        { value: 2, displayName: "Divisional Round" },
-        { value: 3, displayName: "Conference Championships" },
-        { value: 4, displayName: "Pro Bowl" },
-        { value: 5, displayName: "Super Bowl" },
-      ];
-      week = week <= 5 ? week : 1;
-    }
+    dispatch("season-select-finished", { games });
   }
 
   function sortGames(games) {
@@ -78,15 +60,9 @@
     {/each}
   </select>
   <!-- svelte-ignore a11y-no-onchange -->
-  <select bind:value={seasonType} on:change={dispatchEvent}>
-    {#each seasonTypes as s}
-      <option value={s}>{s.toUpperCase()}</option>
-    {/each}
-  </select>
-  <!-- svelte-ignore a11y-no-onchange -->
   <select bind:value={week} on:change={dispatchEvent}>
     {#each weeks as w}
-      <option value={w.value || w}>{w.displayName || w}</option> <!--TODO: This is not that nice-->
+      <option value={w}>{w.displayName}</option>
     {/each}
   </select>
 </main>

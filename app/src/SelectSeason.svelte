@@ -4,7 +4,7 @@
   const dispatch = createEventDispatcher();
   let season = 2022;
   let games = [];
-  const seasons = [2021, 2022];
+  const seasons = [2022, 2021];
   let weeks = populateWeeks();
   let week = {};
   onMount(async () => {

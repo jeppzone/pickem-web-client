@@ -127,6 +127,10 @@
   function displayTeamName(width, team) {
     return width > 800 ? team.name : team.abbreviation;
   }
+
+  function anyBetableGames(games){
+    return games.some(g => g.isBetable);
+  }
 </script>
 
 <svelte:window bind:innerWidth />
@@ -154,7 +158,7 @@
             <span class="team-name">
               <b>{displayTeamName(innerWidth, game.awayTeam)}</b>
             </span>
-            {#if !game.isFinished && !game.isOngoing}
+            {#if !game.isFinished && !game.isOngoing && game.awayTeam.record}
               <span>
                 ({game.awayTeam.record})
               </span>
@@ -189,7 +193,7 @@
             <span class="team-name">
               <b>{displayTeamName(innerWidth, game.homeTeam)}</b>
             </span>
-            {#if !game.isFinished && !game.isOngoing}
+            {#if !game.isFinished && !game.isOngoing && game.homeTeam.record}
               <span>
                 ({game.homeTeam.record})
               </span>
@@ -218,7 +222,7 @@
         </div>
       </div>
     {/each}
-    {#if !allBetsMade(games, existingBets)}
+    {#if !allBetsMade(games, existingBets) && anyBetableGames(games)}
       <button type="submit" on:click|preventDefault={submitBets}>Place bets</button>
     {/if}
   {:else}

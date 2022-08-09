@@ -21,7 +21,7 @@
 
   function populateWeeks() {
     let weeksArray = [];
-    for (let i = 1; i <= 5; i++) {
+    for (let i = 1; i <= 4; i++) {
       weeksArray.push({ week: i, seasonType: "Pre", displayName: `Preseason Week ${i}` });
     }
     for (let i = 1; i <= 18; i++) {

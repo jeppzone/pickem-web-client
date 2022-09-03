@@ -1,4 +1,4 @@
-const url = "https://pickem-api-dev.herokuapp.com/api";
+const url = "https://pickem-api-production.up.railway.app/api";
 // const url = "http://localhost:5002/api";
 
 export {

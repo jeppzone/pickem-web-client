@@ -128,113 +128,133 @@
     return width > 800 ? team.name : team.abbreviation;
   }
 
-  function anyBetableGames(games){
-    return games.some(g => g.isBetable);
+  function anyBetableGames(games) {
+    return games.some((g) => g.isBetable);
   }
 </script>
 
 <svelte:window bind:innerWidth />
 
 <div class="container">
-  <h1>Make bets</h1>
-  <SelectSeason on:season-select-started={handleSeasonSelectStarted} on:season-select-finished={handleSeasonSelectFinished} />
-  {#if loading}
-    <LoadingIndicator />
-  {:else if games.length > 0 && !games.some((g) => g.awayTeam.name === "TBD" || g.homeTeam.name === "TBD")}
-    <h2>{getPointsText(existingBets)}</h2>
-    {#if allBetsMade(games, existingBets)}
-      <p>All bets made for this week</p>
-    {/if}
-    {#each games as game}
-      <div class={getGameCardClass(existingBets, game)}>
-        <div class="start-time">
-          <i>{displayDate(game.startTime)}</i>
-        </div>
-        <div class="team">
-          <div class="team-name-and-logo">
-            <span>
-              <img src={game.awayTeam.logo} alt={game.awayTeam.name} />
-            </span>
-            <span class="team-name">
-              <b>{displayTeamName(innerWidth, game.awayTeam)}</b>
-            </span>
-            {#if !game.isFinished && !game.isOngoing && game.awayTeam.record}
+  <div class="header">
+    <h1>Make bets</h1>
+    <SelectSeason on:season-select-started={handleSeasonSelectStarted} on:season-select-finished={handleSeasonSelectFinished} />
+  </div>
+  <div class="content">
+    {#if loading}
+      <LoadingIndicator />
+    {:else if games.length > 0 && !games.some((g) => g.awayTeam.name === "TBD" || g.homeTeam.name === "TBD")}
+      <h2>{getPointsText(existingBets)}</h2>
+      {#if allBetsMade(games, existingBets)}
+        <p>All bets made for this week</p>
+      {/if}
+      {#each games as game}
+        <div class={getGameCardClass(existingBets, game)}>
+          <div class="start-time">
+            <i>{displayDate(game.startTime)}</i>
+          </div>
+          <div class="team">
+            <div class="team-name-and-logo">
               <span>
-                ({game.awayTeam.record})
+                <img src={game.awayTeam.logo} alt={game.awayTeam.name} />
               </span>
+              <span class="team-name">
+                <b>{displayTeamName(innerWidth, game.awayTeam)}</b>
+              </span>
+              {#if !game.isFinished && !game.isOngoing && game.awayTeam.record}
+                <span>
+                  ({game.awayTeam.record})
+                </span>
+              {/if}
+            </div>
+            {#if game.isFinished}
+              <div class={game?.awayTeam?.id === game?.winner?.id ? "winner" : "loser"}>
+                {game.awayTeamScore}
+              </div>
+            {:else}
+              <div class="not-finished-score">
+                <i>{displayScore(game, game.awayTeamScore)}</i>
+              </div>
+            {/if}
+            {#if !hasUserBetOnGame(game, existingBets) && game.isBetable}
+              <div class="odds">{game.awayTeamOdds || "N/A"}</div>
+              <div class="input">
+                <input type="radio" bind:group={choices[game.id]} value={game.awayTeam.id} />
+              </div>
+            {:else if isBetOnTeam(game, game.awayTeam, existingBets)}
+              <div>
+                {game.awayTeam.abbreviation} <b>@</b>
+                {getBetByGame(game, existingBets).game.awayTeamOdds}
+              </div>
             {/if}
           </div>
-          {#if game.isFinished}
-            <div class={game?.awayTeam?.id === game?.winner?.id ? "winner" : "loser"}>
-              {game.awayTeamScore}
-            </div>
-          {:else}
-            <div class="not-finished-score">
-              <i>{displayScore(game, game.awayTeamScore)}</i>
-            </div>
-          {/if}
-          {#if !hasUserBetOnGame(game, existingBets) && game.isBetable}
-            <div class="odds">{game.awayTeamOdds || "N/A"}</div>
-            <div class="input">
-              <input type="radio" bind:group={choices[game.id]} value={game.awayTeam.id} />
-            </div>
-          {:else if isBetOnTeam(game, game.awayTeam, existingBets)}
-            <div>
-              {game.awayTeam.abbreviation} <b>@</b>
-              {getBetByGame(game, existingBets).game.awayTeamOdds}
-            </div>
-          {/if}
-        </div>
-        <div class="team">
-          <div class="team-name-and-logo">
-            <span>
-              <img src={game.homeTeam.logo} alt={game.homeTeam.name} />
-            </span>
-            <span class="team-name">
-              <b>{displayTeamName(innerWidth, game.homeTeam)}</b>
-            </span>
-            {#if !game.isFinished && !game.isOngoing && game.homeTeam.record}
+          <div class="team">
+            <div class="team-name-and-logo">
               <span>
-                ({game.homeTeam.record})
+                <img src={game.homeTeam.logo} alt={game.homeTeam.name} />
               </span>
+              <span class="team-name">
+                <b>{displayTeamName(innerWidth, game.homeTeam)}</b>
+              </span>
+              {#if !game.isFinished && !game.isOngoing && game.homeTeam.record}
+                <span>
+                  ({game.homeTeam.record})
+                </span>
+              {/if}
+            </div>
+            {#if game.isFinished}
+              <div class={game?.homeTeam?.id === game?.winner?.id ? "winner" : "loser"}>
+                {game.homeTeamScore}
+              </div>
+            {:else}
+              <div class="not-finished-score">
+                <i>{displayScore(game, game.homeTeamScore)}</i>
+              </div>
+            {/if}
+            {#if !hasUserBetOnGame(game, existingBets) && game.isBetable}
+              <div class="odds">{game.homeTeamOdds || "N/A"}</div>
+              <div class="input">
+                <input type="radio" bind:group={choices[game.id]} value={game.homeTeam.id} />
+              </div>
+            {:else if isBetOnTeam(game, game.homeTeam, existingBets)}
+              <div>
+                {game.homeTeam.abbreviation} <b>@</b>
+                {getBetByGame(game, existingBets).game.homeTeamOdds}
+              </div>
             {/if}
           </div>
-          {#if game.isFinished}
-            <div class={game?.homeTeam?.id === game?.winner?.id ? "winner" : "loser"}>
-              {game.homeTeamScore}
-            </div>
-          {:else}
-            <div class="not-finished-score">
-              <i>{displayScore(game, game.homeTeamScore)}</i>
-            </div>
-          {/if}
-          {#if !hasUserBetOnGame(game, existingBets) && game.isBetable}
-            <div class="odds">{game.homeTeamOdds || "N/A"}</div>
-            <div class="input">
-              <input type="radio" bind:group={choices[game.id]} value={game.homeTeam.id} />
-            </div>
-          {:else if isBetOnTeam(game, game.homeTeam, existingBets)}
-            <div>
-              {game.homeTeam.abbreviation} <b>@</b>
-              {getBetByGame(game, existingBets).game.homeTeamOdds}
-            </div>
-          {/if}
         </div>
-      </div>
-    {/each}
-    {#if !allBetsMade(games, existingBets) && anyBetableGames(games)}
-      <button type="submit" on:click|preventDefault={submitBets}>Place bets</button>
+      {/each}
+    {:else}
+      <h2>No games yet</h2>
     {/if}
-  {:else}
-    <h2>No games yet</h2>
-  {/if}
+    <div>
+      {#if !allBetsMade(games, existingBets) && anyBetableGames(games)}
+        <button type="submit" on:click|preventDefault={submitBets}>Place bets</button>
+      {/if}
+    </div>
+  </div>
 </div>
 
 <style>
+  .header {
+    width: 80%;
+    max-width: 1000px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .content {
+    width: 80%;
+    max-width: 1000px;
+  }
+  .content h2 {
+    text-align: center;
+  }
   .game-card {
     background-color: rgb(5, 47, 75);
     margin-bottom: 0.5em;
-    width: 90%;
     padding: 8px;
     border-radius: 10px;
   }
@@ -277,6 +297,7 @@
     align-items: center;
     width: 100%;
     font-size: 18px;
+    justify-content: center;
   }
   .odds {
     display: flex;
@@ -286,12 +307,13 @@
 
   .input {
     margin-top: 18px;
-    width: 80px;
+    width: 100%;
   }
 
   button {
     background-color: rgb(231, 117, 52);
     color: white;
+    width: 100%;
   }
 
   .winner {
@@ -314,6 +336,9 @@
   }
 
   @media only screen and (max-width: 800px) {
+    .content {
+      width: 95%;
+    }
     .team-name-and-logo {
       width: 150px;
     }

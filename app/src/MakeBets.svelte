@@ -137,7 +137,9 @@
 
 <div class="container">
   <div class="header">
-    <h1>Make bets</h1>
+    {#if !loading}
+      <h1>Make bets</h1>
+    {/if}
     <SelectSeason on:season-select-started={handleSeasonSelectStarted} on:season-select-finished={handleSeasonSelectFinished} />
   </div>
   <div class="content">
@@ -229,7 +231,7 @@
       <h2>No games yet</h2>
     {/if}
     <div>
-      {#if !allBetsMade(games, existingBets) && anyBetableGames(games)}
+      {#if !allBetsMade(games, existingBets) && anyBetableGames(games) && !loading}
         <button type="submit" on:click|preventDefault={submitBets}>Place bets</button>
       {/if}
     </div>

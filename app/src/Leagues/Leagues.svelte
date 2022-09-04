@@ -33,9 +33,10 @@
   }
 
   onMount(async () => {
-    loading = true;
     try {
+      loading = true;
       leagues = await fetchLeagues($loggedInUser);
+      leagues = leagues.filter((l) => l.season === 2022);
       joinedLeagues = leagues.filter((l) => Object.keys(l.users).includes($loggedInUser.id));
       otherLeagues = leagues.filter((l) => !joinedLeagues.includes(l));
       leagues = [...joinedLeagues, ...otherLeagues];

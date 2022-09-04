@@ -7,7 +7,9 @@
   const seasons = [2022, 2021];
   let weeks = populateWeeks();
   let week = {};
+  let loading = false;
   onMount(async () => {
+    loading = true;
     dispatch("season-select-started");
     games = await fetchGamesForCurrentWeek();
     games = sortGames(games);
@@ -17,6 +19,7 @@
     }
 
     dispatch("season-select-finished", { games });
+    loading = false;
   });
 
   function populateWeeks() {
@@ -37,10 +40,12 @@
   }
 
   async function dispatchEvent() {
+    loading = true;
     dispatch("season-select-started");
     games = await fetchGames(season, week.seasonType, week.week);
     games = sortGames(games);
     dispatch("season-select-finished", { games });
+    loading = false;
   }
 
   function sortGames(games) {
@@ -53,16 +58,18 @@
 </script>
 
 <main>
-  <!-- svelte-ignore a11y-no-onchange -->
-  <select bind:value={season} on:change={dispatchEvent}>
-    {#each seasons as s}
-      <option value={s}>{s}</option>
-    {/each}
-  </select>
-  <!-- svelte-ignore a11y-no-onchange -->
-  <select bind:value={week} on:change={dispatchEvent}>
-    {#each weeks as w}
-      <option value={w}>{w.displayName}</option>
-    {/each}
-  </select>
+  {#if !loading}
+    <!-- svelte-ignore a11y-no-onchange -->
+    <select bind:value={season} on:change={dispatchEvent}>
+      {#each seasons as s}
+        <option value={s}>{s}</option>
+      {/each}
+    </select>
+    <!-- svelte-ignore a11y-no-onchange -->
+    <select bind:value={week} on:change={dispatchEvent}>
+      {#each weeks as w}
+        <option value={w}>{w.displayName}</option>
+      {/each}
+    </select>
+  {/if}
 </main>

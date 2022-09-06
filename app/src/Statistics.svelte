@@ -16,20 +16,22 @@
 
 <div class="container">
   <h2>Statistics</h2>
-  {#if loading}
-    <LoadingIndicator />
-  {:else}
-    <table>
-      {#each statistics as statEntry}
-        <tr>
-          <td>{statEntry.description}</td>
-          <td>{statEntry.value}</td>
-          <td>{statEntry.user}</td>
-          <td>{statEntry.valueDescription}</td>
-        </tr>
-      {/each}
-    </table>
-  {/if}
+  <div class="statistics">
+    {#if loading}
+      <LoadingIndicator />
+    {:else}
+      <table>
+        {#each statistics as statEntry}
+          <tr>
+            <td>{statEntry.description}</td>
+            <td>{statEntry.value}</td>
+            <td>{statEntry.user}</td>
+            <td>{statEntry.valueDescription}</td>
+          </tr>
+        {/each}
+      </table>
+    {/if}
+  </div>
 </div>
 
 <style>
@@ -37,7 +39,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100%;
     font-size: 18px;
   }
   table,
@@ -53,5 +54,14 @@
   }
   tr:nth-child(even) {
     background-color: rgb(12, 35, 49);
+  }
+
+  @media only screen and (max-width: 800px) {
+    .container {
+      font-size: 14px;
+    }
+    .statistics {
+      width: 95%;
+    }
   }
 </style>

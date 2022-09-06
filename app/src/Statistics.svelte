@@ -5,20 +5,35 @@
   import LoadingIndicator from "./LoadingIndicator.svelte";
 
   let statistics = [];
+  let seasons = [2022, 2021];
+  let season = 2022;
   let loading = false;
 
   onMount(async () => {
     loading = true;
-    statistics = await getStatistics($loggedInUser);
+    statistics = await getStatistics($loggedInUser, season);
     loading = false;
   });
+
+  async function fetchStatistics() {
+    loading = true;
+    statistics = await getStatistics($loggedInUser, season);
+    loading = false;
+  }
 </script>
 
 <div class="container">
   <h2>Statistics</h2>
+  <select bind:value={season} on:change={fetchStatistics}>
+    {#each seasons as s}
+      <option value={s}>{s}</option>
+    {/each}
+  </select>
   <div class="statistics">
     {#if loading}
       <LoadingIndicator />
+    {:else if statistics?.length === 0}
+      <h3>{`No statistics yet for ${season}`}</h3>
     {:else}
       <table>
         {#each statistics as statEntry}

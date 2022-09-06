@@ -1,8 +1,6 @@
 <script>
   import { createEventDispatcher } from "svelte";
   import { toast } from "@zerodevx/svelte-toast";
-  import Fa from "svelte-fa";
-  import { faUserPlus } from "@fortawesome/free-solid-svg-icons";
   import { joinLeague } from "../api";
   import { loggedInUser } from "../auth";
   import LoadingIndicator from "../LoadingIndicator.svelte";
@@ -12,6 +10,7 @@
   const dispatch = createEventDispatcher();
 
   async function join() {
+    console.log(league);
     loading = true;
     const joinedLeague = await joinLeague($loggedInUser, league.id);
     dispatch("join-league-succeeded", { joinedLeague });
@@ -23,14 +22,14 @@
 {#if loading}
   <LoadingIndicator />
 {:else}
-  <span on:click={join}><Fa icon={faUserPlus} size="lg" /></span>
+  <button on:click={join}> Join League </button>
 {/if}
 
 <style>
-  span {
-    border: none;
-    background-color: transparent;
+  button {
+    width: 200px;
+    margin-top: 10px;
     color: white;
-    cursor: pointer;
+    background-color: rgb(231, 117, 52);
   }
 </style>

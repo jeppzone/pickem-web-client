@@ -73,5 +73,6 @@
     color: white;
     cursor: pointer;
     margin-top: 1em;
+    width: 300px;
   }
 </style>

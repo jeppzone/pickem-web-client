@@ -1,21 +1,24 @@
 <script>
-  import Fa from "svelte-fa";
   import { createEventDispatcher } from "svelte";
   import { toast } from "@zerodevx/svelte-toast";
-  import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
   import { deleteLeague } from "../api";
   import { loggedInUser } from "../auth";
+  import LoadingIndicator from "../LoadingIndicator.svelte";
+  import { navigateTo } from "svelte-router-spa";
   export let league;
-  export let disabled = false;
+  let loading = false;
 
   const dispatch = createEventDispatcher();
 
   async function delLeague() {
     try {
+      loading = true;
       await deleteLeague($loggedInUser, league.id);
-      dispatch("delete-league-succeeded", { deletedLeague: league });
+      loading = false;
       toast.push("League deleted");
+      navigateTo("/leagues");
     } catch (error) {
+      loading = false;
       toast.push("An error occured", {
         theme: {
           "--toastBackground": "#f54260",
@@ -26,20 +29,17 @@
   }
 </script>
 
-<span class={disabled ? "delete disabled" : "delete"} on:click={delLeague}>
-  <Fa icon={faTrashAlt} size="lg" />
-</span>
+{#if loading}
+  <LoadingIndicator />
+{:else}
+  <button on:click={delLeague}>Delete league</button>
+{/if}
 
 <style>
-  .delete {
-    cursor: pointer;
-  }
-
-  .disabled {
-    cursor: auto;
-    opacity: 0;
-  }
-  span {
+  button {
+    width: 200px;
+    margin-top: 10px;
     color: white;
+    background-color: rgb(231, 117, 52);
   }
 </style>

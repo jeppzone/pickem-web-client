@@ -4,6 +4,8 @@
   import { loggedInUser } from "../auth";
   import DisplayBets from "./DisplayBets.svelte";
   import LoadingIndicator from "../LoadingIndicator.svelte";
+  import DeleteLeague from "./DeleteLeague.svelte";
+  import JoinLeague from "./JoinLeague.svelte";
   export let currentRoute;
   let league = {};
   let users = {};
@@ -14,14 +16,35 @@
     try {
       const leagueId = currentRoute.namedParams.id;
       league = await fetchLeague($loggedInUser, leagueId);
+      console.log(league);
       leaderBoard = league.leaderBoard.leaderBoardEntries;
       users = league.users;
-    } catch (err) {}
-    loading = false;
+      loading = false;
+    } catch (err) {
+      loading = false;
+    }
   });
 
   function isLoggedInUserInLeague() {
     return Object.keys(users).includes($loggedInUser.id);
+  }
+
+  function isLoggedInUserAdmin() {
+    return $loggedInUser?.id === league?.admin?.id;
+  }
+
+  async function handleJoinLeagueSuccess() {
+    loading = true;
+    try {
+      const leagueId = currentRoute.namedParams.id;
+      league = await fetchLeague($loggedInUser, leagueId);
+      console.log(league);
+      leaderBoard = league.leaderBoard.leaderBoardEntries;
+      users = league.users;
+      loading = false;
+    } catch (err) {
+      loading = false;
+    }
   }
 </script>
 
@@ -31,6 +54,9 @@
   {:else}
     {#if users && league}
       <h1>{league.name}</h1>
+      {#if !isLoggedInUserInLeague()}
+        <JoinLeague {league} on:join-league-succeeded={handleJoinLeagueSuccess} />
+      {/if}
       <h2>Standings</h2>
       <table>
         <tr>
@@ -51,6 +77,9 @@
     {/if}
     {#if league.bets && isLoggedInUserInLeague()}
       <DisplayBets {league} />
+    {/if}
+    {#if isLoggedInUserAdmin()}
+      <DeleteLeague {league} />
     {/if}
   {/if}
 </div>

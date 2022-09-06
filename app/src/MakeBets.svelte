@@ -36,6 +36,7 @@
       await makeBets(madeChoices, $loggedInUser);
       loading = false;
       toast.push("Bets made");
+      setUpBets(games);
     } catch (err) {
       loading = false;
       pushErrorToast("Something went wrong while placing bets");

@@ -22,20 +22,6 @@
           {league.name}
         </Navigate>
       </td>
-      {#if !isLoggedInUserInLeague(league)}
-        <td>
-          <div class="button">
-            <JoinLeague {league} on:join-league-succeeded />
-          </div>
-        </td>
-      {/if}
-      {#if $loggedInUser?.id === league.admin.id}
-        <td>
-          <div class="button">
-            <DeleteLeague {league} on:delete-league-succeeded />
-          </div>
-        </td>
-      {/if}
     </tr>
   {/each}
 </table>

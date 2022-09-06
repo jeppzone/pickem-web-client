@@ -101,6 +101,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    max-width: 90%;
   }
   .span-button {
     cursor: pointer;

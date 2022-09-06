@@ -140,4 +140,12 @@
     margin-right: 20px;
     margin-top: 10px;
   }
+
+  @media only screen and (max-width: 800px) {
+    .login,
+    input,
+    button {
+      width: 340px;
+    }
+  }
 </style>

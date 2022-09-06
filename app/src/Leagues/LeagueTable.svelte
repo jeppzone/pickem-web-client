@@ -15,11 +15,6 @@
 </script>
 
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Players</th>
-    <th>Admin</th>
-  </tr>
   {#each leagues as league}
     <tr class={isLoggedInUserInLeague(league) ? "user-in-league" : ""}>
       <td>
@@ -27,8 +22,6 @@
           {league.name}
         </Navigate>
       </td>
-      <td>{getNbrOfPlayers(league)}</td>
-      <td>{league.admin.username}</td>
       {#if !isLoggedInUserInLeague(league)}
         <td>
           <div class="button">
@@ -55,14 +48,9 @@
     border: 1px solid rgb(233, 147, 97);
   }
   table,
-  th,
   td {
     border-radius: 5px;
     word-wrap: break-word;
-  }
-  th {
-    padding: 1.5em;
-    text-align: center;
   }
   td {
     padding: 1.5em;
@@ -74,20 +62,17 @@
   tr:nth-child(even) {
     background-color: rgb(12, 35, 49);
   }
-  tr td:nth-child(4) {
+  tr td:nth-child(2) {
     background-color: rgb(231, 117, 52);
   }
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 1000px) {
     table {
-      width: 100%;
+      width: 95%;
     }
-    th {
-      padding: 1vw;
-      text-align: center;
-    }
-    td {
-      padding: 1vw;
-      text-align: center;
+  }
+  @media only screen and (min-width: 1500px) {
+    table {
+      width: 30%;
     }
   }
 </style>

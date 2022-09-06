@@ -89,9 +89,9 @@
     }
     const week = games[0].week;
     const seasonType = games[0].seasonType;
-    return `${nbrOfSuccessfulBets(existingBets, week, seasonType)}-${
+    return `(${nbrOfSuccessfulBets(existingBets, week, seasonType)}-${
       nbrOfFinishedBets(existingBets, week, seasonType) - nbrOfSuccessfulBets(existingBets, week, seasonType)
-    }`;
+    })`;
   }
 </script>
 
@@ -114,9 +114,9 @@
       </tr>
       <tr>
         <td>Points</td>
-        <td>{getPointsText(league.bets[$loggedInUser?.id])}<br />({getRecord(league.bets[$loggedInUser?.id])})</td>
+        <td>{getPointsText(league.bets[$loggedInUser?.id])}<br />{getRecord(league.bets[$loggedInUser?.id])}</td>
         {#each Object.values(selectedUsers) as user}
-          <td>{getPointsText(league.bets[user.id])}<br />({getRecord(league.bets[user.id])})</td>
+          <td>{getPointsText(league.bets[user.id])}<br />{getRecord(league.bets[user.id])}</td>
         {/each}
       </tr>
       {#each games as game}

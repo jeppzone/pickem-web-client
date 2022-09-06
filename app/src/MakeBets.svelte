@@ -104,7 +104,7 @@
   }
 
   function allBetsMade(games, existingBets) {
-    return existingBets.length === games.length;
+    return existingBets.length === games.filter((g) => g.isBetable).length;
   }
 
   function pushErrorToast(message) {
@@ -164,7 +164,7 @@
                 <b>{displayTeamName(innerWidth, game.awayTeam)}</b>
               </span>
               {#if !game.isFinished && !game.isOngoing && game.awayTeam.record}
-                <span>
+                <span class="record">
                   ({game.awayTeam.record})
                 </span>
               {/if}
@@ -199,7 +199,7 @@
                 <b>{displayTeamName(innerWidth, game.homeTeam)}</b>
               </span>
               {#if !game.isFinished && !game.isOngoing && game.homeTeam.record}
-                <span>
+                <span class="record">
                   ({game.homeTeam.record})
                 </span>
               {/if}
@@ -291,7 +291,10 @@
     width: 300px;
   }
   .team-name {
-    width: 200px;
+    width: 220px;
+  }
+  .record {
+    width: 50px;
   }
   .container {
     display: flex;
@@ -304,7 +307,7 @@
   .odds {
     display: flex;
     align-items: center;
-    width: 100px;
+    width: 150px;
   }
 
   .input {

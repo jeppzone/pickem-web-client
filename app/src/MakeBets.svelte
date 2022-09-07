@@ -34,9 +34,9 @@
     loading = true;
     try {
       await makeBets(madeChoices, $loggedInUser);
-      loading = false;
+      await setUpBets(games);
       toast.push("Bets made");
-      setUpBets(games);
+      loading = false;
     } catch (err) {
       loading = false;
       pushErrorToast("Something went wrong while placing bets");
@@ -131,10 +131,6 @@
 
   function anyBetableGames(games) {
     return games.some((g) => g.isBetable);
-  }
-
-  function anyFinishedGames(games) {
-    return games.some((g) => g.isFinished);
   }
 
   function getGamesToShow(games) {

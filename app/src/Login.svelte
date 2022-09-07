@@ -28,9 +28,16 @@
   }
 
   async function registerUser() {
-    const user = await register({ username, password });
-    $loggedInUser = user;
-    navigateTo("/");
+    try {
+      loading = true;
+      const user = await register({ username, password });
+      $loggedInUser = user;
+      navigateTo("/");
+    } catch (err) {
+      showError("There was a problem when registering. Please try again");
+    } finally {
+      loading = false;
+    }
   }
 
   function showError(errorMessage) {
@@ -59,7 +66,14 @@
           <label for="password">Password</label>
           <input id="password" bind:value={password} type="password" />
         </div>
-        <button>Register</button>
+        <button>
+          <div class="loading">
+            {#if loading}
+              <LoadingIndicator />
+            {/if}
+          </div>
+          Register
+        </button>
       </form>
       <span class="span-button" on:click={toggleMode}>or <b>Login</b></span>
     {:else}

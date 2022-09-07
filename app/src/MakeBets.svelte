@@ -151,9 +151,7 @@
 
 <div class="container">
   <div class="header">
-    {#if !loading}
-      <h1>Make bets</h1>
-    {/if}
+    <h1>Make bets</h1>
     <SelectSeason on:season-select-started={handleSeasonSelectStarted} on:season-select-finished={handleSeasonSelectFinished} />
   </div>
   <div class="content">

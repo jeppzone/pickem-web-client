@@ -10,9 +10,9 @@
   let choices = {};
   $: innerWidth = 0;
 
-  function handleSeasonSelectFinished(evt) {
+  async function handleSeasonSelectFinished(evt) {
     games = evt.detail.games;
-    setUpBets(games);
+    await setUpBets(games);
     loading = false;
   }
 
@@ -132,6 +132,19 @@
   function anyBetableGames(games) {
     return games.some((g) => g.isBetable);
   }
+
+  function anyFinishedGames(games) {
+    return games.some((g) => g.isFinished);
+  }
+
+  function getGamesToShow(games) {
+    const gamesToShow = games.filter((g) => g.isFinished || g.isOngoing || g.isBetable);
+    if (gamesToShow.some((g) => g.isBetable)) {
+      return gamesToShow;
+    }
+
+    return games;
+  }
 </script>
 
 <svelte:window bind:innerWidth />
@@ -148,10 +161,7 @@
       <LoadingIndicator />
     {:else if games.length > 0 && !games.some((g) => g.awayTeam.name === "TBD" || g.homeTeam.name === "TBD")}
       <h2>{getPointsText(existingBets)}</h2>
-      {#if allBetsMade(games, existingBets)}
-        <p>All bets made for this week</p>
-      {/if}
-      {#each games as game}
+      {#each getGamesToShow(games) as game}
         <div class={getGameCardClass(existingBets, game)}>
           <div class="start-time">
             <i>{displayDate(game.startTime)}</i>
@@ -302,8 +312,8 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
+    height: 100%;
     font-size: 18px;
-    justify-content: center;
   }
   .odds {
     display: flex;

@@ -122,7 +122,7 @@
       return score;
     }
 
-    return "-";
+    return "";
   }
 
   function displayTeamName(width, team) {
@@ -292,7 +292,7 @@
     width: 300px;
   }
   .team-name {
-    width: 220px;
+    width: 210px;
   }
   .record {
     width: 50px;
@@ -343,7 +343,7 @@
 
   @media only screen and (max-width: 800px) {
     .content {
-      width: 95%;
+      width: 90%;
     }
     .team-name-and-logo {
       width: 150px;

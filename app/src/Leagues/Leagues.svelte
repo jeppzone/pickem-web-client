@@ -18,19 +18,16 @@
   }
 
   function handleLeagueCreated(evt) {
-    joinedLeagues = [...joinedLeagues, evt.detail.createdLeague];
-    leagues = [...joinedLeagues, ...otherLeagues];
+    leagues = [...leagues, evt.detail.createdLeague];
+    filterLeagues();
   }
 
   function handleLeagueJoined(evt) {
-    otherLeagues = otherLeagues.filter((l) => l.id !== evt.detail.joinedLeague.id);
-    joinedLeagues = [...joinedLeagues, evt.detail.joinedLeague];
-    leagues = [...joinedLeagues, ...otherLeagues];
   }
 
   function handleLeagueDeleted(evt) {
-    joinedLeagues = joinedLeagues.filter((l) => l.id !== evt.detail.deletedLeague.id);
-    leagues = [...joinedLeagues, ...otherLeagues];
+    leagues = leagues.filter((l) => l.id !== evt.detail.deletedLeague.id);
+    filterLeagues();
   }
 
   function filterLeagues() {

@@ -23,7 +23,7 @@
 </script>
 
 <div class="container">
-  <h2>Statistics</h2>
+  <h1>Statistics</h1>
   <select bind:value={season} on:change={fetchStatistics}>
     {#each seasons as s}
       <option value={s}>{s}</option>

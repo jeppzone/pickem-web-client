@@ -169,7 +169,7 @@
   }
 
   table {
-    width: 80%;
+    max-width: 90%;
   }
 
   img {
@@ -182,8 +182,8 @@
     border-radius: 5px;
   }
   th {
-    min-width: 100px;
-    max-width: 100px;
+    min-width: 150px;
+    max-width: 150px;
     padding: 1.5em;
     text-align: center;
   }
@@ -217,9 +217,12 @@
       padding: 1vw;
       text-align: center;
     }
-    .game-heading {
-      padding-left: 0;
-      padding-right: 0;
+  }
+
+  @media only screen and (max-width: 1000px) {
+    th {
+      min-width: 75px;
+      max-width: 75px;
     }
   }
 </style>

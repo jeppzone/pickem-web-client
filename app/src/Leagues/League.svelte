@@ -90,17 +90,17 @@
     flex-direction: column;
     align-items: center;
   }
-
-  table {
-    width: 60%;
+  table{
+    max-width: 90%;
   }
-
   table,
   th,
   td {
     border-radius: 5px;
   }
   th {
+    min-width: 100px;
+    max-width: 100px;
     padding: 1.5em;
     text-align: center;
   }
@@ -119,8 +119,8 @@
   }
 
   @media only screen and (max-width: 600px) {
-    table {
-      width: 100%;
+    table{
+      width: 90%;
     }
     th {
       padding: 1vw;
@@ -131,4 +131,10 @@
       text-align: center;
     }
   }
+  @media only screen and (max-width: 800px) {
+    th {
+      min-width: 40px;
+      max-width: 40px;
+    }
+  }  
 </style>

@@ -16,7 +16,6 @@
     try {
       const leagueId = currentRoute.namedParams.id;
       league = await fetchLeague($loggedInUser, leagueId);
-      console.log(league);
       leaderBoard = league.leaderBoard.leaderBoardEntries;
       users = league.users;
       loading = false;

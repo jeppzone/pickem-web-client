@@ -7,10 +7,11 @@
   import LoadingIndicator from "../LoadingIndicator.svelte";
 
   let leagues = [];
-  let joinedLeagues = [];
-  let otherLeagues = [];
+  let leaguesForSeason = [];
   let createToggled = false;
   let loading = false;
+  let season = 2022;
+  let seasons = [2022, 2021]
 
   function toggleCreate() {
     createToggled = !createToggled;
@@ -32,14 +33,15 @@
     leagues = [...joinedLeagues, ...otherLeagues];
   }
 
+  function filterLeagues() {
+    leaguesForSeason = leagues.filter((l) => l.season === season);
+  }
+
   onMount(async () => {
     try {
       loading = true;
       leagues = await fetchLeagues($loggedInUser);
-      leagues = leagues.filter((l) => l.season === 2022);
-      joinedLeagues = leagues.filter((l) => Object.keys(l.users).includes($loggedInUser.id));
-      otherLeagues = leagues.filter((l) => !joinedLeagues.includes(l));
-      leagues = [...joinedLeagues, ...otherLeagues];
+      leaguesForSeason = leagues.filter((l) => l.season === season);
       loading = false;
     } catch (err) {
       loading = false;
@@ -49,11 +51,20 @@
 
 <div class="container">
   <h1>Leagues</h1>
+  <div class="select-season">
+    <select bind:value={season} on:change={filterLeagues}>
+      {#each seasons as s}
+        <option value={s}>{s}</option>
+      {/each}
+    </select>
+  </div>
   {#if loading}
     <LoadingIndicator />
   {:else}
-    {#if leagues && leagues.length > 0}
-      <LeagueTable {leagues} on:delete-league-succeeded={handleLeagueDeleted} on:join-league-succeeded={handleLeagueJoined} />
+    {#if leaguesForSeason && leaguesForSeason.length > 0}
+    <div class="leagues">
+      <LeagueTable leagues={leaguesForSeason} on:delete-league-succeeded={handleLeagueDeleted} on:join-league-succeeded={handleLeagueJoined} />
+    </div>
     {/if}
     {#if createToggled}
       <CreateLeagues on:create-league-cancelled={toggleCreate} on:create-league-succeeded={handleLeagueCreated} />
@@ -66,6 +77,12 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+  }
+
+  h1,
+  .select-season,
+  .leagues {
+    padding-bottom: 15px;
   }
 
   button {

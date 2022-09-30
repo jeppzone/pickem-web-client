@@ -28,7 +28,8 @@
 
 <style>
   table {
-    width: 60%;
+    min-width: 300px;
+    max-width: 300px;
   }
   .user-in-league td:nth-child(1) {
     border: 1px solid rgb(233, 147, 97);

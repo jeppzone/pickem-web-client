@@ -22,14 +22,6 @@
     filterLeagues();
   }
 
-  function handleLeagueJoined(evt) {
-  }
-
-  function handleLeagueDeleted(evt) {
-    leagues = leagues.filter((l) => l.id !== evt.detail.deletedLeague.id);
-    filterLeagues();
-  }
-
   function filterLeagues() {
     leaguesForSeason = leagues.filter((l) => l.season === season);
   }
@@ -60,7 +52,7 @@
   {:else}
     {#if leaguesForSeason && leaguesForSeason.length > 0}
     <div class="leagues">
-      <LeagueTable leagues={leaguesForSeason} on:delete-league-succeeded={handleLeagueDeleted} on:join-league-succeeded={handleLeagueJoined} />
+      <LeagueTable leagues={leaguesForSeason} />
     </div>
     {/if}
     {#if createToggled}

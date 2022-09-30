@@ -1,13 +1,7 @@
 <script>
   import { Navigate } from "svelte-router-spa";
   import { loggedInUser } from "../auth";
-  import JoinLeague from "./JoinLeague.svelte";
-  import DeleteLeague from "./DeleteLeague.svelte";
   export let leagues = [];
-
-  function getNbrOfPlayers(league) {
-    return Object.keys(league.users).length;
-  }
 
   function isLoggedInUserInLeague(league) {
     return Object.keys(league.users).some((k) => k === $loggedInUser?.id);

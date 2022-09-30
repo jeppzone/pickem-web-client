@@ -160,11 +160,6 @@
     border: 2px solid rgb(233, 147, 97);
   }
 
-  .game-heading {
-    padding-left: 3em;
-    padding-right: 3em;
-  }
-
   .success {
     background-color: rgb(22, 98, 54);
   }
@@ -187,6 +182,8 @@
     border-radius: 5px;
   }
   th {
+    min-width: 100px;
+    max-width: 100px;
     padding: 1.5em;
     text-align: center;
   }

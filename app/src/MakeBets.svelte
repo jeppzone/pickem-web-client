@@ -299,7 +299,7 @@
     width: 210px;
   }
   .record {
-    width: 50px;
+    width: 55px;
   }
   .container {
     display: flex;

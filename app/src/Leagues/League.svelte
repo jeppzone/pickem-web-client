@@ -49,7 +49,9 @@
 
 <div class="container">
   {#if loading}
+  <div class="loading-indicator">
     <LoadingIndicator />
+  </div>
   {:else}
     {#if users && league}
       <h1>{league.name}</h1>
@@ -88,6 +90,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+  }
+  .loading-indicator{
+    margin: auto;
+    width: 50%;
   }
   table{
     max-width: 90%;

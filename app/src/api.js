@@ -14,7 +14,8 @@ export {
   fetchLeague,
   joinLeague,
   deleteLeague,
-  getStatistics
+  getStatistics,
+  getProfile
 };
 
 const login = async (user) => {
@@ -98,6 +99,11 @@ const deleteLeague = async (user, leagueId) => {
 
 const getStatistics = async (user, season) => {
   const response = await makeAuthenticatedRequest(`${url}/statistics?season=${season}`, "GET", null, user);
+  return response.json();
+}
+
+const getProfile = async (user) => {
+  const response = await makeAuthenticatedRequest(`${url}/users/me`, "GET", null, user);
   return response.json();
 }
 

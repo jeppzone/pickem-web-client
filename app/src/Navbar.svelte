@@ -43,7 +43,7 @@
         <p on:click={() => goTo("/statistics")} class={path.includes("/statistics") ? "selected" : ""}>Statistics</p>
       </div>
       <div class="user-info">
-        <h3>{$loggedInUser?.username}</h3>
+        <h3 on:click={() => goTo("/profile")} class={path.includes("/profile") ? "selected" : ""}>{$loggedInUser?.username}</h3>
         <p on:click={logOut}>Logout</p>
       </div>
     </div>
@@ -82,6 +82,9 @@
   .user-info p {
     cursor: pointer;
   }
+  .user-info h3 {
+    cursor: pointer;
+  }  
 
   .navbar-pages {
     display: flex;

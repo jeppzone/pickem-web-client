@@ -8,6 +8,7 @@
   import { loggedInUser } from "./auth.js";
   import Layout from "./Layout.svelte";
   import Statistics from "./Statistics.svelte";
+  import Profile from "./Profile.svelte"
 
   function isLoggedIn() {
     if ($loggedInUser !== null) {
@@ -56,6 +57,12 @@
     {
       name: "statistics",
       component: Statistics,
+      layout: Layout,
+      onlyIf: { guard: isLoggedIn, redirect: "/login" },
+    },
+    {
+      name: "profile",
+      component: Profile,
       layout: Layout,
       onlyIf: { guard: isLoggedIn, redirect: "/login" },
     },

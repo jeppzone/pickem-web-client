@@ -5,31 +5,48 @@
   import LoadingIndicator from "./LoadingIndicator.svelte";
 
   let statistics = [];
+  let seasons = [2022, 2021];
+  let season = 2022;
   let loading = false;
 
   onMount(async () => {
     loading = true;
-    statistics = await getStatistics($loggedInUser);
+    statistics = await getStatistics($loggedInUser, season);
     loading = false;
   });
+
+  async function fetchStatistics() {
+    loading = true;
+    statistics = await getStatistics($loggedInUser, season);
+    loading = false;
+  }
 </script>
 
 <div class="container">
-  <h2>Statistics</h2>
-  {#if loading}
-    <LoadingIndicator />
-  {:else}
-    <table>
-      {#each statistics as statEntry}
-        <tr>
-          <td>{statEntry.description}</td>
-          <td>{statEntry.value}</td>
-          <td>{statEntry.user}</td>
-          <td>{statEntry.valueDescription}</td>
-        </tr>
-      {/each}
-    </table>
-  {/if}
+  <h1>Statistics</h1>
+  <select bind:value={season} on:change={fetchStatistics}>
+    {#each seasons as s}
+      <option value={s}>{s}</option>
+    {/each}
+  </select>
+  <div class="statistics">
+    {#if loading}
+      <LoadingIndicator />
+    {:else if statistics?.length === 0}
+      <h3>{`No statistics yet for ${season}`}</h3>
+    {:else}
+      <table>
+        {#each statistics as statEntry}
+          <tr>
+            <td>{statEntry.description}</td>
+            <td>{statEntry.value}</td>
+            <td>{statEntry.user}</td>
+            <td>{statEntry.valueDescription}</td>
+          </tr>
+        {/each}
+      </table>
+    {/if}
+  </div>
 </div>
 
 <style>
@@ -37,7 +54,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100%;
     font-size: 18px;
   }
   table,
@@ -53,5 +69,14 @@
   }
   tr:nth-child(even) {
     background-color: rgb(12, 35, 49);
+  }
+
+  @media only screen and (max-width: 800px) {
+    .container {
+      font-size: 14px;
+    }
+    .statistics {
+      width: 95%;
+    }
   }
 </style>

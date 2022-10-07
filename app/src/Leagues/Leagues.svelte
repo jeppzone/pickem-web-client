@@ -7,38 +7,30 @@
   import LoadingIndicator from "../LoadingIndicator.svelte";
 
   let leagues = [];
-  let joinedLeagues = [];
-  let otherLeagues = [];
+  let leaguesForSeason = [];
   let createToggled = false;
   let loading = false;
+  let season = 2022;
+  let seasons = [2022, 2021]
 
   function toggleCreate() {
     createToggled = !createToggled;
   }
 
   function handleLeagueCreated(evt) {
-    joinedLeagues = [...joinedLeagues, evt.detail.createdLeague];
-    leagues = [...joinedLeagues, ...otherLeagues];
+    leagues = [...leagues, evt.detail.createdLeague];
+    filterLeagues();
   }
 
-  function handleLeagueJoined(evt) {
-    otherLeagues = otherLeagues.filter((l) => l.id !== evt.detail.joinedLeague.id);
-    joinedLeagues = [...joinedLeagues, evt.detail.joinedLeague];
-    leagues = [...joinedLeagues, ...otherLeagues];
-  }
-
-  function handleLeagueDeleted(evt) {
-    joinedLeagues = joinedLeagues.filter((l) => l.id !== evt.detail.deletedLeague.id);
-    leagues = [...joinedLeagues, ...otherLeagues];
+  function filterLeagues() {
+    leaguesForSeason = leagues.filter((l) => l.season === season);
   }
 
   onMount(async () => {
-    loading = true;
     try {
+      loading = true;
       leagues = await fetchLeagues($loggedInUser);
-      joinedLeagues = leagues.filter((l) => Object.keys(l.users).includes($loggedInUser.id));
-      otherLeagues = leagues.filter((l) => !joinedLeagues.includes(l));
-      leagues = [...joinedLeagues, ...otherLeagues];
+      leaguesForSeason = leagues.filter((l) => l.season === season);
       loading = false;
     } catch (err) {
       loading = false;
@@ -48,11 +40,20 @@
 
 <div class="container">
   <h1>Leagues</h1>
+  <div class="select-season">
+    <select bind:value={season} on:change={filterLeagues}>
+      {#each seasons as s}
+        <option value={s}>{s}</option>
+      {/each}
+    </select>
+  </div>
   {#if loading}
     <LoadingIndicator />
   {:else}
-    {#if leagues && leagues.length > 0}
-      <LeagueTable {leagues} on:delete-league-succeeded={handleLeagueDeleted} on:join-league-succeeded={handleLeagueJoined} />
+    {#if leaguesForSeason && leaguesForSeason.length > 0}
+    <div class="leagues">
+      <LeagueTable leagues={leaguesForSeason} />
+    </div>
     {/if}
     {#if createToggled}
       <CreateLeagues on:create-league-cancelled={toggleCreate} on:create-league-succeeded={handleLeagueCreated} />
@@ -67,10 +68,17 @@
     align-items: center;
   }
 
+  h1,
+  .select-season,
+  .leagues {
+    padding-bottom: 15px;
+  }
+
   button {
     background-color: rgb(231, 117, 52);
     color: white;
     cursor: pointer;
     margin-top: 1em;
+    width: 300px;
   }
 </style>

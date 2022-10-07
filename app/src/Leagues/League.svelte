@@ -4,6 +4,8 @@
   import { loggedInUser } from "../auth";
   import DisplayBets from "./DisplayBets.svelte";
   import LoadingIndicator from "../LoadingIndicator.svelte";
+  import DeleteLeague from "./DeleteLeague.svelte";
+  import JoinLeague from "./JoinLeague.svelte";
   export let currentRoute;
   let league = {};
   let users = {};
@@ -16,21 +18,46 @@
       league = await fetchLeague($loggedInUser, leagueId);
       leaderBoard = league.leaderBoard.leaderBoardEntries;
       users = league.users;
-    } catch (err) {}
-    loading = false;
+      loading = false;
+    } catch (err) {
+      loading = false;
+    }
   });
 
   function isLoggedInUserInLeague() {
     return Object.keys(users).includes($loggedInUser.id);
   }
+
+  function isLoggedInUserAdmin() {
+    return $loggedInUser?.id === league?.admin?.id;
+  }
+
+  async function handleJoinLeagueSuccess() {
+    loading = true;
+    try {
+      const leagueId = currentRoute.namedParams.id;
+      league = await fetchLeague($loggedInUser, leagueId);
+      console.log(league);
+      leaderBoard = league.leaderBoard.leaderBoardEntries;
+      users = league.users;
+      loading = false;
+    } catch (err) {
+      loading = false;
+    }
+  }
 </script>
 
 <div class="container">
   {#if loading}
+  <div class="loading-indicator">
     <LoadingIndicator />
+  </div>
   {:else}
     {#if users && league}
       <h1>{league.name}</h1>
+      {#if !isLoggedInUserInLeague()}
+        <JoinLeague {league} on:join-league-succeeded={handleJoinLeagueSuccess} />
+      {/if}
       <h2>Standings</h2>
       <table>
         <tr>
@@ -52,6 +79,9 @@
     {#if league.bets && isLoggedInUserInLeague()}
       <DisplayBets {league} />
     {/if}
+    {#if isLoggedInUserAdmin()}
+      <DeleteLeague {league} />
+    {/if}
   {/if}
 </div>
 
@@ -61,17 +91,21 @@
     flex-direction: column;
     align-items: center;
   }
-
-  table {
-    width: 60%;
+  .loading-indicator{
+    margin: auto;
+    width: 50%;
   }
-
+  table{
+    max-width: 90%;
+  }
   table,
   th,
   td {
     border-radius: 5px;
   }
   th {
+    min-width: 100px;
+    max-width: 100px;
     padding: 1.5em;
     text-align: center;
   }
@@ -90,8 +124,8 @@
   }
 
   @media only screen and (max-width: 600px) {
-    table {
-      width: 100%;
+    table{
+      width: 90%;
     }
     th {
       padding: 1vw;
@@ -102,4 +136,10 @@
       text-align: center;
     }
   }
+  @media only screen and (max-width: 800px) {
+    th {
+      min-width: 40px;
+      max-width: 40px;
+    }
+  }  
 </style>

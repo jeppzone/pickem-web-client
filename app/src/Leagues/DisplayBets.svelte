@@ -89,9 +89,9 @@
     }
     const week = games[0].week;
     const seasonType = games[0].seasonType;
-    return `${nbrOfSuccessfulBets(existingBets, week, seasonType)}-${
+    return `(${nbrOfSuccessfulBets(existingBets, week, seasonType)}-${
       nbrOfFinishedBets(existingBets, week, seasonType) - nbrOfSuccessfulBets(existingBets, week, seasonType)
-    }`;
+    })`;
   }
 </script>
 
@@ -114,9 +114,9 @@
       </tr>
       <tr>
         <td>Points</td>
-        <td>{getPointsText(league.bets[$loggedInUser?.id])}<br />({getRecord(league.bets[$loggedInUser?.id])})</td>
+        <td>{getPointsText(league.bets[$loggedInUser?.id])}<br />{getRecord(league.bets[$loggedInUser?.id])}</td>
         {#each Object.values(selectedUsers) as user}
-          <td>{getPointsText(league.bets[user.id])}<br />({getRecord(league.bets[user.id])})</td>
+          <td>{getPointsText(league.bets[user.id])}<br />{getRecord(league.bets[user.id])}</td>
         {/each}
       </tr>
       {#each games as game}
@@ -160,11 +160,6 @@
     border: 2px solid rgb(233, 147, 97);
   }
 
-  .game-heading {
-    padding-left: 3em;
-    padding-right: 3em;
-  }
-
   .success {
     background-color: rgb(22, 98, 54);
   }
@@ -174,7 +169,7 @@
   }
 
   table {
-    width: 80%;
+    max-width: 90%;
   }
 
   img {
@@ -187,6 +182,8 @@
     border-radius: 5px;
   }
   th {
+    min-width: 150px;
+    max-width: 150px;
     padding: 1.5em;
     text-align: center;
   }
@@ -220,9 +217,12 @@
       padding: 1vw;
       text-align: center;
     }
-    .game-heading {
-      padding-left: 0;
-      padding-right: 0;
+  }
+
+  @media only screen and (max-width: 1000px) {
+    th {
+      min-width: 75px;
+      max-width: 75px;
     }
   }
 </style>

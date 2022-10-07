@@ -2,17 +2,19 @@
   import { toast } from "@zerodevx/svelte-toast";
   import { loggedInUser } from "./auth.js";
   import { fetchBets, makeBets } from "./api";
+  import { groupByArray } from "./util";
   import SelectSeason from "./SelectSeason.svelte";
   import LoadingIndicator from "./LoadingIndicator.svelte";
+  import Game from "./Game.svelte";
   let loading = false;
   let games = [];
   let existingBets = [];
   let choices = {};
-  $: innerWidth = 0;
 
-  function handleSeasonSelectFinished(evt) {
+  async function handleSeasonSelectFinished(evt) {
     games = evt.detail.games;
-    setUpBets(games);
+    groupGamesByDate(games);
+    await setUpBets(games);
     loading = false;
   }
 
@@ -34,8 +36,9 @@
     loading = true;
     try {
       await makeBets(madeChoices, $loggedInUser);
-      loading = false;
+      await setUpBets(games);
       toast.push("Bets made");
+      loading = false;
     } catch (err) {
       loading = false;
       pushErrorToast("Something went wrong while placing bets");
@@ -65,33 +68,6 @@
     return bets.reduce((x, y) => x + y.points, 0);
   }
 
-  function isBetSuccessful(bets, game) {
-    var existingBet = bets.find((b) => b.game.id === game.id);
-    return existingBet ? existingBet.successful : false;
-  }
-
-  function getBetByGame(game, existingBets) {
-    return existingBets.find((b) => b.game.id === game.id);
-  }
-
-  function hasUserBetOnGame(game, existingBets) {
-    const existingBet = getBetByGame(game, existingBets);
-    return existingBet ? true : false;
-  }
-
-  function isBetOnTeam(game, team, existingBets) {
-    const bet = getBetByGame(game, existingBets);
-    return bet?.winningTeam?.id === team.id;
-  }
-
-  function getGameCardClass(existingBets, game) {
-    return game.isFinished && hasUserBetOnGame(game, existingBets)
-      ? isBetSuccessful(existingBets, game)
-        ? "game-card success"
-        : "game-card failure"
-      : "game-card";
-  }
-
   function getPointsText(existingBets) {
     return `${points(existingBets).toFixed(2)} points (${nbrOfSuccessfulBets(existingBets)}-${
       nbrOfFinishedBets(existingBets) - nbrOfSuccessfulBets(existingBets)
@@ -99,12 +75,16 @@
     `;
   }
 
-  function displayDate(date) {
-    return `${new Date(date).toLocaleDateString("sv-SE")} ${new Date(date).toLocaleTimeString("sv-SE")}`;
+  function groupGamesByDate(games) {
+    const gamesToShow = getGamesToShow(games);
+    const result = groupByArray(gamesToShow, (g) => {
+      return new Date(g.startTime).toDateString();
+    });
+    return result;
   }
 
   function allBetsMade(games, existingBets) {
-    return existingBets.length === games.length;
+    return existingBets.length === games.filter((g) => g.isBetable).length;
   }
 
   function pushErrorToast(message) {
@@ -116,210 +96,92 @@
     });
   }
 
-  function displayScore(game, score) {
-    if (game.isFinished || game.isOngoing) {
-      return score;
-    }
-
-    return "-";
+  function anyBetableGames(games) {
+    return games.some((g) => g.isBetable);
   }
 
-  function displayTeamName(width, team) {
-    return width > 800 ? team.name : team.abbreviation;
+  function getGamesToShow(games) {
+    const gamesToShow = games.filter((g) => g.isFinished || g.isOngoing || g.isBetable);
+    if (gamesToShow.some((g) => g.isBetable)) {
+      return gamesToShow;
+    }
+
+    return games;
   }
 </script>
 
-<svelte:window bind:innerWidth />
-
 <div class="container">
-  <h1>Make bets</h1>
-  <SelectSeason on:season-select-started={handleSeasonSelectStarted} on:season-select-finished={handleSeasonSelectFinished} />
-  {#if loading}
-    <LoadingIndicator />
-  {:else if games.length > 0 && !games.some((g) => g.awayTeam.name === "TBD" || g.homeTeam.name === "TBD")}
-    <h2>{getPointsText(existingBets)}</h2>
-    {#if allBetsMade(games, existingBets)}
-      <p>All bets made for this week</p>
+  <div class="header">
+    <h1>Make bets</h1>
+    <SelectSeason on:season-select-started={handleSeasonSelectStarted} on:season-select-finished={handleSeasonSelectFinished} />
+  </div>
+  <div class="content">
+    {#if loading}
+      <LoadingIndicator />
+    {:else if games.length > 0 && !games.some((g) => g.awayTeam.name === "TBD" || g.homeTeam.name === "TBD")}
+      <h2>{getPointsText(existingBets)}</h2>
+      {#each groupGamesByDate(games) as group}
+        <div class="game-group">
+          <h4>{group.key.toUpperCase()}</h4>
+          <br />
+          {#each group.values as game}
+            <Game {choices} {existingBets} {game} />
+          {/each}
+        </div>
+      {/each}
+    {:else}
+      <h2>No games yet</h2>
     {/if}
-    {#each games as game}
-      <div class={getGameCardClass(existingBets, game)}>
-        <div class="start-time">
-          <i>{displayDate(game.startTime)}</i>
-        </div>
-        <div class="team">
-          <div class="team-name-and-logo">
-            <span>
-              <img src={game.awayTeam.logo} alt={game.awayTeam.name} />
-            </span>
-            <span class="team-name">
-              <b>{displayTeamName(innerWidth, game.awayTeam)}</b>
-            </span>
-            {#if !game.isFinished && !game.isOngoing}
-              <span>
-                ({game.awayTeam.record})
-              </span>
-            {/if}
-          </div>
-          {#if game.isFinished}
-            <div class={game?.awayTeam?.id === game?.winner?.id ? "winner" : "loser"}>
-              {game.awayTeamScore}
-            </div>
-          {:else}
-            <div class="not-finished-score">
-              <i>{displayScore(game, game.awayTeamScore)}</i>
-            </div>
-          {/if}
-          {#if !hasUserBetOnGame(game, existingBets) && game.isBetable}
-            <div class="odds">{game.awayTeamOdds || "N/A"}</div>
-            <div class="input">
-              <input type="radio" bind:group={choices[game.id]} value={game.awayTeam.id} />
-            </div>
-          {:else if isBetOnTeam(game, game.awayTeam, existingBets)}
-            <div>
-              {game.awayTeam.abbreviation} <b>@</b>
-              {getBetByGame(game, existingBets).game.awayTeamOdds}
-            </div>
-          {/if}
-        </div>
-        <div class="team">
-          <div class="team-name-and-logo">
-            <span>
-              <img src={game.homeTeam.logo} alt={game.homeTeam.name} />
-            </span>
-            <span class="team-name">
-              <b>{displayTeamName(innerWidth, game.homeTeam)}</b>
-            </span>
-            {#if !game.isFinished && !game.isOngoing}
-              <span>
-                ({game.homeTeam.record})
-              </span>
-            {/if}
-          </div>
-          {#if game.isFinished}
-            <div class={game?.homeTeam?.id === game?.winner?.id ? "winner" : "loser"}>
-              {game.homeTeamScore}
-            </div>
-          {:else}
-            <div class="not-finished-score">
-              <i>{displayScore(game, game.homeTeamScore)}</i>
-            </div>
-          {/if}
-          {#if !hasUserBetOnGame(game, existingBets) && game.isBetable}
-            <div class="odds">{game.homeTeamOdds || "N/A"}</div>
-            <div class="input">
-              <input type="radio" bind:group={choices[game.id]} value={game.homeTeam.id} />
-            </div>
-          {:else if isBetOnTeam(game, game.homeTeam, existingBets)}
-            <div>
-              {game.homeTeam.abbreviation} <b>@</b>
-              {getBetByGame(game, existingBets).game.homeTeamOdds}
-            </div>
-          {/if}
-        </div>
-      </div>
-    {/each}
-    {#if !allBetsMade(games, existingBets)}
-      <button type="submit" on:click|preventDefault={submitBets}>Place bets</button>
-    {/if}
-  {:else}
-    <h2>No games yet</h2>
-  {/if}
+    <div>
+      {#if !allBetsMade(games, existingBets) && anyBetableGames(games) && !loading}
+        <button type="submit" on:click|preventDefault={submitBets}>Place bets</button>
+      {/if}
+    </div>
+  </div>
 </div>
 
 <style>
-  .game-card {
-    background-color: rgb(5, 47, 75);
-    margin-bottom: 0.5em;
-    width: 90%;
-    padding: 8px;
-    border-radius: 10px;
-  }
-
-  b {
-    margin-bottom: 1vh;
-    margin-top: 1vh;
-  }
-
-  .success {
-    background-color: rgb(22, 98, 54);
-  }
-
-  .failure {
-    background-color: rgb(88, 28, 35);
-  }
-
-  .game-card img {
-    width: 30px;
-  }
-
-  .team {
+  .header {
+    width: 80%;
+    max-width: 1000px;
     display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
   }
-  .team-name-and-logo b {
-    padding: 0.5em;
+  .content {
+    width: 80%;
+    max-width: 1000px;
   }
-  .team-name-and-logo {
-    display: flex;
-    align-items: center;
-    width: 300px;
+  .content h2 {
+    text-align: center;
   }
-  .team-name {
-    width: 200px;
-  }
+
   .container {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
+    height: 100%;
     font-size: 18px;
-  }
-  .odds {
-    display: flex;
-    align-items: center;
-    width: 100px;
-  }
-
-  .input {
-    margin-top: 18px;
-    width: 80px;
   }
 
   button {
     background-color: rgb(231, 117, 52);
     color: white;
+    width: 100%;
   }
 
-  .winner {
-    font-weight: bold;
-    width: 4em;
-  }
-
-  .loser {
-    opacity: 0.8;
-    width: 4em;
-  }
-
-  .not-finished-score {
-    width: 4em;
-  }
-
-  .start-time {
-    padding-bottom: 1vh;
-    padding-left: 0.5vh;
+  .game-group h4 {
+    margin-left: 5px;
+    letter-spacing: 1px;
+    margin-block-end: 0.5rem;
+    font-weight: 900;
   }
 
   @media only screen and (max-width: 800px) {
-    .team-name-and-logo {
-      width: 150px;
-    }
-    .team-name {
-      width: 50px;
-    }
-    .not-finished-score,
-    .winner,
-    .loser {
-      width: 1.5em;
+    .content {
+      width: 90%;
     }
   }
 </style>

@@ -1,4 +1,4 @@
-const url = "https://pickem-api-dev.herokuapp.com/api";
+const url = "https://pickem-api-production.up.railway.app/api";
 // const url = "http://localhost:5002/api";
 
 export {
@@ -96,8 +96,8 @@ const deleteLeague = async (user, leagueId) => {
   }
 };
 
-const getStatistics = async (user) => {
-  const response = await makeAuthenticatedRequest(`${url}/statistics`, "GET", null, user);
+const getStatistics = async (user, season) => {
+  const response = await makeAuthenticatedRequest(`${url}/statistics?season=${season}`, "GET", null, user);
   return response.json();
 }
 

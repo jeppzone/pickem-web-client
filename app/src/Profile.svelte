@@ -66,7 +66,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 90%;
+    width: 100%;
     height: 100%;
     font-size: 18px;
   }
@@ -100,6 +100,7 @@
   }
 
   @media only screen and (max-width: 800px) {
+    table,
     td {
       min-width: 130px;
       max-width: 130px;

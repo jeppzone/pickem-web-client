@@ -33,10 +33,7 @@
     <table>
       <tr>
         <td>Record</td>
-        <td
-          >{profile.statistics?.nbrOfCorrectBets} - {profile.statistics
-            ?.nbrOfIncorrectBets}</td
-        >
+        <td>{profile.statistics?.nbrOfCorrectBets} - {profile.statistics?.nbrOfIncorrectBets}</td>
       </tr>
       <tr>
         <td>Most points in a single bet</td>
@@ -45,18 +42,15 @@
       <tr>
         <td>Most points in a week</td>
         <td>{profile.statistics?.mostPointsInAWeek}</td>
-      </tr>      
+      </tr>
     </table>
     {#if profile.statistics?.teamBetRecords}
-      <h3>Team bet records (successful - unsuccessful)</h3>
+      <h3>Team bet records (won-lost)</h3>
       {#each profile.statistics?.teamBetRecords as teamBetRecord}
         <table>
           <tr>
             <td class="team-and-logo">
-              <img
-                src={teamBetRecord.team.logo}
-                alt={teamBetRecord.team.name}
-              />
+              <img src={teamBetRecord.team.logo} alt={teamBetRecord.team.name} />
               {displayTeamName(innerWidth, teamBetRecord.team)}
             </td>
             <td>{teamBetRecord.nbrOfCorrectBets} - {teamBetRecord.nbrOfIncorrectBets}</td>
@@ -72,12 +66,12 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100%;
+    width: 90%;
     height: 100%;
     font-size: 18px;
   }
 
-  .team-and-logo{
+  .team-and-logo {
     display: flex;
     align-items: center;
   }
@@ -87,9 +81,9 @@
     margin-right: 10px;
   }
   table,
-  td{
+  td {
     min-width: 230px;
-    max-width: 230px; 
+    max-width: 230px;
   }
   td {
     border-radius: 5px;
@@ -106,9 +100,9 @@
   }
 
   @media only screen and (max-width: 800px) {
-    td{
-    min-width: 130px;
-    max-width: 130px; 
-  }
+    td {
+      min-width: 130px;
+      max-width: 130px;
+    }
   }
 </style>

@@ -1,5 +1,6 @@
 <script>
   import { Router } from "svelte-router-spa";
+  import { GoogleAnalytics } from "@beyonk/svelte-google-analytics";
   import jwtDecode from "jwt-decode";
   import Login from "./Login.svelte";
   import Leagues from "./Leagues/Leagues.svelte";
@@ -8,7 +9,7 @@
   import { loggedInUser } from "./auth.js";
   import Layout from "./Layout.svelte";
   import Statistics from "./Statistics.svelte";
-  import Profile from "./Profile.svelte"
+  import Profile from "./Profile.svelte";
 
   function isLoggedIn() {
     if ($loggedInUser !== null) {
@@ -70,5 +71,6 @@
 </script>
 
 <div class="routes">
+  <GoogleAnalytics properties={["G-J3MNHPTEDK"]} />
   <Router {routes} />
 </div>

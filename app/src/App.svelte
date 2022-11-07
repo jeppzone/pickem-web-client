@@ -71,6 +71,6 @@
 </script>
 
 <div class="routes">
-  <GoogleAnalytics properties={["G-J3MNHPTEDK"]} />
+  <GoogleAnalytics properties={["G-J3MNHPTEDK", "341125472"]} />
   <Router {routes} />
 </div>

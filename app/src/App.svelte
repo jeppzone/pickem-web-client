@@ -1,6 +1,5 @@
 <script>
   import { Router } from "svelte-router-spa";
-  import { GoogleAnalytics } from "@beyonk/svelte-google-analytics";
   import jwtDecode from "jwt-decode";
   import Login from "./Login.svelte";
   import Leagues from "./Leagues/Leagues.svelte";
@@ -71,6 +70,5 @@
 </script>
 
 <div class="routes">
-  <GoogleAnalytics properties={["G-J3MNHPTEDK", "341125472"]} />
   <Router {routes} />
 </div>

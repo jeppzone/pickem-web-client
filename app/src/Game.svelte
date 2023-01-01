@@ -1,4 +1,6 @@
 <script>
+  import Fa from "svelte-fa";
+  import { faFootballBall } from "@fortawesome/free-solid-svg-icons";
   export let existingBets = [];
   export let choices = {};
   export let game = {};
@@ -70,6 +72,11 @@
           ({game.awayTeam.record})
         </span>
       {/if}
+      {#if game.isOngoing && game.teamWithPossession?.id === game.awayTeam.id}
+        <span style="color: white;">
+          <Fa icon={faFootballBall} size="s" />
+        </span>
+      {/if}
     </div>
     {#if game.isFinished}
       <div class={game?.awayTeam?.id === game?.winner?.id ? "winner" : "loser"}>
@@ -80,7 +87,7 @@
         <i>{displayScore(game, game.awayTeamScore)}</i>
       </div>
     {/if}
-    {#if !hasUserBetOnGame(game, existingBets) && game.isBetable}
+    {#if !hasUserBetOnGame(game, existingBets) && game.true}
       <div class="odds">{game.awayTeamOdds || "N/A"}</div>
       <div class="input">
         <input type="radio" bind:group={choices[game.id]} value={game.awayTeam.id} />
@@ -105,6 +112,11 @@
           ({game.homeTeam.record})
         </span>
       {/if}
+      {#if game.isOngoing && game.teamWithPossession?.id === game.homeTeam.id}
+        <span style="color: white;">
+          <Fa icon={faFootballBall} size="s" />
+        </span>
+      {/if}
     </div>
     {#if game.isFinished}
       <div class={game?.homeTeam?.id === game?.winner?.id ? "winner" : "loser"}>
@@ -115,7 +127,7 @@
         <i>{displayScore(game, game.homeTeamScore)}</i>
       </div>
     {/if}
-    {#if !hasUserBetOnGame(game, existingBets) && game.isBetable}
+    {#if !hasUserBetOnGame(game, existingBets) && true}
       <div class="odds">{game.homeTeamOdds || "N/A"}</div>
       <div class="input">
         <input type="radio" bind:group={choices[game.id]} value={game.homeTeam.id} />
@@ -214,5 +226,12 @@
     .loser {
       width: 1.5em;
     }
+  }
+  .dot {
+    height: 8px;
+    width: 8px;
+    background-color: white;
+    border-radius: 50%;
+    display: inline-block;
   }
 </style>

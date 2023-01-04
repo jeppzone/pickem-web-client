@@ -87,7 +87,7 @@
         <i>{displayScore(game, game.awayTeamScore)}</i>
       </div>
     {/if}
-    {#if !hasUserBetOnGame(game, existingBets) && game.true}
+    {#if !hasUserBetOnGame(game, existingBets) && game.isBetable}
       <div class="odds">{game.awayTeamOdds || "N/A"}</div>
       <div class="input">
         <input type="radio" bind:group={choices[game.id]} value={game.awayTeam.id} />
@@ -127,7 +127,7 @@
         <i>{displayScore(game, game.homeTeamScore)}</i>
       </div>
     {/if}
-    {#if !hasUserBetOnGame(game, existingBets) && true}
+    {#if !hasUserBetOnGame(game, existingBets) && game.isBetable}
       <div class="odds">{game.homeTeamOdds || "N/A"}</div>
       <div class="input">
         <input type="radio" bind:group={choices[game.id]} value={game.homeTeam.id} />

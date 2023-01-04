@@ -9,6 +9,7 @@
   import Layout from "./Layout.svelte";
   import Statistics from "./Statistics.svelte";
   import Profile from "./Profile.svelte";
+  import GameDetails from "./GameDetails.svelte";
 
   function isLoggedIn() {
     if ($loggedInUser !== null) {
@@ -63,6 +64,12 @@
     {
       name: "profile",
       component: Profile,
+      layout: Layout,
+      onlyIf: { guard: isLoggedIn, redirect: "/login" },
+    },
+    {
+      name: "games/:id",
+      component: GameDetails,
       layout: Layout,
       onlyIf: { guard: isLoggedIn, redirect: "/login" },
     },

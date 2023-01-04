@@ -6,6 +6,7 @@ export {
   register,
   fetchGamesForCurrentWeek,
   fetchGames,
+  fetchGame,
   fetchBets,
   fetchFinishedBets,
   makeBets,
@@ -15,7 +16,7 @@ export {
   joinLeague,
   deleteLeague,
   getStatistics,
-  getProfile
+  getProfile,
 };
 
 const login = async (user) => {
@@ -30,6 +31,11 @@ const register = async (user) => {
 
 const fetchGames = async (season, seasonType, week) => {
   const response = await makeUnauthenticatedRequest(`${url}/games?season=${season}&seasonType=${seasonType}&week=${week}`, "GET");
+  return response.json();
+};
+
+const fetchGame = async (id) => {
+  const response = await makeUnauthenticatedRequest(`${url}/games/${id}`, "GET");
   return response.json();
 };
 
@@ -100,12 +106,12 @@ const deleteLeague = async (user, leagueId) => {
 const getStatistics = async (user, season) => {
   const response = await makeAuthenticatedRequest(`${url}/statistics?season=${season}`, "GET", null, user);
   return response.json();
-}
+};
 
 const getProfile = async (user) => {
   const response = await makeAuthenticatedRequest(`${url}/users/me`, "GET", null, user);
   return response.json();
-}
+};
 
 const makeUnauthenticatedRequest = async (url, method, body) => {
   const headers = {

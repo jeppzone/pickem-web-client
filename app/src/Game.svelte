@@ -38,6 +38,13 @@
     return "";
   }
 
+  function displayDownAndDistance(width, game) {
+    if (width < 1000) {
+      return "";
+    }
+    return game.ongoingGameProperties?.downAndDistance || "";
+  }
+
   function hasUserBetOnGame(game, existingBets) {
     const existingBet = getBetByGame(game, existingBets);
     return existingBet ? true : false;
@@ -72,11 +79,6 @@
           ({game.awayTeam.record})
         </span>
       {/if}
-      {#if game.isOngoing && game.teamWithPossession?.id === game.awayTeam.id}
-        <span style="color: white;">
-          <Fa icon={faFootballBall} size="s" />
-        </span>
-      {/if}
     </div>
     {#if game.isFinished}
       <div class={game?.awayTeam?.id === game?.winner?.id ? "winner" : "loser"}>
@@ -92,10 +94,17 @@
       <div class="input">
         <input type="radio" bind:group={choices[game.id]} value={game.awayTeam.id} />
       </div>
-    {:else if isBetOnTeam(game, game.awayTeam, existingBets)}
-      <div>
+    {/if}
+    <div class="user-bet">
+      {#if isBetOnTeam(game, game.awayTeam, existingBets)}
         {game.awayTeam.abbreviation} <b>@</b>
         {getBetByGame(game, existingBets).game.awayTeamOdds}
+      {/if}
+    </div>
+    {#if game.isOngoing && game.teamWithPossession?.id === game.awayTeam.id}
+      <div style="color: white;" class="game-status">
+        <Fa icon={faFootballBall} size="s" />
+        <span> {displayDownAndDistance(innerWidth, game)} </span>
       </div>
     {/if}
   </div>
@@ -110,11 +119,6 @@
       {#if !game.isFinished && !game.isOngoing && game.homeTeam.record}
         <span class="record">
           ({game.homeTeam.record})
-        </span>
-      {/if}
-      {#if game.isOngoing && game.teamWithPossession?.id === game.homeTeam.id}
-        <span style="color: white;">
-          <Fa icon={faFootballBall} size="s" />
         </span>
       {/if}
     </div>
@@ -132,10 +136,17 @@
       <div class="input">
         <input type="radio" bind:group={choices[game.id]} value={game.homeTeam.id} />
       </div>
-    {:else if isBetOnTeam(game, game.homeTeam, existingBets)}
-      <div>
+    {/if}
+    <div class="user-bet">
+      {#if isBetOnTeam(game, game.homeTeam, existingBets)}
         {game.homeTeam.abbreviation} <b>@</b>
         {getBetByGame(game, existingBets).game.homeTeamOdds}
+      {/if}
+    </div>
+    {#if game.isOngoing && game.teamWithPossession?.id === game.awayTeam.id}
+      <div style="color: white;" class="game-status">
+        <Fa icon={faFootballBall} size="s" />
+        <span> {displayDownAndDistance(innerWidth, game)} </span>
       </div>
     {/if}
   </div>
@@ -171,22 +182,19 @@
     align-items: center;
   }
   .team-name-and-logo b {
-    padding: 0.5em;
+    padding: 0.3em;
   }
   .team-name-and-logo {
     display: flex;
     align-items: center;
-    width: 300px;
   }
   .team-name {
     width: 210px;
   }
   .record {
-    width: 55px;
+    width: 70px;
   }
   .odds {
-    display: flex;
-    align-items: center;
     width: 150px;
   }
 
@@ -214,6 +222,14 @@
     padding-left: 0.5vh;
   }
 
+  .game-status {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 180px;
+    align-items: center;
+  }
+
   @media only screen and (max-width: 800px) {
     .team-name-and-logo {
       width: 150px;
@@ -227,11 +243,7 @@
       width: 1.5em;
     }
   }
-  .dot {
-    height: 8px;
-    width: 8px;
-    background-color: white;
-    border-radius: 50%;
-    display: inline-block;
+  .user-bet {
+    width: 150px;
   }
 </style>

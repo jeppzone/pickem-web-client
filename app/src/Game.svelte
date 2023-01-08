@@ -103,7 +103,9 @@
     </div>
     {#if game.isOngoing && game.teamWithPossession?.id === game.awayTeam.id}
       <div style="color: white;" class="game-status">
-        <Fa icon={faFootballBall} size="s" />
+        {#if innerWidth > 850}
+          <Fa icon={faFootballBall} size="s" />
+        {/if}
         <span> {displayDownAndDistance(innerWidth, game)} </span>
       </div>
     {/if}
@@ -145,7 +147,9 @@
     </div>
     {#if game.isOngoing && game.teamWithPossession?.id === game.homeTeam.id}
       <div style="color: white;" class="game-status">
-        <Fa icon={faFootballBall} size="s" />
+        {#if innerWidth > 850}
+          <Fa icon={faFootballBall} size="s" />
+        {/if}
         <span> {displayDownAndDistance(innerWidth, game)} </span>
       </div>
     {/if}
@@ -225,14 +229,17 @@
   .game-status {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    width: 180px;
+    justify-content: left;
+    width: 200px;
     align-items: center;
+  }
+  .game-status span {
+    padding-left: 5px;
   }
 
   @media only screen and (max-width: 800px) {
     .team-name-and-logo {
-      width: 150px;
+      width: 100px;
     }
     .team-name {
       width: 50px;

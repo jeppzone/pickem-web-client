@@ -143,7 +143,7 @@
         {getBetByGame(game, existingBets).game.homeTeamOdds}
       {/if}
     </div>
-    {#if game.isOngoing && game.teamWithPossession?.id === game.awayTeam.id}
+    {#if game.isOngoing && game.teamWithPossession?.id === game.homeTeam.id}
       <div style="color: white;" class="game-status">
         <Fa icon={faFootballBall} size="s" />
         <span> {displayDownAndDistance(innerWidth, game)} </span>

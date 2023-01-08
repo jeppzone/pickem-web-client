@@ -196,7 +196,7 @@
     width: 210px;
   }
   .record {
-    width: 70px;
+    width: 120px;
   }
   .odds {
     width: 150px;
@@ -242,19 +242,15 @@
 
   @media only screen and (max-width: 800px) {
     .team-name-and-logo {
-      width: 150px;
+      width: 100px;
     }
     .team-name {
-      width: 50px;
+      width: 100px;
     }
     .not-finished-score,
     .winner,
     .loser {
-      width: 1.5em;
-    }
-    .user-bet {
-      display: none;
-      width: 0px;
+      width: 3em;
     }
   }
 </style>

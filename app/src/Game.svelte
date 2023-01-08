@@ -236,10 +236,13 @@
   .game-status span {
     padding-left: 5px;
   }
+  .user-bet {
+    width: 150px;
+  }
 
   @media only screen and (max-width: 800px) {
     .team-name-and-logo {
-      width: 100px;
+      width: 150px;
     }
     .team-name {
       width: 50px;
@@ -249,8 +252,9 @@
     .loser {
       width: 1.5em;
     }
-  }
-  .user-bet {
-    width: 150px;
+    .user-bet {
+      display: none;
+      width: 0px;
+    }
   }
 </style>

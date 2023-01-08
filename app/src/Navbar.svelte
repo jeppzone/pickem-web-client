@@ -41,8 +41,6 @@
         <p on:click={() => goTo("/bets")} class={path.includes("/bets") ? "selected" : ""}>Bets</p>
         <p on:click={() => goTo("/leagues")} class={path.includes("/leagues") ? "selected" : ""}>Leagues</p>
         <p on:click={() => goTo("/statistics")} class={path.includes("/statistics") ? "selected" : ""}>Statistics</p>
-      </div>
-      <div class="user-info">
         <h3 on:click={() => goTo("/profile")} class={path.includes("/profile") ? "selected" : ""}>{$loggedInUser?.username}</h3>
         <p on:click={logOut}>Logout</p>
       </div>
@@ -72,27 +70,14 @@
     cursor: pointer;
   }
 
-  .user-info {
-    display: flex;
-    flex-direction: column;
-    bottom: 10px;
-    position: fixed;
-    margin-left: 20px;
-  }
-  .user-info p {
-    cursor: pointer;
-  }
-  .user-info h3 {
-    cursor: pointer;
-  }  
-
   .navbar-pages {
     display: flex;
     flex-direction: column;
     margin-left: 20px;
   }
 
-  .navbar-pages p {
+  .navbar-pages p,
+  .navbar-pages h3 {
     cursor: pointer;
   }
 
@@ -101,11 +86,6 @@
     border-bottom: 3px solid rgb(233, 147, 97);
     font-weight: bold;
     width: fit-content;
-
-    -webkit-animation: fadein 0.5s; /* Safari, Chrome and Opera > 12.1 */
-    -moz-animation: fadein 0.5s; /* Firefox < 16 */
-    -ms-animation: fadein 0.5s; /* Internet Explorer */
-    -o-animation: fadein 0.5s; /* Opera < 12.1 */
     animation: fadein 0.5s;
   }
 
@@ -160,9 +140,6 @@
     .hamburger {
       display: block;
       background-color: rgb(12, 35, 49);
-    }
-    .user-info {
-      position: relative;
     }
     .title {
       margin-top: 60px;

@@ -101,11 +101,9 @@
         {getBetByGame(game, existingBets).game.awayTeamOdds}
       {/if}
     </div>
-    {#if game.isOngoing && game.teamWithPossession?.id === game.awayTeam.id}
+    {#if game.isOngoing && game.teamWithPossession?.id === game.awayTeam.id && innerWidth > 1000}
       <div style="color: white;" class="game-status">
-        {#if innerWidth > 850}
-          <Fa icon={faFootballBall} size="s" />
-        {/if}
+        <Fa icon={faFootballBall} size="s" />
         <span> {displayDownAndDistance(innerWidth, game)} </span>
       </div>
     {/if}
@@ -145,11 +143,9 @@
         {getBetByGame(game, existingBets).game.homeTeamOdds}
       {/if}
     </div>
-    {#if game.isOngoing && game.teamWithPossession?.id === game.homeTeam.id}
+    {#if game.isOngoing && game.teamWithPossession?.id === game.homeTeam.id && innerWidth > 1000}
       <div style="color: white;" class="game-status">
-        {#if innerWidth > 850}
-          <Fa icon={faFootballBall} size="s" />
-        {/if}
+        <Fa icon={faFootballBall} size="s" />
         <span> {displayDownAndDistance(innerWidth, game)} </span>
       </div>
     {/if}
@@ -242,15 +238,10 @@
 
   @media only screen and (max-width: 800px) {
     .team-name-and-logo {
-      width: 100px;
+      width: 150px;
     }
     .team-name {
-      width: 100px;
-    }
-    .not-finished-score,
-    .winner,
-    .loser {
-      width: 3em;
+      width: 150px;
     }
   }
 </style>

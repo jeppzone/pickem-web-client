@@ -101,7 +101,7 @@
         {getBetByGame(game, existingBets).game.awayTeamOdds}
       {/if}
     </div>
-    {#if game.isOngoing && game.teamWithPossession?.id === game.awayTeam.id && innerWidth > 1000}
+    {#if game.isOngoing && game.ongoingGameProperties?.teamWithPossession?.id === game.awayTeam.id && innerWidth > 1000}
       <div style="color: white;" class="game-status">
         <Fa icon={faFootballBall} size="s" />
         <span> {displayDownAndDistance(innerWidth, game)} </span>
@@ -143,7 +143,7 @@
         {getBetByGame(game, existingBets).game.homeTeamOdds}
       {/if}
     </div>
-    {#if game.isOngoing && game.teamWithPossession?.id === game.homeTeam.id && innerWidth > 1000}
+    {#if game.isOngoing && game.ongoingGameProperties?.teamWithPossession?.id === game.homeTeam.id && innerWidth > 1000}
       <div style="color: white;" class="game-status">
         <Fa icon={faFootballBall} size="s" />
         <span> {displayDownAndDistance(innerWidth, game)} </span>

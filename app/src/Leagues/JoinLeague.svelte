@@ -10,7 +10,6 @@
   const dispatch = createEventDispatcher();
 
   async function join() {
-    console.log(league);
     loading = true;
     const joinedLeague = await joinLeague($loggedInUser, league.id);
     dispatch("join-league-succeeded", { joinedLeague });

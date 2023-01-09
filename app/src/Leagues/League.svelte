@@ -37,7 +37,6 @@
     try {
       const leagueId = currentRoute.namedParams.id;
       league = await fetchLeague($loggedInUser, leagueId);
-      console.log(league);
       leaderBoard = league.leaderBoard.leaderBoardEntries;
       users = league.users;
       loading = false;
@@ -49,9 +48,9 @@
 
 <div class="container">
   {#if loading}
-  <div class="loading-indicator">
-    <LoadingIndicator />
-  </div>
+    <div class="loading-indicator">
+      <LoadingIndicator />
+    </div>
   {:else}
     {#if users && league}
       <h1>{league.name}</h1>
@@ -91,11 +90,11 @@
     flex-direction: column;
     align-items: center;
   }
-  .loading-indicator{
+  .loading-indicator {
     margin: auto;
     width: 50%;
   }
-  table{
+  table {
     max-width: 90%;
   }
   table,
@@ -124,7 +123,7 @@
   }
 
   @media only screen and (max-width: 600px) {
-    table{
+    table {
       width: 90%;
     }
     th {
@@ -141,5 +140,5 @@
       min-width: 40px;
       max-width: 40px;
     }
-  }  
+  }
 </style>

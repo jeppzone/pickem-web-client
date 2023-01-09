@@ -11,9 +11,7 @@
     loading = true;
     if (!game) {
       const gameId = currentRoute.namedParams.id;
-      console.log(gameId);
       game = await fetchGame(gameId);
-      console.log(game);
     }
     loading = false;
   });

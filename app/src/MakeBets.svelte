@@ -97,7 +97,7 @@
   }
 
   function anyBetableGames(games) {
-    return games.some((g) => g.isBetable);
+    return games.length > 0 && games.some((g) => g.isBetable);
   }
 
   function getGamesToShow(games) {

@@ -2,7 +2,7 @@
   import { onMount } from "svelte";
   import { getStatistics } from "./api";
   import { loggedInUser } from "./auth";
-  import { getCurrentSeason, getSeasons } from "../util";
+  import { getCurrentSeason, getSeasons } from "./util";
   import LoadingIndicator from "./LoadingIndicator.svelte";
 
   let statistics = [];

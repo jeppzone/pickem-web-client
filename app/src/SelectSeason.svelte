@@ -1,10 +1,11 @@
 <script>
   import { createEventDispatcher, onMount } from "svelte";
   import { fetchGames, fetchGamesForCurrentWeek } from "./api";
+  import { getCurrentSeason, getSeasons } from "../util";
   const dispatch = createEventDispatcher();
-  let season = 2022;
   let games = [];
-  const seasons = [2022, 2021];
+  let season = getCurrentSeason();
+  const seasons = getSeasons();
   let weeks = populateWeeks();
   let week = {};
   let loading = false;

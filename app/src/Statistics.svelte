@@ -2,13 +2,14 @@
   import { onMount } from "svelte";
   import { getStatistics } from "./api";
   import { loggedInUser } from "./auth";
+  import { getCurrentSeason, getSeasons } from "../util";
   import LoadingIndicator from "./LoadingIndicator.svelte";
 
   let statistics = [];
   let regularSeasonStatistics = [];
   let postSeasonStatistics = [];
-  let seasons = [2022, 2021];
-  let season = 2022;
+  let seasons = getSeasons();
+  let season = getCurrentSeason();
   let loading = false;
 
   onMount(async () => {

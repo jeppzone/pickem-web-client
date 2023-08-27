@@ -3,6 +3,7 @@
   import CreateLeagues from "./CreateLeagues.svelte";
   import { loggedInUser } from "../auth";
   import { fetchLeagues } from "../api";
+  import { getCurrentSeason, getSeasons } from "../util";
   import LeagueTable from "./LeagueTable.svelte";
   import LoadingIndicator from "../LoadingIndicator.svelte";
 
@@ -10,8 +11,8 @@
   let leaguesForSeason = [];
   let createToggled = false;
   let loading = false;
-  let season = 2022;
-  let seasons = [2022, 2021]
+  let season = getCurrentSeason();
+  let seasons = getSeasons();
 
   function toggleCreate() {
     createToggled = !createToggled;
@@ -51,9 +52,9 @@
     <LoadingIndicator />
   {:else}
     {#if leaguesForSeason && leaguesForSeason.length > 0}
-    <div class="leagues">
-      <LeagueTable leagues={leaguesForSeason} />
-    </div>
+      <div class="leagues">
+        <LeagueTable leagues={leaguesForSeason} />
+      </div>
     {/if}
     {#if createToggled}
       <CreateLeagues on:create-league-cancelled={toggleCreate} on:create-league-succeeded={handleLeagueCreated} />

@@ -57,14 +57,14 @@
 	}
 </script>
 
-<main class="container">
+<section class="mx-auto w-1/2">
 	<div class="login">
-		<div>
-			<img src="assets/logo-text.png" alt="NFL Pick'em" />
+		<div class="grid justify-center">
+			<img src="/logo-text.png" alt="NFL Pick'em" />
 		</div>
 		{#if registerToggled}
 			<div class="title">
-				<h1>Register</h1>
+				<h1 class="text-7xl font-extrabold">Register</h1>
 			</div>
 			<form on:submit|preventDefault={registerUser}>
 				<div>
@@ -84,15 +84,23 @@
 			</form>
 			<span class="span-button" on:click={toggleMode}>or <b>Login</b></span>
 		{:else}
-			<div class="title">
-				<h1>Login</h1>
-			</div>
+			<h1 class="text-7xl font-extrabold pt-10 pb-5 text-center">Login</h1>
 			<form on:submit|preventDefault={loginUser}>
-				<div>
+				<div class="grid grid-cols-1 justify-center">
 					<label for="username">Username</label>
-					<input id="username" bind:value={username} type="text" />
+					<input
+						type="text"
+						placeholder="Type here"
+						class="input w-full max-w-xs text-black"
+						bind:value={username}
+					/>
 					<label for="password">Password</label>
-					<input id="password" bind:value={password} type="password" />
+					<input
+						id="password"
+						bind:value={password}
+						type="password"
+						class="input w-full max-w-xs text-black"
+					/>
 				</div>
 				<div class="action-button">
 					<button>
@@ -109,64 +117,4 @@
 		{/if}
 	</div>
 	<SvelteToast />
-</main>
-
-<style>
-	.container {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		height: 100%;
-	}
-	.login {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		max-width: 90%;
-	}
-	.span-button {
-		cursor: pointer;
-		margin-top: 1em;
-		font-size: 20px;
-	}
-	.title {
-		text-align: center;
-	}
-	button {
-		width: 100%;
-		margin-top: 1em;
-		cursor: pointer;
-		background-color: rgb(231, 117, 52);
-		color: white;
-	}
-
-	input {
-		padding: 1em;
-		border-radius: 5px;
-		margin-bottom: 1em;
-		width: 360px;
-	}
-
-	label {
-		font-size: 18px;
-	}
-
-	.action-button {
-		display: flex;
-	}
-
-	.loading {
-		margin: auto;
-		float: right;
-		margin-right: 20px;
-		margin-top: 10px;
-	}
-
-	@media only screen and (max-width: 800px) {
-		.login,
-		input,
-		button {
-			width: 340px;
-		}
-	}
-</style>
+</section>

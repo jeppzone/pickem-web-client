@@ -7,7 +7,7 @@
 	import { groupByArray } from '../../util';
 	import SelectSeason from '../../SelectSeason.svelte';
 	import LoadingIndicator from '../../LoadingIndicator.svelte';
-	import Game from '../../Game.svelte';
+	import Game from './Game.svelte';
 	let loading = false;
 	let games = [];
 	let existingBets = [];

@@ -6,11 +6,7 @@
 	"/bets": [
 		"src/routes/+layout.js"
 	],
-	"/leagues": [
-		"src/routes/+layout.js"
-	],
-	"/leagues/[slug]": [
-		"src/routes/leagues/[slug]/+page.js",
+	"/leaderboards": [
 		"src/routes/+layout.js"
 	],
 	"/login": [

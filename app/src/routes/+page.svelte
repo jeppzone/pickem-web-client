@@ -12,8 +12,6 @@
 
 	function isLoggedIn() {
 		if ($loggedInUser !== null) {
-			console.log('HERE AGAIN');
-			console.log($loggedInUser);
 			let decoded = jwtDecode($loggedInUser.token);
 			let nowSeconds = Math.floor(Date.now() / 1000);
 			return decoded.exp > nowSeconds;

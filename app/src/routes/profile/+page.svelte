@@ -11,6 +11,7 @@
 		loading = true;
 		try {
 			profile = await getProfile($loggedInUser);
+			console.log(profile);
 			loading = false;
 		} catch (err) {
 			loading = false;
@@ -24,86 +25,62 @@
 
 <svelte:window bind:innerWidth />
 
-<div class="container">
-	<h1>{$loggedInUser?.username}</h1>
+<section>
+	<h1 class="md:text-7xl xs:text-5xl text-center tracking-tight font-bold pt-10">Profile.</h1>
 	{#if loading}
 		<LoadingIndicator />
 	{:else}
-		<h3>All-time stats</h3>
-		<table>
-			<tr>
-				<td>Record</td>
-				<td>{profile.statistics?.nbrOfCorrectBets} - {profile.statistics?.nbrOfIncorrectBets}</td>
-			</tr>
-			<tr>
-				<td>Most points in a single bet</td>
-				<td>{profile.statistics?.mostPointsInASingleBet}</td>
-			</tr>
-			<tr>
-				<td>Most points in a week</td>
-				<td>{profile.statistics?.mostPointsInAWeek}</td>
-			</tr>
-		</table>
-		{#if profile.statistics?.teamBetRecords}
-			<h3>Team bet records (won-lost)</h3>
-			{#each profile.statistics?.teamBetRecords as teamBetRecord}
-				<table>
-					<tr>
-						<td class="team-and-logo">
-							<img src={teamBetRecord.team.logo} alt={teamBetRecord.team.name} />
-							{displayTeamName(innerWidth, teamBetRecord.team)}
-						</td>
-						<td>{teamBetRecord.nbrOfCorrectBets} - {teamBetRecord.nbrOfIncorrectBets}</td>
-					</tr>
-				</table>
+		<h2 class="md:text-5xl xs:text-3xl text-center tracking-tight font-bold pt-10">
+			All time record
+		</h2>
+		<h3 class="md:text-7xl xs:text-3xl text-center tracking-tight font-bold pt-10">
+			{profile?.statistics?.nbrOfCorrectBets} - {profile.statistics?.nbrOfIncorrectBets}
+		</h3>
+
+		<h2 class="md:text-5xl xs:text-3xl text-center tracking-tight font-bold pt-10">
+			Which team's games are you best at picking?
+		</h2>
+		<div class="grid grid-cols-1 md:w-1/2 xs:w-full pt-10 tracking-tight font-bold m-auto">
+			{#each profile?.statistics?.gamesWithTeamsPickedRecord || [] as teamBetRecord}
+				<div class="grid grid-cols-2 py-5 bg-sky-800 mb-5 rounded-l px-5 my-auto">
+					<div class="flex text-xl">
+						<img
+							src={teamBetRecord.team.logo}
+							width="40"
+							height="40"
+							alt="logo"
+							class="object-scale-down"
+						/>
+						<span class="my-auto pl-3">{teamBetRecord.team.name}</span>
+					</div>
+					<div class="text-xl text-right">
+						{teamBetRecord.nbrOfCorrectBets} - {teamBetRecord.nbrOfIncorrectBets}
+					</div>
+				</div>
 			{/each}
-		{/if}
+		</div>
+
+		<h2 class="md:text-5xl xs:text-3xl text-center tracking-tight font-bold pt-10">
+			When you pick a team, how often do they win?
+		</h2>
+		<div class="grid grid-cols-1 md:w-1/2 xs:w-full pt-10 tracking-tight font-bold m-auto">
+			{#each profile.statistics?.teamBetRecords || [] as teamBetRecord}
+				<div class="grid grid-cols-2 py-5 bg-sky-800 mb-5 rounded-l px-5 my-auto">
+					<div class="flex text-xl">
+						<img
+							src={teamBetRecord.team.logo}
+							width="40"
+							height="40"
+							alt="logo"
+							class="object-scale-down"
+						/>
+						<span class="my-auto pl-3">{teamBetRecord.team.name}</span>
+					</div>
+					<div class="text-xl text-right">
+						{teamBetRecord.nbrOfCorrectBets} - {teamBetRecord.nbrOfIncorrectBets}
+					</div>
+				</div>
+			{/each}
+		</div>
 	{/if}
-</div>
-
-<style>
-	.container {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		width: 100%;
-		height: 100%;
-		font-size: 18px;
-	}
-
-	.team-and-logo {
-		display: flex;
-		align-items: center;
-	}
-
-	table img {
-		width: 30px;
-		margin-right: 10px;
-	}
-	table,
-	td {
-		min-width: 230px;
-		max-width: 230px;
-	}
-	td {
-		border-radius: 5px;
-	}
-	td {
-		padding: 1.5em;
-		text-align: center;
-	}
-	tr:nth-child(odd) {
-		background-color: rgb(12, 35, 49);
-	}
-	tr:nth-child(even) {
-		background-color: rgb(12, 35, 49);
-	}
-
-	@media only screen and (max-width: 800px) {
-		table,
-		td {
-			min-width: 130px;
-			max-width: 130px;
-		}
-	}
-</style>
+</section>

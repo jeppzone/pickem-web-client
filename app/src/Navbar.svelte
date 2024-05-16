@@ -22,7 +22,6 @@
 
 	function logOut() {
 		$loggedInUser = null;
-		goto('/login');
 	}
 </script>
 
@@ -55,11 +54,6 @@
 						>Leaderboards</a
 					>
 					<a
-						href="/leagues"
-						class={`text-white px-6 py-2 rounded-2xl mt-10 transition-colors ${path.includes('/leagues') ? 'bg-cyan-600' : ''}`}
-						>Leagues</a
-					>
-					<a
 						href="/statistics"
 						class={`text-white px-6 py-2 rounded-2xl mt-10 transition-colors ${path.includes('/statistics') ? 'bg-cyan-600' : ''}`}
 						>Statistics</a
@@ -71,7 +65,8 @@
 							>Profile</a
 						>
 						<a
-							href="/auth/sign-out"
+							on:click={logOut}
+							href="/login"
 							data-sveltekit-preload-data="off"
 							class="text-white border-white px-6 py-2 rounded-l mt-10">Sign out</a
 						>

@@ -40,10 +40,12 @@
 		>{name}</span
 	>
 	<span class="col-span-4 xs:col md:text-right xs:text-left w-full">
-		<button
-			on:click|preventDefault={handleSelect}
-			class={`text-white border px-3 py-3 rounded-xl transition-colors ${selected ? 'bg-sky-900 border border-sky-600' : ''}`}
-		></button>
+		<input
+			type="radio"
+			class="radio radio-secondary mt-1"
+			on:change={handleSelect}
+			checked={selected}
+		/>
 	</span>
 	<span class="font-extrabold lg:text-3xl md:text-2xl xs:text-xl text-right xs:col-span-1">🎲</span>
 	<span class="font-extrabold lg:text-3xl md:text-2xl xs:text-xl text-right xs:col-span-1 pr-5"

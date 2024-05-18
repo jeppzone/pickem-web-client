@@ -36,43 +36,60 @@
 {#if open || innerWidth > 1200}
 	{#if !$page.url.pathname.includes('/login') && !$page.url.pathname.includes('/register')}
 		<nav class="w-full grid justify-center">
-			<div class="grid lg:grid-cols-7 lg:gap-4 sm:gap-x-2 xs:gap-x-1 text-center">
-				<a
-					href="/"
-					class={`text-white px-6 py-2 rounded-2xl mt-10 transition-colors ${path === '/' ? 'bg-cyan-600' : ''}`}
-					>Home</a
-				>
-				<a
-					href="/bets"
-					class={`text-white px-6 py-2 rounded-2xl mt-10 transition-colors ${path.includes('/bets') ? 'bg-cyan-600' : ''}`}
-					>Bets</a
-				>
-				<a
-					href="/leaderboards"
-					class={`text-white px-6 py-2 rounded-2xl mt-10 transition-colors ${path.includes('/leaderboards') ? 'bg-cyan-600' : ''}`}
-					>Leaderboards</a
-				>
-				<a
-					href="/statistics"
-					class={`text-white px-6 py-2 rounded-2xl mt-10 transition-colors ${path.includes('/statistics') ? 'bg-cyan-600' : ''}`}
-					>Statistics</a
-				>
+			<ul class="menu menu-vertical lg:menu-horizontal rounded-box hover:none">
+				<!-- <li class="">
+					<a
+						href="/"
+						class={`text-white px-6 py-2 rounded-2xl mt-10 transition-colors hover:bg-sky-900 ${path === '/' ? ' bg-sky-900' : ''}`}
+						>Home</a
+					>
+				</li> -->
+				<li>
+					<a
+						href="/bets"
+						class={`text-white px-6 py-2 rounded-2xl mt-10 transition-colors hover:bg-sky-900 ${path.includes('/bets') ? 'bg-sky-900 ' : ''}`}
+						>Picks</a
+					>
+				</li>
+				<li>
+					<a
+						href="/leaderboards"
+						class={`text-white px-6 py-2 rounded-2xl mt-10 transition-colors hover:bg-sky-900 ${path.includes('/leaderboards') ? 'bg-sky-900 ' : ''}`}
+						>Leaderboards</a
+					>
+				</li>
+				<li>
+					<a
+						href="/statistics"
+						class={`text-white px-6 py-2 rounded-2xl mt-10 transition-colors hover:bg-sky-900 ${path.includes('/statistics') ? 'bg-sky-900 ' : ''}`}
+						>Statistics</a
+					>
+				</li>
 				{#if $loggedInUser !== null}
-					<a
-						href="/profile"
-						class={`text-white px-6 py-2 rounded-2xl mt-10 transition-colors ${path.includes('/profile') ? 'bg-cyan-600' : ''}`}
-						>Profile</a
-					>
-					<a
-						on:click={logOut}
-						href="/login"
-						data-sveltekit-preload-data="off"
-						class="text-white border-white px-6 py-2 rounded-l mt-10">Sign out</a
-					>
+					<li>
+						<a
+							href="/profile"
+							class={`text-white px-6 py-2 rounded-2xl mt-10 transition-colors hover:bg-sky-900 ${path.includes('/profile') ? 'bg-sky-900 ' : ''}`}
+							>Profile</a
+						>
+					</li>
+					<li>
+						<a
+							on:click={logOut}
+							href="/login"
+							data-sveltekit-preload-data="off"
+							class="text-white border-white px-6 py-2 rounded-l mt-10 hover:bg-sky-900">Sign out</a
+						>
+					</li>
 				{:else}
-					<a href="/login" class="text-white border-white px-6 py-2 rounded-l mt-10">Sign in</a>
+					<li>
+						<a
+							href="/login"
+							class="text-white border-white px-6 py-2 rounded-l mt-10 hover:bg-sky-900">Sign in</a
+						>
+					</li>
 				{/if}
-			</div>
+			</ul>
 		</nav>
 	{/if}
 {/if}
@@ -84,7 +101,7 @@
 		display: flex;
 		flex-direction: column;
 		padding-left: 10px;
-		background-color: rgb(12, 35, 49);
+		background-color: black;
 		color: white;
 		position: fixed;
 		top: 0;
@@ -94,20 +111,10 @@
 		font-size: 18px;
 	}
 
-	.title img {
-		width: 150px;
-		cursor: pointer;
-	}
-
 	.navbar-pages {
 		display: flex;
 		flex-direction: column;
 		margin-left: 20px;
-	}
-
-	.navbar-pages p,
-	.navbar-pages h3 {
-		cursor: pointer;
 	}
 
 	.selected {
@@ -127,7 +134,7 @@
 	}
 
 	button {
-		background-color: rgb(12, 35, 49);
+		background-color: black;
 		outline: none;
 		border: none;
 	}
@@ -150,7 +157,7 @@
 
 	svg {
 		color: white;
-		background-color: rgb(12, 35, 49);
+		background-color: black;
 		min-height: 24px;
 		transition: transform 0.3s ease-in-out;
 	}
@@ -168,7 +175,7 @@
 		}
 		.hamburger {
 			display: block;
-			background-color: rgb(12, 35, 49);
+			background-color: black;
 		}
 		.title {
 			margin-top: 60px;

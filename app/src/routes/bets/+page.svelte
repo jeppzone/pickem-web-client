@@ -1,13 +1,11 @@
 <script>
 	// @ts-nocheck
-
 	import { toast } from '@zerodevx/svelte-toast';
 	import { loggedInUser } from '../../auth.js';
 	import { fetchBets, makeBets } from '../../api';
 	import { groupByArray } from '../../util';
 	import SelectSeason from '../../SelectSeason.svelte';
 	import LoadingIndicator from '../../LoadingIndicator.svelte';
-	import Game from './Game.svelte';
 	import FinishedGame from './components/FinishedGame/FinishedGame.svelte';
 	import UpcomingGame from './components/UpcomingGame/UpcomingGame.svelte';
 	import GameToPick from './components/GameToPick/GameToPick.svelte';
@@ -26,9 +24,7 @@
 	// $: gamesToPick = upcomingGames.filter((g) => g.isBetable && !hasUserPickedGame(g));
 	$: gamesToPick = games.filter((g) => true);
 
-	function displayTeamName(width, team) {
-		return width > 800 ? team.name : team.abbreviation;
-	}
+	let error = '';
 
 	async function handleSeasonSelectFinished(evt) {
 		games = evt.detail.games;
@@ -42,15 +38,12 @@
 	}
 
 	async function submitBets() {
+		console.log('Submit bets');
 		const madeChoices = {};
 		for (const key of Object.keys(choices)) {
 			if (choices[key] !== -1) {
 				madeChoices[key] = choices[key];
 			}
-		}
-		if (games.filter((g) => g.isBetable).length !== Object.keys(madeChoices).length) {
-			pushErrorToast('You need to bet on all betable games');
-			return;
 		}
 		loading = true;
 		try {
@@ -113,12 +106,10 @@
 	}
 
 	function pushErrorToast(message) {
-		toast.push(message, {
-			theme: {
-				'--toastBackground': '#f54260',
-				'--toastProgressBackground': 'white'
-			}
-		});
+		error = message;
+		setTimeout(() => {
+			error = '';
+		}, 3000);
 	}
 
 	function anyBetableGames(games) {
@@ -161,15 +152,17 @@
 		</h2>
 		<div class="grid grid-col-1 pb-5"></div>
 		{#if gamesToPick.length > 0}
-			<h2 class="md:text-5xl xs:text-3xl text-center tracking-tight font-bold pt-10">
-				Games to pick.
-			</h2>
-			{#each gamesToPick as gameToPick}
-				<GameToPick game={gameToPick} handlePick={handleUserPick} />
-			{/each}
-			<div class="mx-auto grid grid-cols-1 w-1/3 mt-5">
-				<button type="submit" class="btn btn-secondary">Make picks</button>
-			</div>
+			<form>
+				<h2 class="md:text-5xl xs:text-3xl text-center tracking-tight font-bold pt-10">
+					Games to pick.
+				</h2>
+				{#each gamesToPick as gameToPick}
+					<GameToPick game={gameToPick} handlePick={handleUserPick} />
+				{/each}
+				<div class="mx-auto grid grid-cols-1 w-1/3 mt-5">
+					<button type="submit" on:click={submitBets} class="btn btn-secondary">Make picks</button>
+				</div>
+			</form>
 		{/if}
 		{#if ongoingGames.length > 0}
 			<div>
@@ -199,6 +192,13 @@
 				{#each finishedGames as finishedGame}
 					<FinishedGame game={finishedGame} picks={existingBets} />
 				{/each}
+			</div>
+		{/if}
+		{#if error}
+			<div class="toast toast-bottom toast-end">
+				<div class="alert bg-rose-900 border-none text-white">
+					<span>{error}</span>
+				</div>
 			</div>
 		{/if}
 	{/if}

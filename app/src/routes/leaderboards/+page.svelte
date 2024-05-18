@@ -4,7 +4,6 @@
 	import { fetchLeague } from '../../api';
 	import { onMount } from 'svelte';
 	import { loggedInUser } from '../../auth';
-	import LoadingIndicator from '../../LoadingIndicator.svelte';
 	let league = {};
 	let users = {};
 	let regularSeasonLeaderboard = [];
@@ -37,9 +36,10 @@
 <section>
 	<h1 class="md:text-7xl xs:text-5xl text-center tracking-tight font-bold pt-10">Leaderboards.</h1>
 	{#if loading}
-		<div class="mt-5">
-			<LoadingIndicator />
-		</div>
+		<div
+			role="status"
+			class="flex justify-center align-middle h-full mt-10 loading loading-dots mx-auto"
+		></div>
 	{:else}
 		<div class="grid grid-cols-1 pt-10">
 			<h2 class="md:text-5xl xs:text-3xl text-center tracking-tight font-bold">Regular Season</h2>

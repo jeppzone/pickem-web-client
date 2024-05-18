@@ -5,7 +5,6 @@
 	import { getStatistics } from '../../api';
 	import { loggedInUser } from '../../auth';
 	import { getCurrentSeason, getSeasons } from '../../util';
-	import LoadingIndicator from '../../LoadingIndicator.svelte';
 
 	let statistics = [];
 	let regularSeasonStatistics = [];
@@ -39,9 +38,10 @@
 <section class="text-white">
 	<h1 class="md:text-7xl xs:text-5xl text-center tracking-tight font-bold pt-10">Statistics.</h1>
 	{#if loading}
-		<div class="mt-10">
-			<LoadingIndicator />
-		</div>
+		<div
+			role="status"
+			class="flex justify-center align-middle h-full mt-10 loading loading-dots mx-auto"
+		></div>
 	{:else}
 		<h2 class="md:text-5xl xs:text-3xl text-center tracking-tight font-bold pt-10">
 			Regular Season.

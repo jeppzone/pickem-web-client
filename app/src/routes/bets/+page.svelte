@@ -5,7 +5,6 @@
 	import { fetchBets, makeBets } from '../../api';
 	import { groupByArray } from '../../util';
 	import SelectSeason from '../../SelectSeason.svelte';
-	import LoadingIndicator from '../../LoadingIndicator.svelte';
 	import FinishedGame from './components/FinishedGame/FinishedGame.svelte';
 	import UpcomingGame from './components/UpcomingGame/UpcomingGame.svelte';
 	import GameToPick from './components/GameToPick/GameToPick.svelte';
@@ -141,10 +140,10 @@
 		on:season-select-finished={handleSeasonSelectFinished}
 	/>
 	{#if loading}
-		<div role="status" class="flex justify-center align-middle h-full p-10">
-			<LoadingIndicator />
-			<span class="sr-only">Loading...</span>
-		</div>
+		<div
+			role="status"
+			class="flex justify-center align-middle h-full mt-10 loading loading-dots mx-auto"
+		></div>
 	{:else}
 		<h2 class="md:text-5xl xs:text-3xl text-center tracking-tight font-bold pt-10">
 			💰 {totalPoints}

@@ -58,7 +58,7 @@
 	}
 </script>
 
-<div class="text-black flex justify-center gap-2">
+<div class="flex justify-center gap-2">
 	{#if !loading}
 		<!-- svelte-ignore a11y-no-onchange -->
 		<select

@@ -2,7 +2,6 @@
 	import { onMount } from 'svelte';
 	import { getProfile } from '../../api';
 	import { loggedInUser } from '../../auth';
-	import LoadingIndicator from '../../LoadingIndicator.svelte';
 
 	let profile = {};
 	let loading = false;
@@ -28,7 +27,10 @@
 <section>
 	<h1 class="md:text-7xl xs:text-5xl text-center tracking-tight font-bold pt-10">Profile.</h1>
 	{#if loading}
-		<LoadingIndicator />
+		<div
+			role="status"
+			class="flex justify-center align-middle h-full mt-10 loading loading-dots mx-auto"
+		></div>
 	{:else}
 		<h2 class="md:text-5xl xs:text-3xl text-center tracking-tight font-bold pt-10">
 			All time record

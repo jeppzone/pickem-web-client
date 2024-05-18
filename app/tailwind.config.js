@@ -7,6 +7,9 @@ const config = {
 	content: ['./src/**/*.{html,js,svelte,ts}'],
 	safelist: ['dark'],
 	plugins: [require('daisyui')],
+	daisyui: {
+		themes: ['light', 'dark', 'cupcake']
+	},
 	theme: {
 		screens: {
 			xs: '300px',

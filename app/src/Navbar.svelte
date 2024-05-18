@@ -4,7 +4,6 @@
 	import { browser } from '$app/environment';
 	import { afterNavigate, beforeNavigate } from '$app/navigation';
 	import { loggedInUser } from './auth.js';
-	import { goto } from '$app/navigation';
 
 	let path;
 	$: path = browser ? $page.url.pathname : '';
@@ -26,58 +25,55 @@
 </script>
 
 <svelte:window bind:innerWidth />
-{#if $loggedInUser !== null}
-	<button class="hamburger" class:open on:click={() => (open = !open)}>
-		<svg width="32" height="24">
-			<line id="top" x1="0" y1="2" x2="32" y2="2" />
-			<line id="middle" x1="0" y1="12" x2="24" y2="12" />
-			<line id="bottom" x1="0" y1="22" x2="32" y2="22" />
-		</svg>
-	</button>
-	{#if open || innerWidth > 1200}
-		{#if !$page.url.pathname.includes('/login')}
-			<nav class="w-full grid justify-center">
-				<div class="grid lg:grid-cols-7 lg:gap-4 sm:gap-x-2 xs:gap-x-1 text-center">
+
+<button class="hamburger" class:open on:click={() => (open = !open)}>
+	<svg width="32" height="24">
+		<line id="top" x1="0" y1="2" x2="32" y2="2" />
+		<line id="middle" x1="0" y1="12" x2="24" y2="12" />
+		<line id="bottom" x1="0" y1="22" x2="32" y2="22" />
+	</svg>
+</button>
+{#if open || innerWidth > 1200}
+	{#if !$page.url.pathname.includes('/login') && !$page.url.pathname.includes('/register')}
+		<nav class="w-full grid justify-center">
+			<div class="grid lg:grid-cols-7 lg:gap-4 sm:gap-x-2 xs:gap-x-1 text-center">
+				<a
+					href="/"
+					class={`text-white px-6 py-2 rounded-2xl mt-10 transition-colors ${path === '/' ? 'bg-cyan-600' : ''}`}
+					>Home</a
+				>
+				<a
+					href="/bets"
+					class={`text-white px-6 py-2 rounded-2xl mt-10 transition-colors ${path.includes('/bets') ? 'bg-cyan-600' : ''}`}
+					>Bets</a
+				>
+				<a
+					href="/leaderboards"
+					class={`text-white px-6 py-2 rounded-2xl mt-10 transition-colors ${path.includes('/leaderboards') ? 'bg-cyan-600' : ''}`}
+					>Leaderboards</a
+				>
+				<a
+					href="/statistics"
+					class={`text-white px-6 py-2 rounded-2xl mt-10 transition-colors ${path.includes('/statistics') ? 'bg-cyan-600' : ''}`}
+					>Statistics</a
+				>
+				{#if $loggedInUser !== null}
 					<a
-						href="/"
-						class={`text-white px-6 py-2 rounded-2xl mt-10 transition-colors ${path === '/' ? 'bg-cyan-600' : ''}`}
-						>Home</a
+						href="/profile"
+						class={`text-white px-6 py-2 rounded-2xl mt-10 transition-colors ${path.includes('/profile') ? 'bg-cyan-600' : ''}`}
+						>Profile</a
 					>
 					<a
-						href="/bets"
-						class={`text-white px-6 py-2 rounded-2xl mt-10 transition-colors ${path.includes('/bets') ? 'bg-cyan-600' : ''}`}
-						>Bets</a
+						on:click={logOut}
+						href="/login"
+						data-sveltekit-preload-data="off"
+						class="text-white border-white px-6 py-2 rounded-l mt-10">Sign out</a
 					>
-					<a
-						href="/leaderboards"
-						class={`text-white px-6 py-2 rounded-2xl mt-10 transition-colors ${path.includes('/leaderboards') ? 'bg-cyan-600' : ''}`}
-						>Leaderboards</a
-					>
-					<a
-						href="/statistics"
-						class={`text-white px-6 py-2 rounded-2xl mt-10 transition-colors ${path.includes('/statistics') ? 'bg-cyan-600' : ''}`}
-						>Statistics</a
-					>
-					{#if $loggedInUser !== null}
-						<a
-							href="/profile"
-							class={`text-white px-6 py-2 rounded-2xl mt-10 transition-colors ${path.includes('/profile') ? 'bg-cyan-600' : ''}`}
-							>Profile</a
-						>
-						<a
-							on:click={logOut}
-							href="/login"
-							data-sveltekit-preload-data="off"
-							class="text-white border-white px-6 py-2 rounded-l mt-10">Sign out</a
-						>
-					{:else}
-						<a href="/auth/sign-in" class="text-white border border-white px-6 py-2 rounded-l mt-10"
-							>Sign in</a
-						>
-					{/if}
-				</div>
-			</nav>
-		{/if}
+				{:else}
+					<a href="/login" class="text-white border-white px-6 py-2 rounded-l mt-10">Sign in</a>
+				{/if}
+			</div>
+		</nav>
 	{/if}
 {/if}
 

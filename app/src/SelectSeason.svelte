@@ -58,10 +58,14 @@
 	}
 </script>
 
-<div class="text-black grid grid-cols-2 gap-2">
+<div class="text-black flex justify-center gap-2">
 	{#if !loading}
 		<!-- svelte-ignore a11y-no-onchange -->
-		<select bind:value={season} on:change={dispatchEvent} class="select select-bordered max-w-xs">
+		<select
+			bind:value={season}
+			on:change={dispatchEvent}
+			class="select select-bordered max-w-xs w-1/2"
+		>
 			{#each seasons as s}
 				<option value={s}>{s}</option>
 			{/each}
@@ -70,7 +74,7 @@
 		<select
 			bind:value={week}
 			on:change={dispatchEvent}
-			class="select select-bordered max-w-xs m-auto"
+			class="select select-bordered max-w-xs w-1/2"
 		>
 			{#each weeks as w}
 				<option value={w}>{w.displayName}</option>

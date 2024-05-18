@@ -38,14 +38,14 @@
 
 <section class="text-white">
 	<h1 class="md:text-7xl xs:text-5xl text-center tracking-tight font-bold pt-10">Statistics.</h1>
-	<h2 class="md:text-5xl xs:text-3xl text-center tracking-tight font-bold pt-10">
-		Regular Season.
-	</h2>
 	{#if loading}
 		<div class="mt-10">
 			<LoadingIndicator />
 		</div>
 	{:else}
+		<h2 class="md:text-5xl xs:text-3xl text-center tracking-tight font-bold pt-10">
+			Regular Season.
+		</h2>
 		<div class="grid grid-cols-1 pt-10 w-full">
 			{#each regularSeasonStatistics as statEntry}
 				<div

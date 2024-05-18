@@ -2,23 +2,22 @@
 	// @ts-nocheck
 
 	import { goto } from '$app/navigation';
-	import { login, register } from '../../api';
+	import { register } from '../../api';
 	import { loggedInUser } from '../../auth.js';
 	let username;
-	let error;
 	let password;
 	let loading = false;
+	let error;
 
-	async function loginUser() {
+	async function registerUser() {
 		try {
 			error = '';
 			loading = true;
-			// @ts-ignore
-			const user = await login({ username, password });
+			const user = await register({ username, password });
 			$loggedInUser = user;
 			goto('/');
 		} catch (err) {
-			error = 'There was a problem logging in. Please try again';
+			error = 'There was a problem when registering. Please try again';
 		} finally {
 			loading = false;
 		}
@@ -27,10 +26,10 @@
 
 <section class="flex items-center flex-col justify-center my-auto">
 	<img src="/logo-text.png" class="rounded mb-10" alt="Pickem logo" />
-	<h1 class="text-center text-5xl font-extrabold pb-5">Login</h1>
+	<h1 class="text-center text-5xl font-extrabold pb-5">Register</h1>
 	<div class="card w-96 bg-black shadow-xl">
 		<div class="card-body">
-			<form on:submit|preventDefault={loginUser} class="text-white">
+			<form on:submit|preventDefault={registerUser} class="text-white">
 				<div class="form-control">
 					<label class="label" for="username">
 						<span class="label-text text-white">Username</span>
@@ -62,13 +61,13 @@
 						{#if loading}
 							<span class="loading loading-spinner"></span>
 						{:else}
-							Login
+							Register
 						{/if}</button
 					>
 				</div>
 				<div class="mt-6">
-					<a href="/register">
-						<button class="btn btn-outline btn-secondary border-none"> Or Register </button>
+					<a href="/login">
+						<button class="btn btn-outline btn-secondary border-none">Or Login</button>
 					</a>
 				</div>
 			</form>

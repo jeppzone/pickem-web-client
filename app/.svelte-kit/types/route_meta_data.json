@@ -15,6 +15,9 @@
 	"/profile": [
 		"src/routes/+layout.js"
 	],
+	"/register": [
+		"src/routes/+layout.js"
+	],
 	"/statistics": [
 		"src/routes/+layout.js"
 	]

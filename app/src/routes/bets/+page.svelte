@@ -8,10 +8,27 @@
 	import SelectSeason from '../../SelectSeason.svelte';
 	import LoadingIndicator from '../../LoadingIndicator.svelte';
 	import Game from './Game.svelte';
-	let loading = false;
-	let games = [];
-	let existingBets = [];
-	let choices = {};
+	import FinishedGame from './components/FinishedGame/FinishedGame.svelte';
+	import UpcomingGame from './components/UpcomingGame/UpcomingGame.svelte';
+	import GameToPick from './components/GameToPick/GameToPick.svelte';
+	import OngoingGame from './components/OngoingGame/OngoingGame.svelte';
+	$: innerWidth = 0;
+	$: loading = false;
+	$: games = [];
+	$: existingBets = [];
+	$: choices = {};
+	$: nbrOfCorrect = existingBets.filter((p) => p.successful).length;
+	$: nbrOfIncorrect = existingBets.filter((p) => !p.successful).length;
+	$: totalPoints = existingBets.reduce((x, y) => x + y.points, 0).toFixed(2);
+	$: finishedGames = games.filter((g) => g.isFinished);
+	$: ongoingGames = games.filter((g) => g.isOngoing);
+	$: upcomingGames = games.filter((g) => !g.isFinished && !g.isOngoing);
+	// $: gamesToPick = upcomingGames.filter((g) => g.isBetable && !hasUserPickedGame(g));
+	$: gamesToPick = games.filter((g) => true);
+
+	function displayTeamName(width, team) {
+		return width > 800 ? team.name : team.abbreviation;
+	}
 
 	async function handleSeasonSelectFinished(evt) {
 		games = evt.detail.games;
@@ -57,6 +74,7 @@
 					games[0].week,
 					$loggedInUser
 				);
+				console.log(existingBets);
 			}
 		} catch (err) {
 			toast.push('Could not fetch bets');
@@ -115,49 +133,73 @@
 
 		return games;
 	}
+	/**
+	 * @param {{ gameId: string | number; winningTeamId: any; }} pick
+	 */
+	async function handleUserPick(pick) {
+		choices[pick.gameId] = pick.winningTeamId;
+	}
 </script>
 
-<section class="text-white mx-auto">
+<svelte:window bind:innerWidth />
+
+<section class="text-white">
 	<h1 class="text-7xl text-center py-5 font-extrabold">Make bets</h1>
 	<SelectSeason
-		class="mx-auto w-full"
 		on:season-select-started={handleSeasonSelectStarted}
 		on:season-select-finished={handleSeasonSelectFinished}
 	/>
 	{#if loading}
-		<LoadingIndicator />
-	{:else if games.length > 0 && !games.some((g) => g.awayTeam.name === 'TBD' || g.homeTeam.name === 'TBD')}
-		<h2 class="text-3xl text-center font-bold pt-5">{getPointsText(existingBets)}</h2>
-		{#each groupGamesByDate(games) as group}
-			<div class="game-group mt-5">
-				<h4>{group.key.toUpperCase()}</h4>
-				<br />
-				{#each group.values as game}
-					<Game {choices} {existingBets} {game} />
+		<div role="status" class="flex justify-center align-middle h-full p-10">
+			<LoadingIndicator />
+			<span class="sr-only">Loading...</span>
+		</div>
+	{:else}
+		<h2 class="md:text-5xl xs:text-3xl text-center tracking-tight font-bold pt-10">
+			💰 {totalPoints}
+			🏈 {nbrOfCorrect}-{nbrOfIncorrect}
+		</h2>
+		<div class="grid grid-col-1 pb-5"></div>
+		{#if gamesToPick.length > 0}
+			<h2 class="md:text-5xl xs:text-3xl text-center tracking-tight font-bold pt-10">
+				Games to pick.
+			</h2>
+			{#each gamesToPick as gameToPick}
+				<GameToPick game={gameToPick} handlePick={handleUserPick} />
+			{/each}
+			<div class="mx-auto grid grid-cols-1 w-1/3 mt-5">
+				<button type="submit" class="btn btn-secondary">Make picks</button>
+			</div>
+		{/if}
+		{#if ongoingGames.length > 0}
+			<div>
+				<h2 class="md:text-5xl xs:text-3xl text-center tracking-tight font-bold pt-10">
+					Ongoing games.
+				</h2>
+				{#each ongoingGames as ongoingGame}
+					<OngoingGame game={ongoingGame} picks={data.picks} />
 				{/each}
 			</div>
-		{/each}
-	{:else}
-		<h2>No games yet</h2>
-	{/if}
-	<div>
-		{#if !allBetsMade(games, existingBets) && anyBetableGames(games) && !loading}
-			<button type="submit" on:click|preventDefault={submitBets}>Place bets</button>
 		{/if}
-	</div>
+		{#if upcomingGames.length > 0}
+			<div>
+				<h2 class="md:text-5xl xs:text-3xl text-center tracking-tight font-bold pt-10">
+					Upcoming games.
+				</h2>
+				{#each upcomingGames as upcomingGame}
+					<UpcomingGame game={upcomingGame} {picks} />
+				{/each}
+			</div>
+		{/if}
+		{#if finishedGames.length > 0}
+			<div>
+				<h2 class="md:text-5xl xs:text-3xl text-center tracking-tight font-bold pt-10">
+					Finished games.
+				</h2>
+				{#each finishedGames as finishedGame}
+					<FinishedGame game={finishedGame} picks={existingBets} />
+				{/each}
+			</div>
+		{/if}
+	{/if}
 </section>
-
-<style>
-	button {
-		background-color: rgb(231, 117, 52);
-		color: white;
-		width: 100%;
-	}
-
-	.game-group h4 {
-		margin-left: 5px;
-		letter-spacing: 1px;
-		margin-block-end: 0.5rem;
-		font-weight: 900;
-	}
-</style>

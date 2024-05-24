@@ -8,7 +8,14 @@ const config = {
 	safelist: ['dark'],
 	plugins: [require('daisyui')],
 	daisyui: {
-		themes: ['light', 'dark', 'cupcake']
+		themes: [
+			{
+				dark: {
+					...require('daisyui/src/theming/themes')['dark'],
+					secondary: '#38bdf8'
+				}
+			}
+		]
 	},
 	theme: {
 		screens: {
@@ -31,8 +38,8 @@ const config = {
 					foreground: 'hsl(var(--primary-foreground) / <alpha-value>)'
 				},
 				secondary: {
-					DEFAULT: 'hsl(var(--secondary) / <alpha-value>)',
-					foreground: 'hsl(var(--secondary-foreground) / <alpha-value>)'
+					// DEFAULT: 'hsl(var(--secondary) / <alpha-value>)',
+					// foreground: 'hsl(var(--secondary-foreground) / <alpha-value>)'
 				},
 				destructive: {
 					DEFAULT: '#f87171',

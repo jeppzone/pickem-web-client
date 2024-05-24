@@ -2,7 +2,7 @@
 	// @ts-nocheck
 
 	import { goto } from '$app/navigation';
-	import { login, register } from '../../api';
+	import { login } from '../../api';
 	import { loggedInUser } from '../../auth.js';
 	let username;
 	let error;

@@ -78,14 +78,16 @@
 							on:click={logOut}
 							href="/login"
 							data-sveltekit-preload-data="off"
-							class="text-white border-white px-6 py-2 rounded-l mt-10 hover:bg-sky-900">Sign out</a
+							class="text-white border-white px-6 py-2 rounded-2xl mt-10 hover:bg-sky-900"
+							>Sign out</a
 						>
 					</li>
 				{:else}
 					<li>
 						<a
 							href="/login"
-							class="text-white border-white px-6 py-2 rounded-l mt-10 hover:bg-sky-900">Sign in</a
+							class="text-white border-white px-6 py-2 rounded-2xl mt-10 hover:bg-sky-900"
+							>Sign in</a
 						>
 					</li>
 				{/if}

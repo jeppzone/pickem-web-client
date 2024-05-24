@@ -44,7 +44,7 @@
 						type="text"
 						bind:value={username}
 						placeholder="Username"
-						class="input input-bordered text-black"
+						class="input input-bordered"
 						required
 					/>
 				</div>
@@ -57,7 +57,7 @@
 						type="password"
 						bind:value={password}
 						placeholder="Password"
-						class="input input-bordered text-black"
+						class="input input-bordered"
 						required
 					/>
 				</div>

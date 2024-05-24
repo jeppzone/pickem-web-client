@@ -103,6 +103,11 @@
 	}
 </script>
 
+<svelte:head>
+	<title>Picks | NFL Pickem | Jeppzone Sports</title>
+	<meta name="description" content="Picks" />
+</svelte:head>
+
 <svelte:window bind:innerWidth />
 
 <section class="text-white">

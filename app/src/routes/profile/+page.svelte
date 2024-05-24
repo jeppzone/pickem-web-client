@@ -22,6 +22,11 @@
 	}
 </script>
 
+<svelte:head>
+	<title>Profile | NFL Pickem | Jeppzone Sports</title>
+	<meta name="description" content="Profile" />
+</svelte:head>
+
 <svelte:window bind:innerWidth />
 
 <section>

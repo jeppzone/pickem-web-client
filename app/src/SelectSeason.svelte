@@ -64,20 +64,20 @@
 		<select
 			bind:value={season}
 			on:change={dispatchEvent}
-			class="select select-bordered max-w-xs w-1/2"
+			class="select select-bordered max-w-xs w-1/2 font-extrabold"
 		>
 			{#each seasons as s}
-				<option value={s}>{s}</option>
+				<option class="font-extrabold" value={s}>{s}</option>
 			{/each}
 		</select>
 		<!-- svelte-ignore a11y-no-onchange -->
 		<select
 			bind:value={week}
 			on:change={dispatchEvent}
-			class="select select-bordered max-w-xs w-1/2"
+			class="select select-bordered max-w-xs w-1/2 font-extrabold"
 		>
 			{#each weeks as w}
-				<option value={w}>{w.displayName}</option>
+				<option class="font-extrabold" value={w}>{w.displayName}</option>
 			{/each}
 		</select>
 	{/if}

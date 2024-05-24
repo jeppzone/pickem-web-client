@@ -24,6 +24,11 @@
 	}
 </script>
 
+<svelte:head>
+	<title>Register | NFL Pickem | Jeppzone Sports</title>
+	<meta name="description" content="Register" />
+</svelte:head>
+
 <section class="flex items-center flex-col justify-center my-auto">
 	<img src="/logo-text.png" class="rounded mb-10" alt="Pickem logo" />
 	<h1 class="text-center text-5xl font-extrabold pb-5">Register</h1>

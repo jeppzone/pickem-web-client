@@ -46,6 +46,13 @@
 				</li>
 				<li>
 					<a
+						href="/compare"
+						class={`text-white px-6 py-2 rounded-2xl mt-10 transition-colors hover:bg-sky-900 ${path.includes('/compare') ? 'bg-sky-900 ' : ''}`}
+						>Compare</a
+					>
+				</li>
+				<li>
+					<a
 						href="/leaderboards"
 						class={`text-white px-6 py-2 rounded-2xl mt-10 transition-colors hover:bg-sky-900 ${path.includes('/leaderboards') ? 'bg-sky-900 ' : ''}`}
 						>Leaderboards</a

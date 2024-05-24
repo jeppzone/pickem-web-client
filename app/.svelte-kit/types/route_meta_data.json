@@ -6,6 +6,9 @@
 	"/bets": [
 		"src/routes/+layout.js"
 	],
+	"/compare": [
+		"src/routes/+layout.js"
+	],
 	"/leaderboards": [
 		"src/routes/+layout.js"
 	],

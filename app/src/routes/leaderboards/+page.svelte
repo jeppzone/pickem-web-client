@@ -23,15 +23,12 @@
 			loading = false;
 		}
 	});
-
-	function isLoggedInUserInLeague() {
-		return Object.keys(users).includes($loggedInUser.id);
-	}
-
-	function isLoggedInUserAdmin() {
-		return $loggedInUser?.id === league?.admin?.id;
-	}
 </script>
+
+<svelte:head>
+	<title>Leaderboards | NFL Pickem | Jeppzone Sports</title>
+	<meta name="description" content="Leaderboards" />
+</svelte:head>
 
 <section>
 	<h1 class="md:text-7xl xs:text-5xl text-center tracking-tight font-bold pt-10">Leaderboards.</h1>

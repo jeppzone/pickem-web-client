@@ -37,13 +37,6 @@
 	{#if !$page.url.pathname.includes('/login') && !$page.url.pathname.includes('/register')}
 		<nav class="w-full grid justify-center">
 			<ul class="menu menu-vertical lg:menu-horizontal rounded-box hover:none">
-				<!-- <li class="">
-					<a
-						href="/"
-						class={`text-white px-6 py-2 rounded-2xl mt-10 transition-colors hover:bg-sky-900 ${path === '/' ? ' bg-sky-900' : ''}`}
-						>Home</a
-					>
-				</li> -->
 				<li>
 					<a
 						href="/bets"

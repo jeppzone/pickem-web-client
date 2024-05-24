@@ -20,8 +20,7 @@
 	$: finishedGames = games.filter((g) => g.isFinished);
 	$: ongoingGames = games.filter((g) => g.isOngoing);
 	$: upcomingGames = games.filter((g) => !g.isFinished && !g.isOngoing);
-	// $: gamesToPick = upcomingGames.filter((g) => g.isBetable && !hasUserPickedGame(g));
-	$: gamesToPick = games.filter((g) => true);
+	$: gamesToPick = upcomingGames.filter((g) => g.isBetable && !hasUserPickedGame(g));
 
 	let error = '';
 
@@ -73,25 +72,6 @@
 		}
 	}
 
-	function nbrOfSuccessfulBets(bets) {
-		return bets.filter((b) => b.successful).length;
-	}
-
-	function nbrOfFinishedBets(bets) {
-		return bets.filter((b) => b.finished).length;
-	}
-
-	function points(bets) {
-		return bets.reduce((x, y) => x + y.points, 0);
-	}
-
-	function getPointsText(existingBets) {
-		return `${points(existingBets).toFixed(2)} points (${nbrOfSuccessfulBets(existingBets)}-${
-			nbrOfFinishedBets(existingBets) - nbrOfSuccessfulBets(existingBets)
-		}) 
-    `;
-	}
-
 	function groupGamesByDate(games) {
 		const gamesToShow = getGamesToShow(games);
 		const result = groupByArray(gamesToShow, (g) => {
@@ -100,19 +80,11 @@
 		return result;
 	}
 
-	function allBetsMade(games, existingBets) {
-		return existingBets.length === games.filter((g) => g.isBetable).length;
-	}
-
 	function pushErrorToast(message) {
 		error = message;
 		setTimeout(() => {
 			error = '';
 		}, 3000);
-	}
-
-	function anyBetableGames(games) {
-		return games.length > 0 && games.some((g) => g.isBetable);
 	}
 
 	function getGamesToShow(games) {
@@ -169,7 +141,7 @@
 					Ongoing games.
 				</h2>
 				{#each ongoingGames as ongoingGame}
-					<OngoingGame game={ongoingGame} picks={data.picks} />
+					<OngoingGame game={ongoingGame} picks={existingBets} />
 				{/each}
 			</div>
 		{/if}
@@ -179,7 +151,7 @@
 					Upcoming games.
 				</h2>
 				{#each upcomingGames as upcomingGame}
-					<UpcomingGame game={upcomingGame} {picks} />
+					<UpcomingGame game={upcomingGame} picks={existingBets} />
 				{/each}
 			</div>
 		{/if}

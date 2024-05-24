@@ -5,7 +5,7 @@
 	import '../app.css';
 </script>
 
-<div class="app bg-black">
+<div class="app bg-gradient-to-r from-slate-950 to-gray-950">
 	<header>
 		<Navbar />
 	</header>

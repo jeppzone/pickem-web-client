@@ -14,7 +14,8 @@ const config = {
 					...require('daisyui/src/theming/themes')['dark'],
 					success: '#065f46', // bg-emerald-800,
 					error: '#881337', // bg-rose-900,
-					info: '#0284c7' // bg-sky-900
+					info: '#0284c7', // bg-sky-900
+					'base-content': '#fff'
 				}
 			}
 		]

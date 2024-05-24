@@ -37,7 +37,7 @@
 			<form on:submit|preventDefault={registerUser} class="">
 				<div class="form-control">
 					<label class="label" for="username">
-						<span class="label-text">Username</span>
+						<span class="label-text text-white">Username</span>
 					</label>
 					<input
 						id="username"
@@ -50,7 +50,7 @@
 				</div>
 				<div class="form-control mt-4">
 					<label class="label" for="password">
-						<span class="label-text">Password</span>
+						<span class="label-text text-white">Password</span>
 					</label>
 					<input
 						id="password"
@@ -62,7 +62,7 @@
 					/>
 				</div>
 				<div class="form-control mt-6">
-					<button type="submit" class="btn btn-secondary">
+					<button type="submit" class="btn btn-primary">
 						{#if loading}
 							<span class="loading loading-spinner"></span>
 						{:else}
@@ -72,7 +72,7 @@
 				</div>
 				<div class="mt-6">
 					<a href="/login">
-						<button class="btn btn-outline btn-secondary border-none">Or Login</button>
+						<button class="btn btn-outline btn-primary border-none">Or Login</button>
 					</a>
 				</div>
 			</form>

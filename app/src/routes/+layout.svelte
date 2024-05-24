@@ -5,7 +5,7 @@
 	import '../app.css';
 </script>
 
-<div class="app bg-base-300 text-white">
+<div class="app bg-base-300 text-base-content">
 	<header>
 		<Navbar />
 	</header>

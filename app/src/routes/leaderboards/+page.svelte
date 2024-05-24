@@ -42,7 +42,7 @@
 			<h2 class="md:text-5xl xs:text-3xl text-center tracking-tight font-bold">Regular Season</h2>
 			{#each regularSeasonLeaderboard as leaderBoardEntry, index}
 				<div
-					class={`grid grid-cols-12 py-3 md:gap-4 xs:gap-0 mt-5 rounded-l px-5 w-full h-20 ${$loggedInUser?.id === leaderBoardEntry.user.id ? 'bg-sky-900 ' : 'bg-slate-800'}`}
+					class={`grid grid-cols-12 py-3 md:gap-4 xs:gap-0 mt-5 rounded-l px-5 w-full h-20 ${$loggedInUser?.id === leaderBoardEntry.user.id ? 'bg-info ' : 'bg-neutral'}`}
 				>
 					<span
 						class="md:text-5xl xs:text-xl tracking-tight font-extrabold col-span-1 my-auto md:w-36"
@@ -74,7 +74,7 @@
 			</h2>
 			{#each postSeasonLeaderboard as leaderBoardEntry, index}
 				<div
-					class={`grid grid-cols-12 py-3 md:gap-4 xs:gap-0 mt-5 rounded-l px-5 w-full ${$loggedInUser?.id === leaderBoardEntry.user.id ? 'bg-sky-900 ' : 'bg-slate-800'}`}
+					class={`grid grid-cols-12 py-3 md:gap-4 xs:gap-0 mt-5 rounded-l px-5 w-full ${$loggedInUser?.id === leaderBoardEntry.user.id ? 'bg-info ' : 'bg-neutral'}`}
 				>
 					<span class="md:text-5xl xs:text-xl tracking-tight font-extrabold col-span-1 md:w-36"
 						>{index + 1}</span

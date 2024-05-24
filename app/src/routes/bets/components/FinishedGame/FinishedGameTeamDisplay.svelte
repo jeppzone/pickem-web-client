@@ -42,7 +42,7 @@
 		>{displayTeamName(innerWidth, name, abbreviation)}</span
 	>
 	<span
-		class={`lg:text-3xl md:text-2xl xs:text-xl md:col-span-1 xs:col-span-6 text-left font-extrabold ${isWinner ? 'text-white' : 'text-slate-300'}`}
+		class={`lg:text-3xl md:text-2xl xs:text-xl md:col-span-1 xs:col-span-6 text-left font-extrabold ${isWinner ? '' : 'text-neutral-content'}`}
 		>{score}</span
 	>
 	{#if userPick}

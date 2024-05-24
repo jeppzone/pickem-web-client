@@ -18,8 +18,8 @@
 	function getGameCardClass(existingBets, game) {
 		return game.isFinished && hasUserBetOnGame(game, existingBets)
 			? isBetSuccessful(existingBets, game)
-				? 'game-card bg-teal-800'
-				: 'game-card bg-rose-800'
+				? 'game-card bg-success'
+				: 'game-card bg-error'
 			: 'game-card';
 	}
 	function displayDate(game) {

@@ -45,7 +45,7 @@
 		<select
 			bind:value={season}
 			on:change={dispatchEvent}
-			class="font-extrabold text-xl tracking-tight block appearance-none w-full bg-sky-900 border border-sky-600 text-white py-3 px-4 pr-8 rounded leading-tight focus:outline-none"
+			class="font-extrabold text-xl tracking-tight block appearance-none w-full bg-info border border-info py-3 px-4 pr-8 rounded leading-tight focus:outline-none"
 		>
 			{#each seasons as s}
 				<option class="font-extrabold text-xl tracking-tight" value={s}>{s}</option>
@@ -56,7 +56,7 @@
 		<select
 			bind:value={week}
 			on:change={dispatchEvent}
-			class="font-extrabold text-xl tracking-tight block appearance-none w-full bg-sky-900 border border-sky-600 text-white py-3 px-4 pr-8 rounded leading-tight focus:outline-none"
+			class="font-extrabold text-xl tracking-tight block appearance-none w-full bg-info border border-info py-3 px-4 pr-8 rounded leading-tight focus:outline-none"
 		>
 			{#each weeks as w}
 				<option class="font-extrabold text-xl tracking-tight" value={w}>{w.displayName}</option>

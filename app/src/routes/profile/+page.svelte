@@ -49,7 +49,7 @@
 		</h2>
 		<div class="grid grid-cols-1 md:w-1/2 xs:w-full pt-10 tracking-tight font-bold m-auto">
 			{#each profile?.statistics?.gamesWithTeamsPickedRecord || [] as teamBetRecord}
-				<div class="grid grid-cols-2 py-5 bg-slate-800 mb-5 rounded-l px-5 my-auto h-24">
+				<div class="grid grid-cols-2 py-5 bg-neutral mb-5 rounded-l px-5 my-auto h-24">
 					<div class="flex text-xl">
 						<img
 							src={teamBetRecord.team.logo}
@@ -72,7 +72,7 @@
 		</h2>
 		<div class="grid grid-cols-1 md:w-1/2 xs:w-full pt-10 tracking-tight font-bold m-auto">
 			{#each profile.statistics?.teamBetRecords || [] as teamBetRecord}
-				<div class="grid grid-cols-2 py-5 bg-slate-800 mb-5 rounded-l px-5 my-auto h-24">
+				<div class="grid grid-cols-2 py-5 bg-neutral mb-5 rounded-l px-5 my-auto h-24">
 					<div class="flex text-xl">
 						<img
 							src={teamBetRecord.team.logo}

@@ -40,28 +40,28 @@
 				<li>
 					<a
 						href="/bets"
-						class={`text-white px-6 py-2 rounded-2xl mt-10 transition-colors hover:bg-sky-900 ${path.includes('/bets') ? 'bg-sky-900 ' : ''}`}
+						class={` px-6 py-2 rounded-2xl mt-10 transition-colors hover:bg-info ${path.includes('/bets') ? 'bg-info ' : ''}`}
 						>Picks</a
 					>
 				</li>
 				<li>
 					<a
 						href="/compare"
-						class={`text-white px-6 py-2 rounded-2xl mt-10 transition-colors hover:bg-sky-900 ${path.includes('/compare') ? 'bg-sky-900 ' : ''}`}
+						class={` px-6 py-2 rounded-2xl mt-10 transition-colors hover:bg-info ${path.includes('/compare') ? 'bg-info ' : ''}`}
 						>Compare</a
 					>
 				</li>
 				<li>
 					<a
 						href="/leaderboards"
-						class={`text-white px-6 py-2 rounded-2xl mt-10 transition-colors hover:bg-sky-900 ${path.includes('/leaderboards') ? 'bg-sky-900 ' : ''}`}
+						class={` px-6 py-2 rounded-2xl mt-10 transition-colors hover:bg-info ${path.includes('/leaderboards') ? 'bg-info ' : ''}`}
 						>Leaderboards</a
 					>
 				</li>
 				<li>
 					<a
 						href="/statistics"
-						class={`text-white px-6 py-2 rounded-2xl mt-10 transition-colors hover:bg-sky-900 ${path.includes('/statistics') ? 'bg-sky-900 ' : ''}`}
+						class={` px-6 py-2 rounded-2xl mt-10 transition-colors hover:bg-info ${path.includes('/statistics') ? 'bg-info ' : ''}`}
 						>Statistics</a
 					>
 				</li>
@@ -69,7 +69,7 @@
 					<li>
 						<a
 							href="/profile"
-							class={`text-white px-6 py-2 rounded-2xl mt-10 transition-colors hover:bg-sky-900 ${path.includes('/profile') ? 'bg-sky-900 ' : ''}`}
+							class={` px-6 py-2 rounded-2xl mt-10 transition-colors hover:bg-info ${path.includes('/profile') ? 'bg-info ' : ''}`}
 							>Profile</a
 						>
 					</li>
@@ -78,15 +78,12 @@
 							on:click={logOut}
 							href="/login"
 							data-sveltekit-preload-data="off"
-							class="text-white border-white px-6 py-2 rounded-2xl mt-10 hover:bg-sky-900"
-							>Sign out</a
+							class=" border-white px-6 py-2 rounded-2xl mt-10 hover:bg-info">Sign out</a
 						>
 					</li>
 				{:else}
 					<li>
-						<a
-							href="/login"
-							class="text-white border-white px-6 py-2 rounded-2xl mt-10 hover:bg-sky-900"
+						<a href="/login" class=" border-white px-6 py-2 rounded-2xl mt-10 hover:bg-info"
 							>Sign in</a
 						>
 					</li>

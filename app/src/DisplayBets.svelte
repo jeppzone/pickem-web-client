@@ -39,7 +39,7 @@
 		if (!bet?.finished) {
 			return '';
 		}
-		return bet.successful ? 'bg-teal-800 p-4' : 'bg-rose-900 p-4';
+		return bet.successful ? 'bg-success p-4' : 'bg-error p-4';
 	}
 
 	function pointsForUser(userBets, week, seasonType) {
@@ -99,13 +99,13 @@
 		<select
 			id="compareto"
 			bind:value={selectedUser}
-			class="select select-bordered max-w-xs w-1/2 font-extrabold"
+			class="select select-bordered max-w-xs w-1/2 font-extrabold bg-primary"
 		>
 			{#each allUsers as user}
 				<option class="font-extrabold" value={user}>{user.username}</option>
 			{/each}
 		</select>
-		<table class="mt-10 rounded-xl bg-sky-950">
+		<table class="mt-10 rounded-xl bg-base-100">
 			<tr>
 				<th class="game-heading min-w-40 max-w-40 p-4">Game</th>
 				<th class="min-w-40 max-w-40 p-4">{$loggedInUser?.username}</th>

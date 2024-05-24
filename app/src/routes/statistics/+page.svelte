@@ -35,7 +35,7 @@
 	<meta name="description" content="Statistics" />
 </svelte:head>
 
-<section class="text-white">
+<section class="">
 	<h1 class="md:text-7xl xs:text-5xl text-center tracking-tight font-bold pt-10">Statistics.</h1>
 	{#if loading}
 		<div
@@ -49,7 +49,7 @@
 		<div class="grid grid-cols-1 pt-10 w-full">
 			{#each regularSeasonStatistics as statEntry}
 				<div
-					class={`grid grid-cols-12 py-3 md:gap-4 xs:gap-0 mt-5 rounded-l px-5 w-full h-16 ${$loggedInUser?.username === statEntry.user ? 'bg-sky-900 ' : 'bg-slate-800'}`}
+					class={`grid grid-cols-12 py-3 md:gap-4 xs:gap-0 mt-5 rounded-l px-5 w-full h-16 ${$loggedInUser?.username === statEntry.user ? 'bg-info ' : 'bg-neutral'}`}
 				>
 					<span class="md:text-xl xs:text-m tracking-tight font-extrabold col-span-6 px-2 my-auto"
 						>{statEntry.description}</span
@@ -67,7 +67,7 @@
 		<div class="grid grid-cols-1 pt-10 w-full">
 			{#each postSeasonStatistics as statEntry}
 				<div
-					class={`grid grid-cols-12 py-3 md:gap-4 xs:gap-0 mt-5 rounded-l px-5 w-full h-16 ${$loggedInUser?.username === statEntry.user ? 'bg-sky-900 ' : 'bg-slate-800'}`}
+					class={`grid grid-cols-12 py-3 md:gap-4 xs:gap-0 mt-5 rounded-l px-5 w-full h-16 ${$loggedInUser?.username === statEntry.user ? 'bg-info ' : 'bg-neutral'}`}
 				>
 					<span class="md:text-xl xs:text-m tracking-tight font-extrabold col-span-6 px-2 my-auto"
 						>{statEntry.description}</span

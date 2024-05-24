@@ -33,12 +33,12 @@
 <section class="flex items-center flex-col justify-center my-auto">
 	<img src="/logo-text.png" class="rounded mb-10" alt="Pickem logo" />
 	<h1 class="text-center text-5xl font-extrabold pb-5">Login</h1>
-	<div class="card w-96 bg-black shadow-xl">
+	<div class="card w-96 bg-base-300-content shadow-xl">
 		<div class="card-body">
-			<form on:submit|preventDefault={loginUser} class="text-white">
+			<form on:submit|preventDefault={loginUser} class="">
 				<div class="form-control">
 					<label class="label" for="username">
-						<span class="label-text text-white">Username</span>
+						<span class="label-text">Username</span>
 					</label>
 					<input
 						id="username"
@@ -51,7 +51,7 @@
 				</div>
 				<div class="form-control mt-4">
 					<label class="label" for="password">
-						<span class="label-text text-white">Password</span>
+						<span class="label-text">Password</span>
 					</label>
 					<input
 						id="password"
@@ -80,7 +80,7 @@
 		</div>
 		{#if error}
 			<div class="toast toast-bottom toast-end">
-				<div class="alert bg-rose-900 border-none text-white">
+				<div class="alert bg-error border-none">
 					<span>{error}</span>
 				</div>
 			</div>

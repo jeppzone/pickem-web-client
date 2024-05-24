@@ -64,7 +64,7 @@
 		<select
 			bind:value={season}
 			on:change={dispatchEvent}
-			class="select select-bordered max-w-xs w-1/2 font-extrabold"
+			class="select select-bordered max-w-xs w-1/2 font-extrabold bg-primary"
 		>
 			{#each seasons as s}
 				<option class="font-extrabold" value={s}>{s}</option>
@@ -74,7 +74,7 @@
 		<select
 			bind:value={week}
 			on:change={dispatchEvent}
-			class="select select-bordered max-w-xs w-1/2 font-extrabold"
+			class="select select-bordered max-w-xs w-1/2 font-extrabold bg-primary"
 		>
 			{#each weeks as w}
 				<option class="font-extrabold" value={w}>{w.displayName}</option>

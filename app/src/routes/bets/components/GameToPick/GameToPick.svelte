@@ -27,7 +27,7 @@
 	}
 </script>
 
-<div class="bg-slate-800 rounded-xl px-5 mt-5">
+<div class="bg-neutral rounded-xl px-5 mt-5">
 	<div class="py-2 italic font-bold tracking-wide">{displayDate(game)}</div>
 	<div class="grid grid-cols-1 pb-5 gap-4">
 		<GameToPickTeamDisplay

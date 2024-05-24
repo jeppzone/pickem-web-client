@@ -48,7 +48,7 @@
 </script>
 
 <div
-	class={`${hasUserPickedGame() ? (isPickCorrect() ? 'bg-teal-800' : 'bg-rose-900') : 'bg-slate-800'} rounded-xl px-5 mt-5`}
+	class={`${hasUserPickedGame() ? (isPickCorrect() ? 'bg-success' : 'bg-error') : 'bg-neutral'} rounded-xl px-5 mt-5`}
 >
 	<div class="py-2 italic font-bold tracking-wide">{displayDate(game)}</div>
 	<div class="grid grid-cols-1 pb-5 gap-4">

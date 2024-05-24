@@ -110,7 +110,7 @@
 
 <svelte:window bind:innerWidth />
 
-<section class="text-white">
+<section class="">
 	<h1 class="text-7xl text-center py-5 font-extrabold">Make bets</h1>
 	<SelectSeason
 		on:season-select-started={handleSeasonSelectStarted}
@@ -172,7 +172,7 @@
 		{/if}
 		{#if error}
 			<div class="toast toast-bottom toast-end">
-				<div class="alert bg-rose-900 border-none text-white">
+				<div class="alert bg-error border-none">
 					<span>{error}</span>
 				</div>
 			</div>

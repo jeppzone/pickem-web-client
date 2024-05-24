@@ -60,7 +60,7 @@
 						/>
 						<span class="my-auto pl-3">{teamBetRecord.team.name}</span>
 					</div>
-					<div class="text-xl text-right">
+					<div class="text-xl text-right my-auto">
 						{teamBetRecord.nbrOfCorrectBets} - {teamBetRecord.nbrOfIncorrectBets}
 					</div>
 				</div>
@@ -83,7 +83,7 @@
 						/>
 						<span class="my-auto pl-3">{teamBetRecord.team.name}</span>
 					</div>
-					<div class="text-xl text-right">
+					<div class="text-xl text-right my-auto">
 						{teamBetRecord.nbrOfCorrectBets} - {teamBetRecord.nbrOfIncorrectBets}
 					</div>
 				</div>

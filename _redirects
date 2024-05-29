@@ -1,0 +1,8 @@
+# http and https need separate rules if you don’t force_ssl!
+
+https://nflpickem.netlify.app/* https://nflpickem.jeppzonestudios.se/:splat 301!
+https://www.nflpickem.netlify.app/* https://www.nflpickem.jeppzonestudios.se/:splat 301!
+
+# other URLS might proxy or redirect offsite
+
+https://frontend.yoursite.com/login/* https://backend.yoursite.com/:splat 200

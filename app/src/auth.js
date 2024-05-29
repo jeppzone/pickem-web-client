@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { writable } from "svelte/store";
 
 const storedUser = JSON.parse(localStorage.getItem("pickem:user"));

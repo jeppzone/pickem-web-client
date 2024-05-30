@@ -24,11 +24,6 @@
 	}
 </script>
 
-<svelte:head>
-	<title>Register | NFL Pickem | Jeppzone Sports</title>
-	<meta name="description" content="Register" />
-</svelte:head>
-
 <section class="flex items-center flex-col justify-center my-auto">
 	<img src="/logo-text.png" class="rounded mb-10" alt="Pickem logo" />
 	<h1 class="text-center text-5xl font-extrabold pb-5">Register</h1>
@@ -86,6 +81,49 @@
 		{/if}
 	</div>
 </section>
+
+<svelte:head>
+	<!-- Title -->
+	<title>Register | NFL Pick'em</title>
+
+	<!-- Meta Description -->
+	<meta
+		name="description"
+		content="Create your NFL Pick'em account to join the excitement of predicting game winners and competing with friends. Sign up today!"
+	/>
+
+	<!-- Meta Keywords -->
+	<meta
+		name="keywords"
+		content="NFL Pick'em registration, NFL Pickem, NFL picks, register, football picks, sports registration, NFL predictions"
+	/>
+
+	<!-- Open Graph Meta Tags -->
+	<meta property="og:title" content="Register | NFL Pick'em" />
+	<meta
+		property="og:description"
+		content="Create your NFL Pick'em account to join the excitement of predicting game winners and competing with friends. Sign up today!"
+	/>
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content="https://nflpickem.jeppzonestudios.se/register" />
+	<meta property="og:image" content="https://nflpickem.jeppzonestudios.se/logo-text.png" />
+
+	<!-- Twitter Card Meta Tags -->
+	<meta name="twitter:title" content="Register | NFL Pick'em" />
+	<meta
+		name="twitter:description"
+		content="Create your NFL Pick'em account to join the excitement of predicting game winners and competing with friends. Sign up today!"
+	/>
+	<meta name="twitter:image" content="https://nflpickem.jeppzonestudios.se/logo-text.png" />
+	<meta name="twitter:site" content="@YourTwitterHandle" />
+	<meta name="twitter:creator" content="@YourTwitterHandle" />
+
+	<!-- Canonical Link -->
+	<link rel="canonical" href="https://nflpickem.jeppzonestudios.se/register" />
+
+	<!-- Favicon -->
+	<link rel="icon" href="/favicon.png" type="image/x-icon" />
+</svelte:head>
 
 <style>
 	.card {

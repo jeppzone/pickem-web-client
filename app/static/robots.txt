@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /admin/
+Disallow: /api/
+Disallow: /private/
+Allow: /
+
+Sitemap: https://nflpickem.jeppzonestudios.se/sitemap.xml

@@ -55,4 +55,56 @@
 			<img src="/statistics.png" alt="Example of picks" />
 		</div>
 	</div>
+
+	<div class="pt-10">
+		<a href="/register" class="w-full flex justify-center">
+			<button class="btn btn-primary text-primary-content md:w-1/2 xs:w-full">Register</button>
+		</a>
+	</div>
 </section>
+
+<svelte:head>
+	<!-- Title -->
+	<title>NFL Pick'em - Predict the Winners and Dominate the Leaderboard</title>
+
+	<!-- Meta Description -->
+	<meta
+		name="description"
+		content="Join our NFL Pick'em league and predict the winners of each game. Compete against friends and football fans worldwide to see who can dominate the leaderboard."
+	/>
+
+	<!-- Meta Keywords -->
+	<meta
+		name="keywords"
+		content="NFL Pick'em, NFL Pickem, NFL predictions, football picks, NFL betting, sports league, NFL leaderboard, weekly picks, football competition"
+	/>
+
+	<!-- Open Graph Meta Tags -->
+	<meta
+		property="og:title"
+		content="NFL Pick'em - Predict the Winners and Dominate the Leaderboard"
+	/>
+	<meta
+		property="og:description"
+		content="Join our NFL Pick'em league and predict the winners of each game. Compete against friends and football fans worldwide to see who can dominate the leaderboard."
+	/>
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content="https://nflpickem.jeppzonestudios.se" />
+	<meta property="og:image" content="https://nflpickem.jeppzonestudios.se/logo-text.png" />
+
+	<!-- Twitter Card Meta Tags -->
+	<meta
+		name="twitter:title"
+		content="NFL Pick'em - Predict the Winners and Dominate the Leaderboard"
+	/>
+	<meta
+		name="twitter:description"
+		content="Join our NFL Pick'em league and predict the winners of each game. Compete against friends and football fans worldwide to see who can dominate the leaderboard."
+	/>
+
+	<!-- Canonical Link -->
+	<link rel="canonical" href="https://nflpickem.jeppzonestudios.se" />
+
+	<!-- Favicon -->
+	<link rel="icon" href="/favicon.png" type="image/x-icon" />
+</svelte:head>

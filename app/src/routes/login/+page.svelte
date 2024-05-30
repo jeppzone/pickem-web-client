@@ -25,11 +25,6 @@
 	}
 </script>
 
-<svelte:head>
-	<title>Login | NFL Pickem | Jeppzone Sports</title>
-	<meta name="description" content="Login" />
-</svelte:head>
-
 <section class="flex items-center flex-col justify-center my-auto">
 	<img src="/logo-text.png" class="rounded mb-10" alt="Pickem logo" />
 	<h1 class="text-center text-5xl font-extrabold pb-5">Login</h1>
@@ -87,6 +82,46 @@
 		{/if}
 	</div>
 </section>
+
+<svelte:head>
+	<!-- Title -->
+	<title>Login | NFL Pick'em</title>
+
+	<!-- Meta Description -->
+	<meta
+		name="description"
+		content="Login to your NFL Pick'em account to make your weekly picks and track your performance."
+	/>
+
+	<!-- Meta Keywords -->
+	<meta
+		name="keywords"
+		content="NFL Pick'em login, NFL Pickem, NFL picks, login, football picks, sports login, NFL predictions"
+	/>
+
+	<!-- Open Graph Meta Tags -->
+	<meta property="og:title" content="Login | NFL Pick'em" />
+	<meta
+		property="og:description"
+		content="Login to your NFL Pick'em account to make your weekly picks and track your performance."
+	/>
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content="https://nflpickem.jeppzonestudios.se/login" />
+	<meta property="og:image" content="https://nflpickem.jeppzonestudios.se/logo-text.png" />
+
+	<!-- Twitter Card Meta Tags -->
+	<meta name="twitter:title" content="Login | NFL Pick'em" />
+	<meta
+		name="twitter:description"
+		content="Login to your NFL Pick'em account to make your weekly picks and track your performance."
+	/>
+
+	<!-- Canonical Link -->
+	<link rel="canonical" href="https://nflpickem.jeppzonestudios.se/login" />
+
+	<!-- Favicon -->
+	<link rel="icon" href="/favicon.png" type="image/x-icon" />
+</svelte:head>
 
 <style>
 	.card {

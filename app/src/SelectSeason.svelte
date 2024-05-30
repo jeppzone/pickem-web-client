@@ -1,7 +1,7 @@
 <script>
 	import { createEventDispatcher, onMount } from 'svelte';
 	import { fetchGames, fetchGamesForCurrentWeek } from './api';
-	import { getCurrentSeason, getSeasons } from './util';
+	import { getCurrentSeason, getSeasons } from '$lib/shared/utils';
 	const dispatch = createEventDispatcher();
 	let games = [];
 	let season = getCurrentSeason();

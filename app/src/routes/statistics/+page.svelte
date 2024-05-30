@@ -4,12 +4,11 @@
 	import { onMount } from 'svelte';
 	import { getStatistics } from '../../api';
 	import { loggedInUser } from '../../auth';
-	import { getCurrentSeason, getSeasons } from '../../util';
+	import { getCurrentSeason } from '$lib/shared/utils';
 
 	let statistics = [];
 	let regularSeasonStatistics = [];
 	let postSeasonStatistics = [];
-	let seasons = getSeasons();
 	let season = getCurrentSeason();
 	let loading = false;
 

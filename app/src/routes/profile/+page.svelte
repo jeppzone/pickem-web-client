@@ -2,11 +2,16 @@
 	import { onMount } from 'svelte';
 	import { getProfile } from '../../api';
 	import { loggedInUser } from '../../auth';
+	import { goto } from '$app/navigation';
+	import { isLoggedIn } from '$lib/shared/utils';
 
 	let profile = {};
 	let loading = false;
 	$: innerWidth = 0;
 	onMount(async () => {
+		if (!isLoggedIn($loggedInUser)) {
+			goto('/login');
+		}
 		loading = true;
 		try {
 			profile = await getProfile($loggedInUser);

@@ -1,9 +1,11 @@
 <script>
 	// @ts-nocheck
 	import { toast } from '@zerodevx/svelte-toast';
+	import { onMount } from 'svelte';
 	import { loggedInUser } from '../../auth.js';
 	import { fetchBets, makeBets } from '../../api';
-	import { groupByArray } from '../../util';
+	import { groupByArray, isLoggedIn } from '$lib/shared/utils';
+	import { goto } from '$app/navigation';
 	import SelectSeason from '../../SelectSeason.svelte';
 	import FinishedGame from './components/FinishedGame/FinishedGame.svelte';
 	import UpcomingGame from './components/UpcomingGame/UpcomingGame.svelte';
@@ -23,6 +25,12 @@
 	$: gamesToPick = upcomingGames.filter((g) => g.isBetable && !hasUserPickedGame(g));
 
 	let error = '';
+
+	onMount(async () => {
+		if (!isLoggedIn($loggedInUser)) {
+			goto('/login');
+		}
+	});
 
 	async function handleSeasonSelectFinished(evt) {
 		games = evt.detail.games;

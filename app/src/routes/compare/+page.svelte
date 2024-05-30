@@ -4,10 +4,15 @@
 	import { fetchLeague } from '../../api';
 	import { onMount } from 'svelte';
 	import { loggedInUser } from '../../auth';
+	import { isLoggedIn } from '$lib/shared/utils';
 	import DisplayBets from '../../DisplayBets.svelte';
+	import { goto } from '$app/navigation';
 	let league = {};
 	let loading = false;
 	onMount(async () => {
+		if (!isLoggedIn($loggedInUser)) {
+			goto('/login');
+		}
 		loading = true;
 		try {
 			const leagueId = '64eaeceb4a2ce9bea4c242e7';

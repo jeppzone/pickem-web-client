@@ -4,12 +4,17 @@
 	import { fetchLeague } from '../../api';
 	import { onMount } from 'svelte';
 	import { loggedInUser } from '../../auth';
+	import { goto } from '$app/navigation';
+	import { isLoggedIn } from '$lib/shared/utils';
 	let league = {};
 	let users = {};
 	let regularSeasonLeaderboard = [];
 	let postSeasonLeaderboard = [];
 	let loading = false;
 	onMount(async () => {
+		if (!isLoggedIn($loggedInUser)) {
+			goto('/login');
+		}
 		loading = true;
 		try {
 			const leagueId = '64eaeceb4a2ce9bea4c242e7';

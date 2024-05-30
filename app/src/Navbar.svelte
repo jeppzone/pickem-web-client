@@ -34,9 +34,9 @@
 	</svg>
 </button>
 {#if open || innerWidth > 1200}
-	{#if !$page.url.pathname.includes('/login') && !$page.url.pathname.includes('/register')}
-		<nav class="w-full grid justify-center">
-			<ul class="menu menu-vertical lg:menu-horizontal rounded-box hover:none">
+	<nav class="w-full grid justify-center">
+		<ul class="menu menu-vertical lg:menu-horizontal rounded-box hover:none">
+			{#if $loggedInUser !== null}
 				<li>
 					<a
 						href="/bets"
@@ -65,32 +65,47 @@
 						>Statistics</a
 					>
 				</li>
-				{#if $loggedInUser !== null}
-					<li>
-						<a
-							href="/profile"
-							class={` px-6 py-2 rounded-2xl mt-10 transition-colors hover:bg-info ${path.includes('/profile') ? 'bg-info ' : ''}`}
-							>Profile</a
-						>
-					</li>
-					<li>
-						<a
-							on:click={logOut}
-							href="/login"
-							data-sveltekit-preload-data="off"
-							class=" border-white px-6 py-2 rounded-2xl mt-10 hover:bg-info">Sign out</a
-						>
-					</li>
-				{:else}
-					<li>
-						<a href="/login" class=" border-white px-6 py-2 rounded-2xl mt-10 hover:bg-info"
-							>Sign in</a
-						>
-					</li>
-				{/if}
-			</ul>
-		</nav>
-	{/if}
+
+				<li>
+					<a
+						href="/profile"
+						class={` px-6 py-2 rounded-2xl mt-10 transition-colors hover:bg-info ${path.includes('/profile') ? 'bg-info ' : ''}`}
+						>Profile</a
+					>
+				</li>
+				<li>
+					<a
+						on:click={logOut}
+						href="/login"
+						data-sveltekit-preload-data="off"
+						class=" border-white px-6 py-2 rounded-2xl mt-10 hover:bg-info">Sign out</a
+					>
+				</li>
+			{:else}
+				<li>
+					<a
+						href="/"
+						class={` px-6 py-2 rounded-2xl mt-10 transition-colors hover:bg-info ${path === '/' ? 'bg-info ' : ''}`}
+						>Home</a
+					>
+				</li>
+				<li>
+					<a
+						href="/login"
+						class={` px-6 py-2 rounded-2xl mt-10 transition-colors hover:bg-info ${path === '/login' ? 'bg-info ' : ''}`}
+						>Sign in</a
+					>
+				</li>
+				<li>
+					<a
+						href="/register"
+						class={` px-6 py-2 rounded-2xl mt-10 transition-colors hover:bg-info ${path === '/register' ? 'bg-info ' : ''}`}
+						>Register</a
+					>
+				</li>
+			{/if}
+		</ul>
+	</nav>
 {/if}
 
 <style>

@@ -38,9 +38,9 @@ export function groupByArray(array, key) {
 }
 
 export function getCurrentSeason() {
-	return 2023;
+	return 2024;
 }
 
 export function getSeasons() {
-	return [2023, 2022, 2021];
+	return [2024, 2023, 2022, 2021];
 }

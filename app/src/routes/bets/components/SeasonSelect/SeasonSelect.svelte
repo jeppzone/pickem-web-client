@@ -17,7 +17,7 @@
 	let season = startingSeason;
 	let week = weeks.find((w) => w.week === startingWeek && w.seasonType === startingSeasonType);
 
-	const seasons = [2021, 2022, 2023];
+	const seasons = [2021, 2022, 2023, 2024];
 	const dispatch = createEventDispatcher();
 	function populateWeeks() {
 		let weeksArray = [];

@@ -16,8 +16,8 @@
 	$: games = [];
 	$: existingBets = [];
 	$: choices = {};
-	$: nbrOfCorrect = existingBets.filter((p) => p.successful).length;
-	$: nbrOfIncorrect = existingBets.filter((p) => !p.successful).length;
+	$: nbrOfCorrect = existingBets.filter((p) => p.game.isFinished && p.successful).length;
+	$: nbrOfIncorrect = existingBets.filter((p) => p.game.isFinished && !p.successful).length;
 	$: totalPoints = existingBets.reduce((x, y) => x + y.points, 0).toFixed(2);
 	$: finishedGames = games.filter((g) => g.isFinished);
 	$: ongoingGames = games.filter((g) => g.isOngoing);

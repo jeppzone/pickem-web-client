@@ -22,7 +22,10 @@
 	$: finishedGames = games.filter((g) => g.isFinished);
 	$: ongoingGames = games.filter((g) => g.isOngoing);
 	$: upcomingGames = games.filter((g) => !g.isFinished && !g.isOngoing);
-	$: gamesToPick = upcomingGames.filter((g) => g.isBetable && !hasUserPickedGame(g));
+	$: gamesToPick = upcomingGames.filter((g) => g.isBetable && !hasUserPickedGame(g, existingBets));
+	$: upcomingGamesToShow = upcomingGamesToShow = upcomingGames.filter(
+		(game) => !gamesToPick.some((gameToPick) => gameToPick.id === game.id)
+	);
 
 	let error = '';
 
@@ -43,8 +46,14 @@
 		loading = true;
 	}
 
-	async function submitBets() {
-		console.log('Submit bets');
+	function hasUserPickedGame(game, bets) {
+		const index = bets.findIndex((p) => p.game.id === game.id);
+		console.log(index);
+		return index > -1;
+	}
+
+	async function submitBets(evt) {
+		evt.preventDefault();
 		const madeChoices = {};
 		for (const key of Object.keys(choices)) {
 			if (choices[key] !== -1) {
@@ -73,7 +82,7 @@
 					games[0].week,
 					$loggedInUser
 				);
-				console.log(existingBets);
+				console.log('existingBets', existingBets);
 			}
 		} catch (err) {
 			toast.push('Could not fetch bets');
@@ -158,12 +167,12 @@
 				{/each}
 			</div>
 		{/if}
-		{#if upcomingGames.length > 0}
+		{#if upcomingGamesToShow.length > 0}
 			<div>
 				<h2 class="md:text-5xl xs:text-3xl text-center tracking-tight font-bold pt-10">
 					Upcoming games.
 				</h2>
-				{#each upcomingGames as upcomingGame}
+				{#each upcomingGamesToShow as upcomingGame}
 					<UpcomingGame game={upcomingGame} picks={existingBets} />
 				{/each}
 			</div>

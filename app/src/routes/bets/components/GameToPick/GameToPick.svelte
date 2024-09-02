@@ -33,6 +33,7 @@
 		<GameToPickTeamDisplay
 			logo={game.homeTeam.logo}
 			name={game.homeTeam.name}
+			abbreviation={game.homeTeam.abbreviation}
 			id={game.homeTeam.id}
 			odds={game.homeTeamOdds}
 			{dispatch}
@@ -41,6 +42,7 @@
 		<GameToPickTeamDisplay
 			logo={game.awayTeam.logo}
 			name={game.awayTeam.name}
+			abbreviation={game.awayTeam.abbreviation}
 			id={game.awayTeam.id}
 			odds={game.awayTeamOdds}
 			{dispatch}

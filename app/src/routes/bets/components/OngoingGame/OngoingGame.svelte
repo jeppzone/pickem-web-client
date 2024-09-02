@@ -25,6 +25,7 @@
 		<OngoingGameTeamDisplay
 			logo={game.homeTeam.logo}
 			name={game.homeTeam.name}
+			abbreviation={game.homeTeam.abbreviation}
 			id={game.homeTeam.id}
 			score={game.homeTeamScore || 0}
 			odds={getUserPick()?.game.homeTeamOdds || 0}
@@ -33,6 +34,7 @@
 		<OngoingGameTeamDisplay
 			logo={game.awayTeam.logo}
 			name={game.awayTeam.name}
+			abbreviation={game.awayTeam.abbreviation}
 			id={game.awayTeam.id}
 			score={game.awayTeamScore || 0}
 			odds={getUserPick()?.game.homeTeamOdds || 0}

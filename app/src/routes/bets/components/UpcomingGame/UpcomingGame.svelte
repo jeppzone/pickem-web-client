@@ -25,6 +25,7 @@
 		<UpcomingGameTeamDisplay
 			logo={game.homeTeam.logo}
 			name={game.homeTeam.name}
+			abbreviation={game.homeTeam.abbreviation}
 			id={game.homeTeam.id}
 			odds={getUserPick()?.game.homeTeamOdds || 0}
 			userPick={getUserPick()}
@@ -32,6 +33,7 @@
 		<UpcomingGameTeamDisplay
 			logo={game.awayTeam.logo}
 			name={game.awayTeam.name}
+			abbreviation={game.awayTeam.abbreviation}
 			id={game.awayTeam.id}
 			odds={getUserPick()?.game.homeTeamOdds || 0}
 			userPick={getUserPick()}

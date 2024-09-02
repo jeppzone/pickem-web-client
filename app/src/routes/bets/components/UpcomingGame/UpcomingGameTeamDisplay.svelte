@@ -1,4 +1,6 @@
 <script>
+	import { displayTeamName } from '$lib/shared/utils';
+	$: innerWidth = 0;
 	/**
 	 * @type {string}
 	 */
@@ -7,6 +9,10 @@
 	 * @type {string}
 	 */
 	export let name;
+	/**
+	 * @type {string}
+	 */
+	export let abbreviation;
 	/**
 	 * @type {string}
 	 */
@@ -23,16 +29,15 @@
 	function isPickOnTeam() {
 		return id === userPick?.winningTeam.id;
 	}
-	function displayTeamName(width, team) {
-		return width > 800 ? team.name : team.abbreviation;
-	}
 </script>
+
+<svelte:window bind:innerWidth />
 
 <div class="grid grid-cols-12 gap-4">
 	<img src={logo} alt="logo" width="40" height="40" />
 	<span
-		class=" tracking-tight font-bold lg:text-3xl md:text-2xl xs:text-xl md:col-span-5 xs:col-span-7"
-		>{name}</span
+		class=" tracking-tight font-bold lg:text-3xl md:text-2xl xs:text-xl md:col-span-5 xs:col-span-5"
+		>{displayTeamName(innerWidth, name, abbreviation)}</span
 	>
 	{#if userPick}
 		{#if isPickOnTeam()}

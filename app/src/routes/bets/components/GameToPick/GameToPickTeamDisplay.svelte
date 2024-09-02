@@ -1,4 +1,7 @@
 <script>
+	import { displayTeamName } from '$lib/shared/utils';
+
+	$: innerWidth = 0;
 	/**
 	 * @type {string}
 	 */
@@ -7,6 +10,10 @@
 	 * @type {string}
 	 */
 	export let name;
+	/**
+	 * @type {string}
+	 */
+	export let abbreviation;
 
 	/**
 	 * @type {string}
@@ -33,11 +40,13 @@
 	}
 </script>
 
+<svelte:window bind:innerWidth />
+
 <div class="grid grid-cols-12 gap-4">
 	<img src={logo} alt="logo" width="40" height="40" class="xs:my-auto" />
 	<span
 		class=" tracking-tight font-bold lg:text-3xl md:text-2xl xs:text-xl md:col-span-5 xs:col-span-4"
-		>{name}</span
+		>{displayTeamName(innerWidth, name, abbreviation)}</span
 	>
 	<span class="col-span-4 xs:col md:text-right xs:text-left w-full">
 		<input

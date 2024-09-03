@@ -50,7 +50,7 @@
 		class=" tracking-tight font-bold lg:text-3xl md:text-2xl xs:text-xl md:col-span-5 xs:col-span-4 my-auto"
 		>{displayTeamName(innerWidth, name, abbreviation)}</span
 	>
-	<span class="col-span-4 xs:col md:text-right xs:text-left w-full my-auto">
+	<span class="md:col-span-4 xs:col-span-3 md:text-right xs:text-left w-full my-auto">
 		<input
 			type="radio"
 			class="radio radio-secondary mt-1"

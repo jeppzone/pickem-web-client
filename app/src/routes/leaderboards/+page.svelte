@@ -17,7 +17,7 @@
 		}
 		loading = true;
 		try {
-			const leagueId = '64eaeceb4a2ce9bea4c242e7';
+			const leagueId = '66d6f285572a73adfb63b80f';
 			league = await fetchLeague($loggedInUser, leagueId);
 			regularSeasonLeaderboard = league.leaderboards['Reg'].leaderBoardEntries;
 			postSeasonLeaderboard = league.leaderboards['Post'].leaderBoardEntries;
@@ -49,19 +49,19 @@
 					class={`grid grid-cols-12 py-3 md:gap-4 xs:gap-0 mt-5 rounded-l px-5 w-full h-20 ${$loggedInUser?.id === leaderBoardEntry.user.id ? 'bg-info ' : 'bg-neutral'}`}
 				>
 					<span
-						class="md:text-5xl xs:text-xl tracking-tight font-extrabold col-span-1 my-auto md:w-36"
+						class="md:text-5xl xs:text-l tracking-tight font-extrabold col-span-1 my-auto md:w-36"
 						>{index + 1}</span
 					>
 					<span
-						class="md:text-3xl xs:text-xl tracking-tight font-extrabold col-span-4 my-auto md:w-36"
+						class="md:text-3xl xs:text-l tracking-tight font-extrabold col-span-4 my-auto md:w-36"
 						>{leaderBoardEntry.user.username}</span
 					>
 					<span
-						class="md:text-3xl xs:text-xl tracking-tight font-extrabold col-span-4 my-auto md:w-36"
+						class="md:text-3xl xs:text-l tracking-tight font-extrabold col-span-4 my-auto md:w-36"
 						>{leaderBoardEntry.numberOfCorrectBets}-{leaderBoardEntry.numberOfIncorrectBets}</span
 					>
 					<span
-						class="md:text-3xl xs:text-xl tracking-tight font-extrabold col-span-2 my-auto md:w-36"
+						class="md:text-3xl xs:text-l tracking-tight font-extrabold col-span-2 my-auto md:w-36"
 						>{leaderBoardEntry.points.toFixed(2)}</span
 					>
 					{#if index === 0}
@@ -73,26 +73,25 @@
 			{/each}
 		</div>
 		<div class="grid grid-cols-1 pt-10">
-			<h2 class="md:text-5xl xs:text-3xl text-center tracking-tight font-bold pt-5 h-20">
-				Post Season
-			</h2>
+			<h2 class="md:text-5xl xs:text-3xl text-center tracking-tight font-bold pt-5">Post Season</h2>
 			{#each postSeasonLeaderboard as leaderBoardEntry, index}
 				<div
-					class={`grid grid-cols-12 py-3 md:gap-4 xs:gap-0 mt-5 rounded-l px-5 w-full ${$loggedInUser?.id === leaderBoardEntry.user.id ? 'bg-info ' : 'bg-neutral'}`}
+					class={`grid grid-cols-12 py-3 md:gap-4 xs:gap-0 mt-5 rounded-l px-5 w-full h-20 ${$loggedInUser?.id === leaderBoardEntry.user.id ? 'bg-info ' : 'bg-neutral'}`}
 				>
-					<span class="md:text-5xl xs:text-xl tracking-tight font-extrabold col-span-1 md:w-36"
+					<span
+						class="md:text-5xl xs:text-l tracking-tight font-extrabold col-span-1 md:w-36 my-auto"
 						>{index + 1}</span
 					>
 					<span
-						class="md:text-3xl xs:text-xl tracking-tight font-extrabold col-span-4 my-auto md:w-36"
+						class="md:text-3xl xs:text-l tracking-tight font-extrabold col-span-4 my-auto md:w-36"
 						>{leaderBoardEntry.user.username}</span
 					>
 					<span
-						class="md:text-3xl xs:text-xl tracking-tight font-extrabold col-span-4 my-auto md:w-36"
+						class="md:text-3xl xs:text-l tracking-tight font-extrabold col-span-4 my-auto md:w-36"
 						>{leaderBoardEntry.numberOfCorrectBets}-{leaderBoardEntry.numberOfIncorrectBets}</span
 					>
 					<span
-						class="md:text-3xl xs:text-xl tracking-tight font-extrabold col-span-2 my-auto md:w-36"
+						class="md:text-3xl xs:text-l tracking-tight font-extrabold col-span-2 my-auto md:w-36"
 						>{leaderBoardEntry.points.toFixed(2)}</span
 					>
 					{#if index === 0}

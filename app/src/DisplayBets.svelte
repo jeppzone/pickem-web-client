@@ -107,18 +107,18 @@
 		</select>
 		<table class="mt-10 rounded-xl bg-base-100">
 			<tr>
-				<th class="game-heading min-w-40 max-w-40 p-4">Game</th>
-				<th class="min-w-40 max-w-40 p-4">{$loggedInUser?.username}</th>
-				<th class="min-w-40 max-w-40 p-4">{selectedUser.username}</th>
+				<th class="game-heading p-8">Game</th>
+				<th class="p-8">{$loggedInUser?.username}</th>
+				<th class="p-8">{selectedUser.username}</th>
 			</tr>
 			<tr>
-				<td class="p-4 text-center">Points</td>
-				<td class="p-4 text-center"
+				<td class="p-8 text-center">Points</td>
+				<td class="p-8 text-center"
 					>{getPointsText(league.bets[$loggedInUser?.id])}<br />{getRecord(
 						league.bets[$loggedInUser?.id]
 					)}</td
 				>
-				<td class="p-4 text-center"
+				<td class="p-8 text-center"
 					>{getPointsText(league.bets[selectedUser.id])}<br />{getRecord(
 						league.bets[selectedUser.id]
 					)}</td
@@ -126,7 +126,7 @@
 			</tr>
 			{#each games as game}
 				<tr>
-					<td class="p-4 text-center">
+					<td class="p-8 text-center">
 						{game.awayTeam.abbreviation}
 						<b>@</b>
 						{game.homeTeam.abbreviation}

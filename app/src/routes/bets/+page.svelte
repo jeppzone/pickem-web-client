@@ -48,7 +48,6 @@
 
 	function hasUserPickedGame(game, bets) {
 		const index = bets.findIndex((p) => p.game.id === game.id);
-		console.log(index);
 		return index > -1;
 	}
 
@@ -82,7 +81,6 @@
 					games[0].week,
 					$loggedInUser
 				);
-				console.log('existingBets', existingBets);
 			}
 		} catch (err) {
 			toast.push('Could not fetch bets');

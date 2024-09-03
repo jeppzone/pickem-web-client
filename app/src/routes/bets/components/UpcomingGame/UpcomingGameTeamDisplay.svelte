@@ -34,9 +34,11 @@
 <svelte:window bind:innerWidth />
 
 <div class="grid grid-cols-12 gap-4">
-	<img src={logo} alt="logo" width="40" height="40" />
+	<span class="xs:col-span-2 md:col-span-1 my-auto">
+		<img src={logo} alt="logo" width="40" height="40" />
+	</span>
 	<span
-		class=" tracking-tight font-bold lg:text-3xl md:text-2xl xs:text-xl md:col-span-5 xs:col-span-5"
+		class=" tracking-tight font-bold lg:text-3xl md:text-2xl xs:text-xl md:col-span-5 xs:col-span-6 my-auto"
 		>{displayTeamName(innerWidth, name, abbreviation)}</span
 	>
 	{#if userPick}
@@ -50,11 +52,20 @@
 			>
 		{/if}
 	{:else}
-		<span class="font-extrabold lg:text-3xl md:text-2xl xs:text-xl col-span-5 text-right"
+		<span class="font-extrabold lg:text-3xl md:text-2xl xs:text-xl col-span-3 text-right"
 			>{' '}</span
 		>
-		<span class="font-extrabold lg:text-3xl md:text-2xl xs:text-xl col-span-1 text-right pr-5"
-			>{odds?.toFixed(2)}</span
-		>
+		{#if odds && odds > 0}
+			<span class="font-extrabold lg:text-3xl md:text-2xl xs:text-xl col-span-1 text-right pr-5"
+				>{odds?.toFixed(2)}</span
+			>
+		{/if}
 	{/if}
 </div>
+
+<style>
+	img {
+		max-width: 40px;
+		min-width: 40px;
+	}
+</style>

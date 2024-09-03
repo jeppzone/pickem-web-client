@@ -34,7 +34,9 @@
 <svelte:window bind:innerWidth />
 
 <div class="grid grid-cols-12 gap-4">
-	<img src={logo} alt="logo" width="40" height="40" />
+	<span class="xs:col-span-2 md:col-span-1 my-auto">
+		<img src={logo} alt="logo" width="40" height="40" />
+	</span>
 	<span
 		class=" tracking-tight font-bold lg:text-3xl md:text-2xl xs:text-xl md:col-span-5 xs:col-span-7"
 		>{displayTeamName(innerWidth, name, abbreviation)}</span
@@ -50,3 +52,10 @@
 		>
 	{/if}
 </div>
+
+<style>
+	img {
+		max-width: 40px;
+		min-width: 40px;
+	}
+</style>

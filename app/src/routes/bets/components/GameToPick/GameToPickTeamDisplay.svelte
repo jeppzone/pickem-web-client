@@ -43,12 +43,14 @@
 <svelte:window bind:innerWidth />
 
 <div class="grid grid-cols-12 gap-4">
-	<img src={logo} alt="logo" width="40" height="40" class="xs:my-auto" />
+	<span class="xs:col-span-2 md:col-span-1 my-auto">
+		<img src={logo} alt="logo" width="40" height="40" />
+	</span>
 	<span
-		class=" tracking-tight font-bold lg:text-3xl md:text-2xl xs:text-xl md:col-span-5 xs:col-span-4"
+		class=" tracking-tight font-bold lg:text-3xl md:text-2xl xs:text-xl md:col-span-5 xs:col-span-4 my-auto"
 		>{displayTeamName(innerWidth, name, abbreviation)}</span
 	>
-	<span class="col-span-4 xs:col md:text-right xs:text-left w-full">
+	<span class="col-span-4 xs:col md:text-right xs:text-left w-full my-auto">
 		<input
 			type="radio"
 			class="radio radio-secondary mt-1"
@@ -56,8 +58,18 @@
 			checked={selected}
 		/>
 	</span>
-	<span class="font-extrabold lg:text-3xl md:text-2xl xs:text-xl text-right xs:col-span-1">🎲</span>
-	<span class="font-extrabold lg:text-3xl md:text-2xl xs:text-xl text-right xs:col-span-1 pr-5"
+	<span class="font-extrabold lg:text-3xl md:text-2xl xs:text-xl text-right xs:col-span-1 my-auto"
+		>🎲</span
+	>
+	<span
+		class="font-extrabold lg:text-3xl md:text-2xl xs:text-xl text-right xs:col-span-1 pr-5 my-auto"
 		>{odds?.toFixed(2) ?? 0.0}</span
 	>
 </div>
+
+<style>
+	img {
+		max-width: 40px;
+		min-width: 40px;
+	}
+</style>

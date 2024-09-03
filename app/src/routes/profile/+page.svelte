@@ -15,7 +15,6 @@
 		loading = true;
 		try {
 			profile = await getProfile($loggedInUser);
-			console.log(profile);
 			loading = false;
 		} catch (err) {
 			loading = false;

@@ -15,7 +15,7 @@
 		}
 		loading = true;
 		try {
-			const leagueId = '64eaeceb4a2ce9bea4c242e7';
+			const leagueId = '66d6f285572a73adfb63b80f';
 			league = await fetchLeague($loggedInUser, leagueId);
 			users = league.users;
 			loading = false;

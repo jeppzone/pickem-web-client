@@ -20,7 +20,6 @@
 			const leagueId = '64eaeceb4a2ce9bea4c242e7';
 			league = await fetchLeague($loggedInUser, leagueId);
 			regularSeasonLeaderboard = league.leaderboards['Reg'].leaderBoardEntries;
-			console.log(regularSeasonLeaderboard);
 			postSeasonLeaderboard = league.leaderboards['Post'].leaderBoardEntries;
 			users = league.users;
 			loading = false;

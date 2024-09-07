@@ -44,7 +44,7 @@
 {#if open || innerWidth > 1200}
 	<nav class="w-full grid justify-center">
 		<ul class="menu menu-vertical lg:menu-horizontal rounded-box hover:none">
-			{#if isLoggedIn()}
+			{#if $loggedInUser}
 				<li>
 					<a
 						href="/bets"

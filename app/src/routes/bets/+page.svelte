@@ -126,7 +126,7 @@
 <svelte:window bind:innerWidth />
 
 <section class="">
-	<h1 class="text-7xl text-center py-5 font-extrabold">Make bets</h1>
+	<h1 class="text-7xl text-center py-5 font-extrabold">Make picks</h1>
 	<SelectSeason
 		on:season-select-started={handleSeasonSelectStarted}
 		on:season-select-finished={handleSeasonSelectFinished}
@@ -155,6 +155,16 @@
 				</div>
 			</form>
 		{/if}
+		{#if finishedGames.length > 0}
+			<div>
+				<h2 class="md:text-5xl xs:text-3xl text-center tracking-tight font-bold pt-10">
+					Finished games.
+				</h2>
+				{#each finishedGames as finishedGame}
+					<FinishedGame game={finishedGame} picks={existingBets} />
+				{/each}
+			</div>
+		{/if}
 		{#if ongoingGames.length > 0}
 			<div>
 				<h2 class="md:text-5xl xs:text-3xl text-center tracking-tight font-bold pt-10">
@@ -172,16 +182,6 @@
 				</h2>
 				{#each upcomingGamesToShow as upcomingGame}
 					<UpcomingGame game={upcomingGame} picks={existingBets} />
-				{/each}
-			</div>
-		{/if}
-		{#if finishedGames.length > 0}
-			<div>
-				<h2 class="md:text-5xl xs:text-3xl text-center tracking-tight font-bold pt-10">
-					Finished games.
-				</h2>
-				{#each finishedGames as finishedGame}
-					<FinishedGame game={finishedGame} picks={existingBets} />
 				{/each}
 			</div>
 		{/if}

@@ -22,6 +22,14 @@
 	function logOut() {
 		$loggedInUser = null;
 	}
+	function isLoggedIn() {
+		if ($loggedInUser !== null) {
+			let decoded = jwtDecode($loggedInUser.token);
+			let nowSeconds = Math.floor(Date.now() / 1000);
+			return decoded.exp > nowSeconds;
+		}
+		return false;
+	}
 </script>
 
 <svelte:window bind:innerWidth />
@@ -36,7 +44,7 @@
 {#if open || innerWidth > 1200}
 	<nav class="w-full grid justify-center">
 		<ul class="menu menu-vertical lg:menu-horizontal rounded-box hover:none">
-			{#if $loggedInUser !== null}
+			{#if isLoggedIn()}
 				<li>
 					<a
 						href="/bets"

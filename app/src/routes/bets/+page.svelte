@@ -126,7 +126,7 @@
 <svelte:window bind:innerWidth />
 
 <section class="">
-	<h1 class="text-7xl text-center py-5 font-extrabold">Make picks</h1>
+	<h1 class="text-7xl text-center py-5 font-extrabold">Picks</h1>
 	<SelectSeason
 		on:season-select-started={handleSeasonSelectStarted}
 		on:season-select-finished={handleSeasonSelectFinished}

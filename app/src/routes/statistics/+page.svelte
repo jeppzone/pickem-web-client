@@ -62,23 +62,28 @@
 				</div>
 			{/each}
 		</div>
-		<h2 class="md:text-5xl xs:text-3xl text-center tracking-tight font-bold pt-10">Post Season.</h2>
-		<div class="grid grid-cols-1 pt-10 w-full">
-			{#each postSeasonStatistics as statEntry}
-				<div
-					class={`grid grid-cols-12 py-3 md:gap-4 xs:gap-0 mt-5 rounded-l px-5 w-full h-16 ${$loggedInUser?.username === statEntry.user ? 'bg-info ' : 'bg-neutral'}`}
-				>
-					<span class="md:text-xl xs:text-m tracking-tight font-extrabold col-span-6 px-2 my-auto"
-						>{statEntry.description}</span
+		{#if postSeasonStatistics?.length > 0}
+			<h2 class="md:text-5xl xs:text-3xl text-center tracking-tight font-bold pt-10">
+				Post Season.
+			</h2>
+			<div class="grid grid-cols-1 pt-10 w-full">
+				{#each postSeasonStatistics as statEntry}
+					<div
+						class={`grid grid-cols-12 py-3 md:gap-4 xs:gap-0 mt-5 rounded-l px-5 w-full h-16 ${$loggedInUser?.username === statEntry.user ? 'bg-info ' : 'bg-neutral'}`}
 					>
-					<span class="md:text-3xl xs:text-m tracking-tight font-extrabold my-auto col-span-4 px-2"
-						>{statEntry.value}</span
-					>
-					<span class="md:text-xl xs:text-m tracking-tight font-extrabold col-span-2 my-auto px-2"
-						>{statEntry.user}</span
-					>
-				</div>
-			{/each}
-		</div>
+						<span class="md:text-xl xs:text-m tracking-tight font-extrabold col-span-6 px-2 my-auto"
+							>{statEntry.description}</span
+						>
+						<span
+							class="md:text-3xl xs:text-m tracking-tight font-extrabold my-auto col-span-4 px-2"
+							>{statEntry.value}</span
+						>
+						<span class="md:text-xl xs:text-m tracking-tight font-extrabold col-span-2 my-auto px-2"
+							>{statEntry.user}</span
+						>
+					</div>
+				{/each}
+			</div>
+		{/if}
 	{/if}
 </section>

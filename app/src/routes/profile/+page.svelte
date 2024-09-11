@@ -1,4 +1,6 @@
 <script>
+	// @ts-nocheck
+
 	import { onMount } from 'svelte';
 	import { getProfile } from '../../api';
 	import { loggedInUser } from '../../auth';
@@ -23,6 +25,14 @@
 
 	function displayTeamName(width, team) {
 		return width > 800 ? team.name : team.abbreviation;
+	}
+	function displayWinPercentage(teamBetRecord) {
+		const decimal =
+			teamBetRecord.nbrOfCorrectBets /
+			(teamBetRecord.nbrOfIncorrectBets + teamBetRecord.nbrOfCorrectBets);
+		const withTwoDecimalPoints = decimal.toFixed(2);
+		const asPercentage = (withTwoDecimalPoints * 100).toFixed(0);
+		return asPercentage;
 	}
 </script>
 
@@ -51,10 +61,10 @@
 		<h2 class="md:text-5xl xs:text-3xl text-center tracking-tight font-bold pt-10">
 			Which team's games are you best at picking?
 		</h2>
-		<div class="grid grid-cols-1 md:w-1/2 xs:w-full pt-10 tracking-tight font-bold m-auto">
+		<div class="grid grid-cols-1 md:w-2/3 sm:w-full pt-10 tracking-tight font-bold m-auto">
 			{#each profile?.statistics?.gamesWithTeamsPickedRecord || [] as teamBetRecord}
-				<div class="grid grid-cols-2 py-5 bg-neutral mb-5 rounded-l px-5 my-auto h-28">
-					<div class="flex text-xl">
+				<div class="grid grid-cols-12 py-5 bg-neutral mb-5 rounded-l px-5 my-auto h-28 w-full">
+					<div class="flex md:text-xl xs:text-l col-span-8">
 						<img
 							src={teamBetRecord.team.logo}
 							width="40"
@@ -64,8 +74,8 @@
 						/>
 						<span class="my-auto pl-3">{teamBetRecord.team.name}</span>
 					</div>
-					<div class="text-xl text-right my-auto">
-						{teamBetRecord.nbrOfCorrectBets} - {teamBetRecord.nbrOfIncorrectBets}
+					<div class="md:text-xl xs:text-l text-left my-auto col-span-4">
+						{displayWinPercentage(teamBetRecord)}% ({teamBetRecord.nbrOfCorrectBets} - {teamBetRecord.nbrOfIncorrectBets})
 					</div>
 				</div>
 			{/each}
@@ -74,10 +84,10 @@
 		<h2 class="md:text-5xl xs:text-3xl text-center tracking-tight font-bold pt-10">
 			When you pick a team, how often do they win?
 		</h2>
-		<div class="grid grid-cols-1 md:w-1/2 xs:w-full pt-10 tracking-tight font-bold m-auto">
+		<div class="grid grid-cols-1 md:w-2/3 sm:w-full pt-10 tracking-tight font-bold m-auto">
 			{#each profile.statistics?.teamBetRecords || [] as teamBetRecord}
-				<div class="grid grid-cols-2 py-5 bg-neutral mb-5 rounded-l px-5 my-auto h-28">
-					<div class="flex text-xl">
+				<div class="grid grid-cols-12 py-5 bg-neutral mb-5 rounded-l px-5 my-auto h-28 w-full">
+					<div class="flex md:text-xl xs:text-l col-span-8">
 						<img
 							src={teamBetRecord.team.logo}
 							width="40"
@@ -87,8 +97,8 @@
 						/>
 						<span class="my-auto pl-3">{teamBetRecord.team.name}</span>
 					</div>
-					<div class="text-xl text-right my-auto">
-						{teamBetRecord.nbrOfCorrectBets} - {teamBetRecord.nbrOfIncorrectBets}
+					<div class="md:text-xl xs:text-l text-left my-auto col-span-4">
+						{displayWinPercentage(teamBetRecord)}% ({teamBetRecord.nbrOfCorrectBets} - {teamBetRecord.nbrOfIncorrectBets})
 					</div>
 				</div>
 			{/each}

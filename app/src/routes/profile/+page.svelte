@@ -34,7 +34,7 @@
 <svelte:window bind:innerWidth />
 
 <section>
-	<h1 class="md:text-7xl xs:text-5xl text-center tracking-tight font-bold pt-10">Profile.</h1>
+	<h1 class="md:text-7xl xs:text-5xl text-center tracking-tight font-bold pt-10">Profile</h1>
 	{#if loading}
 		<div
 			role="status"

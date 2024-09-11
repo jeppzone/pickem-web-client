@@ -39,7 +39,7 @@
 </svelte:head>
 
 <section>
-	<h1 class="md:text-7xl xs:text-5xl text-center tracking-tight font-bold pt-10">Leaderboards.</h1>
+	<h1 class="md:text-7xl xs:text-5xl text-center tracking-tight font-bold pt-10">Leaderboards</h1>
 	{#if loading}
 		<div
 			role="status"

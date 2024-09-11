@@ -145,7 +145,7 @@
 		{#if gamesToPick.length > 0}
 			<form>
 				<h2 class="md:text-5xl xs:text-3xl text-center tracking-tight font-bold pt-10">
-					Games to pick.
+					Games to pick
 				</h2>
 				{#each gamesToPick as gameToPick}
 					<GameToPick game={gameToPick} handlePick={handleUserPick} />
@@ -158,7 +158,7 @@
 		{#if finishedGames.length > 0}
 			<div>
 				<h2 class="md:text-5xl xs:text-3xl text-center tracking-tight font-bold pt-10">
-					Finished games.
+					Finished games
 				</h2>
 				{#each finishedGames as finishedGame}
 					<FinishedGame game={finishedGame} picks={existingBets} />
@@ -168,7 +168,7 @@
 		{#if ongoingGames.length > 0}
 			<div>
 				<h2 class="md:text-5xl xs:text-3xl text-center tracking-tight font-bold pt-10">
-					Ongoing games.
+					Ongoing games
 				</h2>
 				{#each ongoingGames as ongoingGame}
 					<OngoingGame game={ongoingGame} picks={existingBets} />
@@ -178,7 +178,7 @@
 		{#if upcomingGamesToShow.length > 0}
 			<div>
 				<h2 class="md:text-5xl xs:text-3xl text-center tracking-tight font-bold pt-10">
-					Upcoming games.
+					Upcoming games
 				</h2>
 				{#each upcomingGamesToShow as upcomingGame}
 					<UpcomingGame game={upcomingGame} picks={existingBets} />

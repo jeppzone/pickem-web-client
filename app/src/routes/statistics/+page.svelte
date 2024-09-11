@@ -50,13 +50,14 @@
 				<div
 					class={`grid grid-cols-12 py-3 md:gap-4 xs:gap-0 mt-5 rounded-l px-5 w-full h-16 ${$loggedInUser?.username === statEntry.user ? 'bg-info ' : 'bg-neutral'}`}
 				>
-					<span class="md:text-xl xs:text-m tracking-tight font-extrabold col-span-6 px-2 my-auto"
+					<span class="md:text-xl xs:text-sm tracking-tight font-extrabold col-span-6 px-2 my-auto"
 						>{statEntry.description}</span
 					>
-					<span class="md:text-3xl xs:text-m tracking-tight font-extrabold my-auto col-span-4 px-2"
+					<span
+						class="md:text-3xl xs:text-sm tracking-tight font-extrabold my-auto md:col-span-4 xs:col-span-3 px-2"
 						>{statEntry.value}</span
 					>
-					<span class="md:text-xl xs:text-m tracking-tight font-extrabold col-span-2 my-auto px-2"
+					<span class="md:text-xl xs:text-sm tracking-tight font-extrabold col-span-2 my-auto"
 						>{statEntry.user}</span
 					>
 				</div>

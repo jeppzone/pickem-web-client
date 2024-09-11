@@ -34,7 +34,16 @@
 
 <svelte:window bind:innerWidth />
 
-<button class="hamburger" class:open on:click={() => (open = !open)}>
+<button
+	class="hamburger"
+	class:open
+	on:click={() => {
+		open = !open;
+		if (open) {
+			window.scrollTo(0, 0);
+		}
+	}}
+>
 	<svg width="32" height="24">
 		<line id="top" x1="0" y1="2" x2="32" y2="2" />
 		<line id="middle" x1="0" y1="12" x2="24" y2="12" />

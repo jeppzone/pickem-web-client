@@ -53,16 +53,18 @@
 				class="font-extrabold lg:text-3xl md:text-2xl xs:text-xl text-right md:col-span-4 xs:col-span-1 my-auto"
 				>💰</span
 			>
-			<span class="font-extrabold lg:text-3xl md:text-2xl xs:text-xl col-span-1 text-right mr-5"
+			<span
+				class="font-extrabold lg:text-3xl md:text-2xl xs:text-xl col-span-1 text-right mr-5 my-auto"
 				>{userPick.points.toFixed(2)}</span
 			>
 		{/if}
 		{#if !userPick.successful && !isWinner}
 			<span
-				class="font-extrabold lg:text-3xl md:text-2xl xs:text-xl text-right md:col-span-4 xs:col-span-1"
+				class="font-extrabold lg:text-3xl md:text-2xl xs:text-xl text-right md:col-span-4 xs:col-span-1 my-auto"
 				>❌</span
 			>
-			<span class="font-extrabold lg:text-3xl md:text-2xl xs:text-xl col-span-1 text-right pr-5"
+			<span
+				class="font-extrabold lg:text-3xl md:text-2xl xs:text-xl col-span-1 text-right mr-5 my-auto"
 				>{odds.toFixed(2)}</span
 			>
 		{/if}

@@ -35,7 +35,7 @@
 			name={game.awayTeam.name}
 			abbreviation={game.awayTeam.abbreviation}
 			id={game.awayTeam.id}
-			odds={getUserPick()?.game.homeTeamOdds || 0}
+			odds={getUserPick()?.game.awayTeamOdds || 0}
 			userPick={getUserPick()}
 		/>
 	</div>
